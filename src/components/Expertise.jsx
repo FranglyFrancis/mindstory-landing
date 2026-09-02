@@ -8,7 +8,7 @@ import web from '../assets/web.webp'
 function Expertise(){
     
     return(
-        <section className="expertise" id="services">
+        <section className="section-margin" id="services">
 
             <div className="expertise-container">
 
@@ -21,11 +21,11 @@ function Expertise(){
                     <p>At Mindstory, a top digital marketing agency in Kerala, we know how to use every type of digital marketing to boost your brand’s online presence.</p>
                 </div>
 
-                <div class="card-row">
-                    <div class="card"><img src={social} alt="" className="card-img"/><h3>Social Media Marketing</h3></div>
-                    <div class="card"><img src={seo} alt="" className="card-img"/><h3>Search Engine Optimization</h3></div>
-                    <div class="card"><img src={ad} alt="" className="card-img"/><h3>Digital Advertising</h3></div>
-                    <div class="card"><img src={web} alt="" className="card-img"/><h3>Web Development</h3></div>
+                <div className="card-row">
+                    <div className="card-expertise"><img src={social} alt="" className="card-img"/><h4>Social Media Marketing</h4></div>
+                    <div className="card-expertise"><img src={seo} alt="" className="card-img"/><h4>Search Engine Optimization</h4></div>
+                    <div className="card-expertise"><img src={ad} alt="" className="card-img"/><h4>Digital Advertising</h4></div>
+                    <div className="card-expertise"><img src={web} alt="" className="card-img"/><h4>Web Development</h4></div>
                 </div>
 
             </div>
