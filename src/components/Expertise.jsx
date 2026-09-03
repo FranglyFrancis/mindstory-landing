@@ -8,15 +8,11 @@ import web from '../assets/web.webp'
 function Expertise(){
     
     return(
-        <section className="section-margin" id="services">
-
+        <section className="expertise pb-5 px-md-5" >
             <div className="expertise-container">
-
                 <div className="expertise-heading">
-
                     <h2>
-                        Our Expertise in Digital Marketing
-                        that drives growth
+                        Our Expertise in Digital Marketing that drives growth
                     </h2>
                     <p>At Mindstory, a top digital marketing agency in Kerala, we know how to use every type of digital marketing to boost your brand’s online presence.</p>
                 </div>
