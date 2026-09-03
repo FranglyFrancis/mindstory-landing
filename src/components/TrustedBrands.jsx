@@ -7,7 +7,7 @@ import hyundai from '../assets/hyundai.png'
 import orgo from '../assets/orgo.png'
 import priis from '../assets/priis.png'
 import royal from '../assets/royal.png'
-import lp from '../assets/lp.jpeg'
+import lp from '../assets/LP.jpeg'
 
 function TrustedBrands(){
     return(
