@@ -1,20 +1,39 @@
+/* ==========================================================================
+   1. Global & Base Styles
+   ========================================================================== */
 body {
-    margin : 0;
-    font-family: 'Rubik', Helvetica, Arial, 'DejaVu Sans', 'Liberation Sans', Freesans, sans-serif;
-    
-  }
+  margin: 0;
+  font-family: 'Rubik', Helvetica, Arial, 'DejaVu Sans', 'Liberation Sans', sans-serif;
+}
 
+section {
+  padding: 0 5% 70px;
+}
 
+p {
+  font-size: 20px;
+  font-style: normal;
+  line-height: 30px;
+}
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ==========================================================================
+   2. Typography
+   ========================================================================== */
 h1 {
-  font-size: 55px;
+  font-size: 60px;
   line-height: 1.1;
   font-weight: 800;
   margin-bottom: 20px;
 }
 
 h2 {
-  font-size: 50px;
+  font-size: 55px;
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: 15px;
@@ -24,97 +43,17 @@ h3 {
   font-size: 30px;
   line-height: 1.2;
   font-weight: 800;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 h4 {
-  color:#f19e05
+  color: #f19e05;
+  text-align: left;
 }
 
-section {
-  padding: 0 5% 70px;
-
-}
-
-p {
-  font-size: 20px;
-    font-style: normal;
-    line-height: 30px;
-}
-
-.testimonials {
-  min-height: 100vh;
-  width: 100%;
-  background: #a9a68e;
-}
-
-.section-testimonials {
-  position: relative !important;
-    width: 100% !important;
-    max-width: 1360px !important;
-    margin: 0px auto !important;
-}
-
-/* Success stories */
-.card-image {
-  width: 100% !important;
-  height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block;
-  object-fit: cover;
-}
-
-.card {
-  width: 24rem !important;
-  height: 350px;
-  margin: 0;
-  padding: 0 !important;
-  border: none;
-  overflow: hidden;
-}
-
-.cards-wrapper {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 10px;
-}
-
-.arrow {
-  border-radius: 50%;
-  margin-top: 10px;
-  height: 10px;
-  width: 10px;
-  padding: 15px
-}
-
-.card-wrapper {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 10px;
-  padding-left: 5rem !important;
-   padding-right: 5rem !important;
-}
-.brands {
-  background-color:#e1ebf1
-}
-.centered-section {
-  text-align: center;
-  padding-top: 30px;
-}
-
-.centered-desc {
-  text-align: center;
-  font-size:18px;
-  padding-bottom: 40px;
-}
-
-
-.justified-text {
-  text-align: justify;
-}
-
-/* Navbar */
+/* ==========================================================================
+   3. Navbar Layout
+   ========================================================================== */
 .navbar-container {
   width: 100%;
   height: 100px;
@@ -124,16 +63,13 @@ p {
 .container-fluid {
   display: flex;
   align-items: center;
- 
 }
 
 .navbar-fluid {
-   padding-left: 5rem !important;
-   padding-right: 5rem !important;
-
+  padding-left: 5rem !important;
+  padding-right: 5rem !important;
 }
 
-/* Logo */
 .logo-wrapper {
   display: flex;
   align-items: center;
@@ -144,7 +80,6 @@ p {
   height: auto;
 }
 
-/* Right navigation */
 .nav-right {
   margin-left: auto;
 }
@@ -162,7 +97,6 @@ p {
   opacity: 0.6;
 }
 
-/* Button */
 .nav-button {
   padding: 10px 20px;
   background: #eeb663;
@@ -176,28 +110,19 @@ p {
 
 .nav-button:hover {
   background: #f6a121;
-  color: #eeb663;
-  color: #fff;
+  color: #fff; 
 }
 
-
-.content {
-  display: grid;
-  align-items: center;
-  color: #111;
-}
-
-
-/* Hero */
+/* ==========================================================================
+   4. Hero Component
+   ========================================================================== */
 .hero {
   min-height: 100vh;
   padding: 0 5% 70px;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 60px;
-
   background: #ffc363;
   color: #111;
 }
@@ -208,7 +133,7 @@ p {
 
 .hero h1 {
   font-weight: 700;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #111;
 }
 
@@ -218,20 +143,18 @@ p {
 
 .hero-description {
   max-width: 600px;
-    margin: 30px auto;
-
-    font-size: 20px;
-    line-height: 1.6;
+  margin: 30px auto;
+  font-size: 20px;
+  line-height: 1.6;
 }
 
 .hero-content {
   max-width: 700px;
-  /* transform: translateY(-40px); */
 }
 
 .hero-spacing {
   padding-top: 20px;
-  padding-bottom: 40px
+  padding-bottom: 40px;
 }
 
 .hero-button {
@@ -249,7 +172,9 @@ p {
   background: #000;
   border-color: #000;
 }
-.hero-image {
+
+.hero-image,
+.hero-choose {
   width: 100%;
   height: 600px;
 }
@@ -261,12 +186,6 @@ p {
   border-radius: 4px;
 }
 
-
-.hero-choose {
-  width: 100%;
-  height: 600px;
-}
-
 .hero-choose img {
   width: 80%;
   height: 100%;
@@ -274,7 +193,356 @@ p {
   border-radius: 4px;
 }
 
+/* ==========================================================================
+   5. Components & Layout Elements
+   ========================================================================== */
+.content {
+  display: grid;
+  align-items: center;
+  color: #111;
+  max-width: 700px; 
+}
 
+.wave-container {
+  display: block;
+  width: 100%;
+  line-height: 0;
+  background-color: #ffc363; 
+}
+
+.wave-container svg {
+  width: 100%;
+  height: auto;
+}
+
+.brands {
+  background-color: #e1ebf1;
+}
+
+.centered-section {
+  text-align: center;
+  padding-top: 30px;
+}
+
+.centered-desc {
+  text-align: center;
+  font-size: 18px;
+  padding-bottom: 40px;
+}
+
+.justified-text {
+  text-align: justify;
+}
+
+/* ==========================================================================
+   6. Testimonials & Cards
+   ========================================================================== */
+.testimonials {
+  min-height: 100vh;
+  width: 100%;
+  background: #a9a68e;
+}
+
+.section-testimonials {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 1360px !important;
+  margin: 0 auto !important;
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+/* .card-expertise {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 5% 70px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+} */
+
+
+.card-image {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+  object-fit: cover;
+}
+
+
+.card {
+  width: 24rem !important;
+  height: 350px;
+  margin: 0;
+  padding: 0 !important;
+  border: none;
+  overflow: hidden;
+}
+
+.cards-wrapper,
+.card-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  gap: 60px;
+}
+
+.card-wrapper {
+  padding-left: 5rem !important;
+  padding-right: 5rem !important;
+}
+
+.cards-text {
+  font-size: 10px;
+  line-height: 12px;
+  text-align: justify;
+  color: grey;
+}
+
+.arrow {
+  border-radius: 50%;
+  margin-top: 10px;
+  height: 10px;
+  width: 10px;
+  padding: 15px;
+}
+
+/* ==========================================================================
+   7. Expertise Section
+   ========================================================================== */
+.expertise {
+  padding: 0 5%;
+  margin-top: 100px;
+  background: #ec9a03;
+}
+
+.expertise-heading h2 {
+  font-family: 'Rubik', Helvetica, Arial, sans-serif;
+  max-width: 700px;
+  font-size: 50px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.expertise-heading p {
+  text-align: center;
+}
+
+.card-expertise {
+  /* position: relative;
+  background-color: #e19507; 
+  display: inline-block; */
+
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 5% 70px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+
+.card-img {
+  display: block;
+  transition: opacity 0.3s ease;
+  width: 55%;
+  height: 90%; 
+}
+
+
+.card-expertise:hover .card-img {
+  opacity: 0.7; 
+}
+
+/* ==========================================================================
+   8. Why Choose & Grid Layouts
+   ========================================================================== */
+.why-choose {
+  min-height: 100vh;
+  padding: 0 5% 70px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 10px;
+  color: #111;
+}
+
+.why-choose .content {
+  justify-content: right;
+}
+
+.why-choose .content h2 {
+  font-size: 50px;
+  font-weight: 700;
+  color: #d26c05;
+}
+
+.why-choose .content h4 {
+  font-size: 22px;
+  color: #ffaf33;
+}
+
+.blogs-wrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 60px;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-item h4 {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #FF8A3D;
+}
+
+.grid-item p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.grid-image {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ==========================================================================
+   9. Blogs, FAQ& Footer Sections
+   ========================================================================== */
+  .blogs-footer a {
+  font-size: 14px;
+  color: #888a8b;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.blogs-footer a:hover{
+  color:#fab514;
+  text-decoration: underline;
+}
+  .frequentlySect1 {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 60px;
+}
+
+.frequentlySect1 h5 {
+  color: #6e5bab;
+}
+
+.footer-section {
+  padding-top: 60px;
+  background-image: url('./assets/waves.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+}
+
+/* ==========================================================================
+   Footer Address Styles
+   ========================================================================== */
+.footer-address {
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #fff;
+}
+
+.address-line {
+  margin: 0 0 8px 0;
+  font-size: 16px;   
+  color: #e1ebf1; 
+}
+
+.address-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.address-contact a {
+  color: #f9e9d1; 
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.address-contact a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Footer Bottom Bar
+   ========================================================================== */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 5%;
+  margin-top: 40px;
+}
+
+.copyright-text {
+  font-size: 14px; 
+  color: #e1ebf1;   
+  margin: 0;
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-legal-links a {
+  font-size: 14px;
+  color: #e1ebf1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-legal-links a:hover {
+  color: #eeb663;
+  text-decoration: underline;
+}
+
+
+/* ==========================================================================
+   10. Media Queries (Responsive Layouts)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .card-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (max-width: 768px) {
   .hero {
@@ -301,200 +569,47 @@ p {
   .hero-content {
     transform: none;
   }
-}
 
-/* Success Stories */
-/* .carousel-card {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr); 
-      gap: 20px;
-} */
-
-/* Cards */
-    .card-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); 
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .card-expertise {
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 0 5% 70px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .card-row {
-        grid-template-columns: repeat(2, 1fr); 
-      }
-    }
-
-    @media (max-width: 600px) {
-      .card-row {
-        grid-template-columns: 1fr; 
-      }
-    }
-
-    /* Expertise */
-    .expertise {
-      padding: 0 5% 0 5%;
-    }
-
-    .expertise-heading h2{
-      font-family: 'Rubik', Helvetica, Arial, 'DejaVu Sans', 'Liberation Sans', Freesans, sans-serif;
-      max-width: 700px;
-      font-size: 50px;
-      font-weight: 700;
-      text-align: center;
-      margin: 0 auto;
-      color:#fff
-    }
-
-    .expertise-heading p {
-      text-align: center;
-    }
-
-    .card-img {
-      width: 55%;
-      height: 90%
-    }
-
-    /* Whychoose  */
-    .why-choose {
-      min-height: 100vh;
-      padding: 0 5% 70px;
-
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 10px;
-
-      color: #111;
-    }
-    .content {
-      max-width: 700px;
-      justify-content: right;
-    }
-
-    .content h2 {
-      font-size: 50px;
-      font-weight:700;
-      color:#d26c05
-    }
-
-    .content h4 {
-        font-size: 22px;
-        color: #ffaf33
-    }
-
-    .blogs-wrapper{
-      display: flex;
-      gap:20px
-    }
-
-    .cards-text{
-      font-size: 10px;
-      line-height: 12px;
-      text-align: justify;
-      color:grey
-    }
-@media (max-width: 768px) {
-  .why-choose{
+  .why-choose {
     min-height: 100vh;
     padding: 0 5% 70%;
-    display: grid;
     grid-template-columns: 1fr;
-    align-items: center;
-
   }
 
-  .content {
+  .why-choose .content {
     max-width: 800px;
     justify-content: center;
-
   }
-}
 
-.section-margin{
-  margin-top:100px;
-  
-}
-
-.expertise {
-  margin-top:100px;
-  background: #ec9a03;
-
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 60px;
-  /* padding: 20px; */
-}
-
-.grid-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.grid-item h4 {
-  margin-top: 20px;
-  font-size: 18px;
-  color:#FF8A3D
-}
-
-.grid-item p {
-  color: #666;
-  line-height: 1.6;
-}
-
-.grid-image {
-  width: 100px;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
-
-@media (max-width:768px){
-  .grid-container{
+  .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
-.grid-item h4 {
-  margin-top: 20px;
-  font-size: 18px
-}
- 
-}
 
-@media (max-width:480px){
-  .grid-container {
-    grid-template-columns: 1fr;
+  .grid-item h4 {
+    margin-top: 20px;
+    font-size: 18px;
   }
 }
 
-.frequentlySect1{
-  margin-top: 50px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  gap:60px;
-}
-
-
-.frequentlySect1 h5 {
-  color: #6e5bab;
-}
-
-@media (max-width:480px){
-  .frequentlySect1{
+@media (max-width: 600px) {
+  .card-row {
     grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .footer-legal-links {
+    justify-content: center;
   }
 }
 
-    
+@media (max-width: 480px) {
+  .grid-container,
+  .frequentlySect1 {
+    grid-template-columns: 1fr;
+  }
+}

@@ -4,7 +4,7 @@ function FrequentlyAsked(){
     return(
         <>
         <section>
-            <h1>Frequently Asked Questions</h1>
+            <h2>Frequently Asked Questions</h2>
             <div className="frequentlySect1">
                 <div>
                     <h5 className='justified-text'>1. What services does Mindstory offer?</h5>
