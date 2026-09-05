@@ -508,10 +508,6 @@ h4 {
   color: #ffaf33;
 }
 
-.blogs-wrapper {
-  display: flex;
-  gap: 20px;
-}
 
 .grid-container {
   display: grid;
@@ -698,7 +694,10 @@ h4 {
 
 
   .why-choose {
-   padding: 40px 24px;
+    display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+   /* padding: 40px 24px; */
   }
 
   .why-choose img {
@@ -770,12 +769,9 @@ h4 {
     padding-right: 20px !important;
   }
 
-  .blogs-wrapper {
-    display: flex;
-    overflow-x: auto;
-    gap: 12px;
-    padding: 0;
-  }
+ .blogs-wrapper .blog-card {
+        flex: 0 0 100%;
+    }
 
   /* Trusted Brands */
     .carousel {
@@ -838,4 +834,34 @@ h4 {
   .frequentlySect1 {
     grid-template-columns: 1fr;
   }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    width: 100%;
+
+    padding: 30px;
+
+    background-color: white;
+  }
+
+
+  .mobile-menu a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+  }
+
+  
+  .why-choose {
+    display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+   padding: 40px 24px;
+  }
+
 }
+
