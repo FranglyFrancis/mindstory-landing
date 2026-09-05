@@ -113,6 +113,62 @@ h4 {
   color: #fff; 
 }
 
+/* -------Mobile Navbar------- */
+.navbar{
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
+
+  padding:20px 40px;
+  position: relative;
+}
+
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ==========================================================================
    4. Hero Component
    ========================================================================== */
@@ -588,6 +644,44 @@ h4 {
   .grid-item h4 {
     margin-top: 20px;
     font-size: 18px;
+  }
+
+
+  .nav-links {
+    display: none;
+  }
+
+  .menu-button {
+    display: block;
+
+    border: none;
+    background: none;
+
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .mobile-menu {
+    position: absolute;
+
+    top: 80px;
+    left: 0;
+
+    width: 100%;
+
+    background: black;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 30px;
+    gap: 25px;
+  }
+
+  .mobile-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
   }
 }
 
