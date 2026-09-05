@@ -20,7 +20,7 @@ function TrustedBrands(){
              <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
                 <div className="carousel-inner">
                         <div className='carousel-item active'>
-                            <div className="card-wrapper">
+                            <div className="card-wrapper cards-view">
                                 <div className="card">
                                     <img src={allen} className="card-img-top" alt="" />
                                 </div>

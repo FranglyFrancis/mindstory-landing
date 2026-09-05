@@ -23,8 +23,8 @@ function SuccessStories(){
             <div id="carouselExampleFade" className="carousel slide carousel-fade">
                 <div className="carousel-inner">
                         <div className="carousel-item active">
-                            <div className="cards-wrapper">
-                                <div className="card">
+                            <div className="cards-wrapper cards-view">
+                                <div className="card ">
                                     <img src={kairali} className="card-image" alt="" />
                                 </div>
                                  <div className="card">

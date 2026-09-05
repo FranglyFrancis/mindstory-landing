@@ -7,21 +7,19 @@ function Footer(){
         <section className='footer-section'>
             <div className="footer">
                 <div>
-                <ul>
-                    <h3>Services</h3>
+                    <h3>Services</h3><br />
+                    <small>Digital Marketing <br />
 
-                    <li>Digital Marketing</li>
+                    Social Media Management <br />
 
-                    <li>Social Media Management </li>
+                    Website Development <br />
 
-                    <li>Website Development</li>
+                    Logo & Branding <br />
 
-                    <li>Logo & Branding</li>
+                    Creative Design <br />
 
-                    <li>Creative Design</li>
-
-                    <li>SEO</li>
-                </ul>
+                    SEO <br />
+                    </small>
                 </div>
                 <div>
                 <p className='justified-text'>Mindstory – A trusted digital marketing agency Kerala with 10+ years of expertise, delivering creative strategies, measurable results, and lasting brand growth for businesses across industries. Your success story starts here.</p>
@@ -29,8 +27,10 @@ function Footer(){
                 <div className='footer-column'>
                     <address className='footer-address'>
                         <div className="address-contact">
-                            <a href="tel:+918281001410 ">+91-8281001410</a>
-                            <a href="mailto:hello@mindstory.in">hello@mindstory.in</a>
+                            {/* <a href="tel:+918281001410 ">+91-8281001410</a>
+                            <a href="mailto:hello@mindstory.in">hello@mindstory.in</a> */}
+                            <p>+91-8281001410</p>
+                            <p>hello@mindstory.in</p>
                             <p>Working Hours - MON–FRI | 10AM to 6PM</p>
                         </div>
                     </address>
@@ -51,8 +51,6 @@ function Footer(){
                     <a href="/privacy-policy">Privacy Policy | Terms & Conditions</a>
                 </div>
                 </div>
-                
-            
         </section>
         </>
     )
