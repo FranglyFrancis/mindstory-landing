@@ -829,12 +829,50 @@ h4 {
   }
 }
 
+.menu-button {
+    display: block;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    width: 100%;
+
+    padding: 30px;
+
+    background-color: white;
+  }
+
+
+  .mobile-menu a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+  }
+
+
 @media (max-width: 480px) {
   .grid-container,
   .frequentlySect1 {
     grid-template-columns: 1fr;
   }
 
+  /* hamburger */
+  .menu-button {
+    display: block;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+  }
   /* Mobile menu */
   .mobile-menu {
     display: flex;
