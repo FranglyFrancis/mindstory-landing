@@ -7,7 +7,7 @@ function Footer(){
         <section className='footer-section'>
             <div className="footer">
                 <div>
-                    <h3>Services</h3><br />
+                    <h3>Services</h3>
                     <small>Digital Marketing <br />
 
                     Social Media Management <br />

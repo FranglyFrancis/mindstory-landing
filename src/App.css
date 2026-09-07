@@ -137,13 +137,7 @@ h4 {
   position: relative;
 }
 
-/* .menu-button {
-  display: none;
-  border: none;
-  background: none;
-  font-size: 28px;
-  cursor: pointer;
-} */
+
  .menu-button {
   display: none;
 }
@@ -250,7 +244,7 @@ h4 {
 }
 
 .hero {
-  /* min-height: 100vh; */
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -303,7 +297,8 @@ h4 {
 .hero-image,
 .hero-choose {
   width: 100%;
-  height: 600px;
+  height: auto;
+
 }
 
 .hero-image img {
@@ -359,7 +354,111 @@ h4 {
 .justified-text {
   text-align: justify;
 }
+/* ==========================================================================
+   5. Success stories
+   ========================================================================== */
+.section-heading {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
 
+.section-heading a {
+  color: #d26c05;
+}
+
+.section-heading a:hover{
+  text-decoration: none;
+  color:#f7993b
+}
+
+.project-card {
+  position: relative;
+  width:300px;
+  height:350px;
+  overflow:hidden;
+  cursor: pointer;
+}
+
+/* .project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+} */
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  padding: 25px;
+
+  background: rgba(230, 145, 16, 0.6);
+  color: white;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+.project-overlay h3,
+.project-overlay p {
+  size: 5px;
+  margin: 0;
+}
+
+.carousel-arrows {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  justify-content: flex-end;
+}
+
+.carousel-arrows .carousel-control-prev,
+.carousel-arrows .carousel-control-next {
+  position: static;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #dfdede;
+  border-radius: 0;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.carousel-arrows .carousel-control-prev:hover,
+.carousel-arrows .carousel-control-next:hover {
+  background: #6071ef;
+}
+
+.carousel-arrows .carousel-control-prev-icon,
+.carousel-arrows .carousel-control-next-icon {
+  width: 18px;
+  height: 18px;
+  background-size: 14px 14px;
+  filter: invert(1);
+  opacity: 0.2;
+}
+
+.desktop-carousel {
+  display: block;
+}
+
+.mobile-carousel {
+  display: none;
+}
 /* ==========================================================================
    6. Testimonials & Cards
    ========================================================================== */
@@ -400,7 +499,7 @@ h4 {
   margin: 0 !important;
   padding: 0 !important;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .cards-view {
@@ -409,7 +508,7 @@ h4 {
 }
 
 .card {
-  width: 24rem !important;
+  width: 40rem !important;
   height: 350px;
   margin: 0;
   padding: 0 !important;
@@ -420,10 +519,9 @@ h4 {
 .cards-wrapper,
 .card-wrapper {
   display: flex;
-  /* justify-content: space-evenly; */
+  justify-content: space-evenly;
   margin-top: 10px;
-  gap: 60px;
-  
+  gap: 40px;
 }
 
 
@@ -475,6 +573,14 @@ h4 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
+
+.desktop-arrow{
+    display: block;
+  }
+  
+  .mobile-arrow{
+    display: none;
+  }
 
 
 .card-img {
@@ -551,7 +657,18 @@ h4 {
 /* ==========================================================================
    9. Blogs, FAQ& Footer Sections
    ========================================================================== */
-  .blogs-footer a {
+  .blogs-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  padding: 0;
+  padding-bottom: 10px;
+}
+  
+   .blogs-footer a {
   font-size: 14px;
   color: #888a8b;
   text-decoration: none;
@@ -563,10 +680,11 @@ h4 {
   text-decoration: underline;
 }
   .frequentlySect1 {
+  align-items: start;
   margin-top: 50px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  /* grid-template-rows: auto; */
   gap: 40px;
 }
 
@@ -662,7 +780,8 @@ h4 {
 
 
 @media (max-width: 768px) {
-.card-row {
+
+  .card-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -670,7 +789,7 @@ h4 {
   
   .hero {
     min-height: auto;
-    padding: 120px 5% 60px;
+    /* padding: 120px 5% 60px; */
     grid-template-columns: 1fr;
     gap: 40px;
   }
@@ -686,7 +805,7 @@ h4 {
   }
 
   .hero-image {
-    height: 350px;
+    height: auto;
   }
 
   .hero-content {
@@ -700,6 +819,12 @@ h4 {
   size:30px;
   }
 
+  .centered-desc {
+    /* text-align: center; */
+    font-size: 18px;
+    padding-bottom: 40px;
+    text-align: justify;
+}
 
 
   .why-choose {
@@ -732,6 +857,13 @@ h4 {
    /* Hide desktop links */
   .nav-right {
     display: none !important;
+  }
+  .desktop-arrow{
+    display: none;
+  }
+
+  .mobile-arrow{
+    display: block;
   }
 
 
@@ -779,7 +911,7 @@ h4 {
   }
 
  .blogs-wrapper .blog-card {
-        flex: 0 0 100%;
+        flex: 0 0 85%;
     }
 
   /* Trusted Brands */
@@ -788,36 +920,68 @@ h4 {
   }
 
   .carousel-inner {
-    width: 100%;
+     flex: 0 0 100%;
   }
 
   .carousel-item {
     width: 100%;
   }
 
-  .card-wrapper {
-    width: 100%;
+  .desktop-carousel {
+    display: none;
+  }
+
+  .mobile-carousel {
+  display: block;
+  }
+
+ .mobile-card-wrapper {
     display: flex;
     justify-content: center;
-
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-
-    gap: 10px;
+    width: 100%;
   }
 
-  .card {
-    width: 80% !important;
-    max-width: 300px;
-    height: 350px;
+  .mobile-card-wrapper .card {
+    width: 100% !important;
+    /* max-width: 300px; */
+    height: 100%;
   }
+
+  .cards-wrapper, 
+  .card-wrapper {
+    display: flex;
+  }
+
 
   .card-img-top {
+    display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    display: block;
   }
+
+  .carousel-arrows .carousel-control-prev,
+  .carousel-arrows .carousel-control-next {
+    position: static;
+    width: 30px;
+    height: 30px;
+  }
+  .frequentlySect1 {
+    grid-template-columns: 1fr;
+    gap:5px;
+  }
+
+  .quest-ans {
+    width: fit-content;
+  height: fit-content;
+  padding: 0;
+  margin: 0;
+  }
+
+  .footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+}
 
 }
 
@@ -832,40 +996,14 @@ h4 {
     text-align: center;
     gap: 15px;
   }
-  
+
   .footer-legal-links {
     justify-content: center;
   }
 }
 
-.menu-button {
-    display: block;
-    border: none;
-    background: none;
-    font-size: 28px;
-    cursor: pointer;
-  }
 
-
-  /* Mobile menu */
-  .mobile-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
-    width: 100%;
-
-    padding: 30px;
-
-    background-color: white;
-  }
-
-
-  .mobile-menu a {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-  }
+  
 
 
 @media (max-width: 480px) {
@@ -873,41 +1011,12 @@ h4 {
   .frequentlySect1 {
     grid-template-columns: 1fr;
   }
-
-  /* hamburger */
-  .menu-button {
-    display: block;
-    border: none;
-    background: none;
-    font-size: 28px;
-    cursor: pointer;
-  }
-  /* Mobile menu */
-  .mobile-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
-    width: 100%;
-
-    padding: 30px;
-
-    background-color: white;
-  }
-
-
-  .mobile-menu a {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-  }
-
   
   .why-choose {
     display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-   padding: 40px 24px;
+    grid-template-columns: 1fr;
+    align-items: center;
+    padding: 40px 24px;
   }
 
 }

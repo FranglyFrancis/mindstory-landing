@@ -75,23 +75,18 @@ function Navbar() {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="mobile-menu">
-
             <a href="#about">ABOUT</a>
             <a href="#services">SERVICES</a>
             <a href="#works">WORKS</a>
             <a href="#learn">LEARN</a>
             <a href="#careers">CAREERS</a>
             <a href="#contact">CONTACT</a>
-
             <a href="#contact" className="nav-button">
               Get Proposal
             </a>
-
           </div>
         )}
-
       </div>
-
     </nav>
   );
 }

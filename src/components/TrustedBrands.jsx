@@ -17,62 +17,148 @@ function TrustedBrands(){
             <p className='centered-desc'>
                 Our commitment to excellence has made us a preferred digital marketing agency for leading brands. We prioritize client satisfaction and deliver custom solutions tailored to your unique needs and aspirations.
             </p>
-             <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
-                <div className="carousel-inner">
-                        <div className='carousel-item active'>
-                            <div className="card-wrapper cards-view">
-                                <div className="card">
-                                    <img src={allen} className="card-img-top" alt="" />
+            {/* Desktop-carousel */}
+            <div className="desktop-carousel">
+                <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div className="carousel-inner">
+                            <div className='carousel-item active'>
+                                <div className="card-wrapper cards-view">
+                                    <div className="card">
+                                        <img src={allen} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={chaai} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={hyundai} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={orgo} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={priis} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={royal} className="card-img-top" alt="" />
+                                    </div>
                                 </div>
-                                 <div className="card">
-                                    <img src={chaai} className="card-img-top" alt="" />
-                                </div>
-                                 <div className="card">
-                                    <img src={hyundai} className="card-img-top" alt="" />
-                                </div>
-                                 <div className="card">
-                                    <img src={orgo} className="card-img-top" alt="" />
-                                </div>
-                                 <div className="card">
-                                    <img src={priis} className="card-img-top" alt="" />
-                                </div>
-                                 <div className="card">
-                                    <img src={royal} className="card-img-top" alt="" />
+                            </div>
+                            <div className='carousel-item'>
+                                <div className="card-wrapper">
+                                    <div className="card">
+                                        <img src={lp} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={royal} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={priis} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={orgo} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={chaai} className="card-img-top" alt="" />
+                                    </div>
+                                    <div className="card">
+                                        <img src={hyundai} className="card-img-top" alt="" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='carousel-item'>
-                            <div className="card-wrapper">
-                                <div className="card">
-                                    <img src={lp} className="card-img-top" alt="" />
+                    </div>
+            </div>
+            {/* Mobile carousel */}
+            <div className="mobile-carousel">
+                    <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2000">
+                        <div className="carousel-inner">
+                                <div className='carousel-item active'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={allen} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="card">
-                                    <img src={royal} className="card-img-top" alt="" />
+                                <div className='carousel-item'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={chaai} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="card">
-                                    <img src={priis} className="card-img-top" alt="" />
+                                <div className='carousel-item'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={hyundai} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="card">
-                                    <img src={orgo} className="card-img-top" alt="" />
+                                <div className='carousel-item'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={orgo} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="card">
-                                    <img src={chaai} className="card-img-top" alt="" />
+                                <div className='carousel-item'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={priis} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="card">
-                                    <img src={hyundai} className="card-img-top" alt="" />
+                                <div className='carousel-item'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={royal} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='carousel-item'>
+                                    <div className="card-wrapper">
+                                        <div className="card">
+                                            <img src={lp} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='carousel-item active'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={royal} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='carousel-item active'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={priis} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='carousel-item active'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={orgo} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='carousel-item active'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={chaai} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='carousel-item active'>
+                                    <div className="card-wrapper cards-view">
+                                        <div className="card">
+                                            <img src={hyundai} className="card-img-top" alt="" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                 </div>
-                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                    <span style={{backgroundColor:'black'}} className="carousel-control-prev-icon arrow" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </button>
-                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                    <span style={{backgroundColor:'black'}} className="carousel-control-next-icon arrow" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </button>
-            </div>
         </section>
         <div className="custom-shape-divider-top-1788603399">
     <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
