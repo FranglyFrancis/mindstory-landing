@@ -1,15 +1,14 @@
 import '../App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import kairali from '../assets/kairali.WEBP'
-import inker from '../assets/inker.WEBP'
-import gold from '../assets/gold.WEBP'
-import motory from '../assets/motory.WEBP'
-import spais from '../assets/spais.WEBP'
-import wincentre from '../assets/wincentre.WEBP'
-import boche from '../assets/boche.WEBP'
-import indel from '../assets/indel.WEBP'
-
+import kairali from '../assets/kairali.webp'
+import inker from '../assets/inker.webp'
+import gold from '../assets/gold.webp'
+import motory from '../assets/motory.webp'
+import spais from '../assets/spais.webp'
+import wincentre from '../assets/wincentre.webp'
+import boche from '../assets/boche.webp'
+import indel from '../assets/indel.webp'
 function SuccessStories(){
 
 
