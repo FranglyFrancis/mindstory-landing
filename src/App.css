@@ -1,64 +1,3 @@
-/* ==========================================================================
-   1. Global & Base Styles
-   ========================================================================== */
-#root {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-
-body {
-  margin: 0;
-  font-family: 'Rubik', Helvetica, Arial, 'DejaVu Sans', 'Liberation Sans', sans-serif;
-}
-
-section {
-  padding-left: 150px;
-  padding-right: 150px;
-}
-
-p {
-  font-size: 20px;
-  line-height: 30px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-/* ==========================================================================
-   2. Typography
-   ========================================================================== */
-h1 {
-  font-size: 60px;
-  line-height: 1.1;
-  font-weight: 800;
-  margin-bottom: 20px;
-}
-
-h2 {
-  font-size: 55px;
-  font-weight: 600;
-  line-height: 1.2;
-  margin-bottom: 15px;
-}
-
-h3 {
-  font-size: 30px;
-  line-height: 1.2;
-  font-weight: 800;
-  margin-bottom: 0;
-}
-
-h4 {
-  
-  color: #f19e05;
-  text-align: left;
-}
 
 /* ==========================================================================
    3. Navbar Layout
@@ -1124,12 +1063,13 @@ h4 {
 
   .contact-buttons {
     width: 100%;
-
     display: flex;
     flex-direction: row;
 
     gap: 0;
+    padding: 0;
   }
+  
 
 
   .contact-btn {
@@ -1143,6 +1083,7 @@ h4 {
     justify-content: center;
 
     gap: 10px;
+    margin:0;
 
     font-size: 15px;
     font-weight: 600;
