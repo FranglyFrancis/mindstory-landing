@@ -10,6 +10,7 @@ import Testimonials from './components/Testimonials'
 import TrustedBrands from './components/TrustedBrands'
 import FeaturedBlogs from './components/Blogs'
 import Footer from './components/Footer'
+import ContactBar from './components/ContactBar'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
         <Testimonials />
         <FrequentlyAsked />
         <Footer />
+        <ContactBar />
       </main>
     </>
   )
