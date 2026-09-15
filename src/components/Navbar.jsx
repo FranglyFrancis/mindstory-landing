@@ -29,10 +29,30 @@ function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="nav-right ">
+            <div className="nav-dropdown">
+              <a className="navbar-brand" href="#about">
+                ABOUT
+              </a>
 
-            <a className="navbar-brand" href="#about">
-              ABOUT
-            </a>
+              <div className="my-dropdown-menu">
+                <div className="dropdown-column">
+                    <h4>WHO WE ARE</h4>
+                    <h6>Digital Craftsman</h6>
+                      <a href="#about-us"><i className="bi bi-briefcase-fill"></i> About Us</a>
+                      <a href="#our-approach"><i className="bi bi-compass-fill"></i> Our Approach</a>
+                      <a href="#pricing-options"><i className="bi bi-piggy-bank-fill"></i> Pricing Options</a>
+                </div>
+                <div className="dropdown-column">
+                      <h4>EXPERIENCE</h4>
+                      <h6>Proven Expertise</h6>
+                        <a href="#our-clients"><i className="bi bi-people-fill"></i> Our Clients</a>
+                        <a href="#success-stories"><i className="bi bi-journals"></i> Success Stories</a>
+                        <a href="#client-feedback"><i className="bi bi-chat-right-text-fill"></i> Client Feedback</a>
+                </div>
+                
+              </div>
+            </div>
+            
 
             <a className="navbar-brand" href="#services">
               SERVICES

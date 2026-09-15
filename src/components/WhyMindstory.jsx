@@ -6,7 +6,7 @@ function WhyMindstory(){
         <>
         <section className="why-choose">
             <div className="hero-choose">
-                <img src={avatar} alt="Why Choose Mindstory" />
+                <img src={avatar} alt="Why Choose Mindstory" className="image-slide-left"/>
             </div>
             <div className="content">
                 <h4>Partner with Our Digital Marketing Agency for Growth!</h4>

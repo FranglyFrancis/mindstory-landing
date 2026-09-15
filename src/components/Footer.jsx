@@ -1,5 +1,5 @@
 import '../App.css'
-import logo from "../assets/logo.avif"
+import logo from "../assets/footer.webp"
 
 function Footer(){
     return(
@@ -8,21 +8,22 @@ function Footer(){
             <div className="footer">
                 <div>
                     <h3>Services</h3>
-                    <small>Digital Marketing <br />
+                    <small>
+                        Digital Marketing <br />
 
-                    Social Media Management <br />
+                        Social Media Management <br />
 
-                    Website Development <br />
+                        Website Development <br />
 
-                    Logo & Branding <br />
+                        Logo & Branding <br />
 
-                    Creative Design <br />
+                        Creative Design <br />
 
-                    SEO <br />
+                        SEO <br />
                     </small>
                 </div>
                 <div>
-                <p className='justified-text'>Mindstory – A trusted digital marketing agency Kerala with 10+ years of expertise, delivering creative strategies, measurable results, and lasting brand growth for businesses across industries. Your success story starts here.</p>
+                    <p className='justified-text'>Mindstory – A trusted digital marketing agency Kerala with 10+ years of expertise, delivering creative strategies, measurable results, and lasting brand growth for businesses across industries. Your success story starts here.</p>
                 </div>
                 <div className='footer-column'>
                     <address className='footer-address'>
@@ -36,7 +37,7 @@ function Footer(){
                     </address>
                 </div>
                 <div className="footer-bottom">
-                <p className="copyright-text">&copy; 2026 Mindstory. All rights reserved.</p>
+                    <p className="copyright-text">&copy; 2026 Mindstory. All rights reserved.</p>
                 </div>
                 <div className="footer-bottom">
                     <a href="/" className="logo-wrapper">
@@ -50,7 +51,7 @@ function Footer(){
                 <div className="footer-legal-links footer-bottom">
                     <a href="/privacy-policy">Privacy Policy | Terms & Conditions</a>
                 </div>
-                </div>
+            </div>
         </section>
         </>
     )
