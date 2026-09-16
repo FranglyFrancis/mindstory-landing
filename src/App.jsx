@@ -1,36 +1,26 @@
-import './App.css'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import Expertise from './components/Expertise'
-import WhyMindstory from './components/WhyMindstory'
-import Services from './components/Services'
-import SuccessStories from './components/SuccessStories'
-import FrequentlyAsked from './components/FAQ'
-import Testimonials from './components/Testimonials'
-import TrustedBrands from './components/TrustedBrands'
-import FeaturedBlogs from './components/Blogs'
-import Footer from './components/Footer'
-import ContactBar from './components/ContactBar'
+import { Routes, Route } from "react-router-dom";
+import './App.css';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import ContactBar from './components/ContactBar';
+
+import Home from './pages/Home';
+import About from './pages/About';
 
 function App() {
 
   return (
-    <>
+   <div className="app">
       <Navbar />
-      <main>
-        <Hero />
-        <SuccessStories />
-        <Expertise />
-        <WhyMindstory />
-        <TrustedBrands />
-        <Services />
-        <FeaturedBlogs />
-        <Testimonials />
-        <FrequentlyAsked />
-        <Footer />
-        <ContactBar />
+      <main className="page-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About /> }/>
+        </Routes>
       </main>
-    </>
+      <Footer />
+      <ContactBar />
+    </div>
   )
 }
 

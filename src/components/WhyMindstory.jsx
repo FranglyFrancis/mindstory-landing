@@ -1,12 +1,43 @@
 import "../App.css";
 import avatar from "../assets/why.webp"
 
+import { useEffect, useRef, useState } from "react";
+
 function WhyMindstory(){
+    const [showHero, setShowHero] = useState(false)
+
+    const heroRef = useRef(null)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if(entry.isIntersecting) {
+                    setShowHero(true);
+                    observer.disconnect();
+                }
+            },
+            {
+                threshold: 0.2,
+            }
+        );
+
+        if(heroRef.current) {
+            observer.observe(heroRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return(
         <>
         <section className="why-choose">
-            <div className="hero-choose">
-                <img src={avatar} alt="Why Choose Mindstory" className="image-slide-left"/>
+            <div 
+                ref={heroRef}
+                className={`hero-choose ${
+                    showHero ? "image-slide-left show" : "image-slide-left"
+                            }`}
+            >
+                <img src={avatar} alt="Why Choose Mindstory"/>
             </div>
             <div className="content">
                 <h4>Partner with Our Digital Marketing Agency for Growth!</h4>

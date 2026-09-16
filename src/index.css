@@ -1,17 +1,28 @@
 /* ==========================================================================
    1. Global & Base Styles
    ========================================================================== */
+html,
 #root {
-    width: 100%;
+    min-height: 100%;
     max-width: 100%;
     margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+    /* padding: 0;
+    overflow-x: hidden; */
 }
 
 body {
   margin: 0;
   font-family: 'Rubik', Helvetica, Arial, 'DejaVu Sans', 'Liberation Sans', sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex:1;
+  padding-top: 100px ;
 }
 
 section {

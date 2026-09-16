@@ -4,7 +4,6 @@ import heroImage from "../assets/hero.png";
 function Hero() {
   return (
     <>
-    
     <section className="hero">
       <div className="hero-content">
         <h1 className="title">

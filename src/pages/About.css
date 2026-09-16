@@ -1,0 +1,102 @@
+.about-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #ef9d05;
+    color: #fff;
+    padding-top: 50px;
+    gap:40px;
+}
+
+.aboutHeroImage img{
+    width: 90%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.about-intro h1{
+    font-size: 65px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.about-intro p {
+    font-size: 26px;
+    line-height: 1.3;
+    font-weight: 100;
+
+}
+
+.about-us {
+    background: #DBE7EE;   
+}
+
+.about-us h3 {
+    font-weight: 800;
+    color: #46484b;
+    text-align: center;
+
+}
+
+.about-us p {
+    color: #46484b;
+}
+
+.about-us-3col {
+    padding-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:40px;
+}
+
+.about-us-2col {
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:40px;
+}
+
+/* 1st Divider */
+.custom-shape-divider-top-1789556561 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1789556561 svg {
+    position: relative;
+    display: block;
+    width: calc(216% + 1.3px);
+    height: 150px;
+}
+
+.custom-shape-divider-top-1789556561 .shape-fill {
+    fill: #EF9D05;
+}
+
+/*2nd Divider  */
+.custom-shape-divider-bottom-1789558199 {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1789558199 svg {
+    position: relative;
+    display: block;
+    width: calc(134% + 1.3px);
+    height: 150px;
+}
+
+.custom-shape-divider-bottom-1789558199 .shape-fill {
+    fill: #DBE7EE;
+}
