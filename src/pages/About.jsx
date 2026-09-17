@@ -1,5 +1,4 @@
 import './About.css';
-import '../App.css';
 import aboutHero from "../assets/about-mindstory.webp"
 
 function About(){
@@ -16,19 +15,56 @@ function About(){
                     <img src={aboutHero} alt="team meeting around a table"  />
                 </div>
             </section>
-            <div class="custom-shape-divider-top-1789556561">
+            <div className="custom-shape-divider-top-1789556561">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
                 </svg>
             </div>
+
+            {/* Cards section */}
             <section className="about-goals">
-                <p>dsvjsnvjkndskjvndsncbdsjb vjzh cmds cn zxkjc nmd cds f dcbjhwebFHjbbr <br /><br /><br /></p>
+                <div className="cards-container">
+                    <div className="card1">
+                        <h2><i className="bi bi-clock icons"></i></h2>
+                        <h2>10</h2>
+                        <p>Years</p>
+                    </div>
+
+                    <div className="card2">
+                        <h2><i className="bi bi-bar-chart icons"></i></h2>
+                        <h2>400+</h2>
+                        <p>Clients</p>
+                    </div>
+                    <div className="card3">
+                        <h2><i className="bi bi-envelope icons"></i></h2>
+                        <h2>500+</h2>
+                        <p>Million Reach</p>
+                    </div>
+                    <div className="card1">
+                        <h2><i className="bi bi-link icons"></i></h2>
+                        <h2>G</h2>
+                        <p>Google Partner</p>
+                    </div>
+                    <div className="card2">
+                        <h2><i className="bi bi-person icons"></i></h2>
+                        <h2>30+</h2>
+                        <p>Team Members</p>
+                    </div>
+                    <div className="card3">
+                        <h2><i className="bi bi-brightness-high icons"></i></h2>
+                        <h2>1500+</h2>
+                        <p>Digital Campaigns</p>
+                    </div>
+                </div>
             </section>
-            <div class="custom-shape-divider-bottom-1789558199">
+            
+            {/* section divider */}
+            <div className="custom-shape-divider-bottom-1789558199">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
                 </svg>
             </div>
+            
             <section className="about-us">
                 <div className='about-us-3col'>
                     <div>
@@ -65,10 +101,105 @@ function About(){
                     </div>
                 </div>
             </section>
-            
-            <section className="about-milestones">
-                 
-            </section>
+            <div className="custom-shape-divider-bottom-1789626360">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" className="shape-fill"></path>
+                </svg>
+                <p className="wave-text">
+                    <span><i className="bi bi-briefcase wave-icon"></i> 400+ Clients Served</span>
+                    <span><i className="bi bi-check-circle wave-icon"></i> 100+ Events Organized</span>
+                    <span><i className="bi bi-mic wave-icon"></i> 10+ Movie Promotions</span>
+                    <span><i className="bi bi-heart wave-icon"></i> Unlimited Coffee Cups</span>
+                </p>
+            </div>
+
+            <div className="custom-shape-divider-top-1789626613">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" className="shape-fill"></path>
+                </svg>
+                <div  className='wave-text1 '>
+                <p>
+                    <span className='mindified'>
+                        #Getmindified
+                    </span>
+                    <span className='mindified-desc'>
+                        We propel clients toward success by ensuring their websites rank at the pinnacle of search engines, achieving their goals and objectives seamlessly.
+                    </span>
+                </p>
+                </div>
+            </div>
+
+
+            {/* <section className="timeline">
+
+                <div className="timeline-item">
+
+                    <div className="timeline-year">
+                    2016
+                    </div>
+
+                    <div className="timeline-content">
+
+                    <div className="timeline-line"></div>
+
+                    <div className="timeline-icon">
+                        ⚑
+                    </div>
+
+                    <div className="timeline-card">
+
+                        <p className="timeline-date">
+                        January, 2016
+                        </p>
+
+                        <h3>Inception of Excellence</h3>
+
+                        <p>
+                        Mindstory embarked on its journey of digital excellence,
+                        laying the foundation for a dynamic digital marketing agency.
+                        </p>
+
+                    </div>
+
+                    </div>
+
+                </div>
+
+
+                <div className="timeline-item">
+
+                    <div className="timeline-year">
+                    2017
+                    </div>
+
+                    <div className="timeline-content">
+
+                    <div className="timeline-line"></div>
+
+                    <div className="timeline-icon">
+                        ⚑
+                    </div>
+
+                    <div className="timeline-card">
+
+                        <p className="timeline-date">
+                        January, 2017
+                        </p>
+
+                        <h3>Growing Forward</h3>
+
+                        <p>
+                        The journey continued with new ideas, new clients and
+                        exciting digital experiences.
+                        </p>
+
+                    </div>
+
+                    </div>
+
+                </div>
+
+            </section> */}
         </>
     )
 }

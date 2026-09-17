@@ -1,6 +1,3 @@
-import '../App.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import allen from '../assets/allen.png'
 import chaai from '../assets/chaai.jpeg'
 import hyundai from '../assets/hyundai.png'

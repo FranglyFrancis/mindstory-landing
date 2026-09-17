@@ -80,7 +80,7 @@
 }
 
 
- .menu-button {
+.menu-button {
   display: none;
 }
 
@@ -428,7 +428,7 @@
   }
 }
 /* ==========================================================================
-   5. Components & Layout Elements
+  Components & Layout Elements
    ========================================================================== */
 .content {
   display: grid;
@@ -467,7 +467,7 @@
   text-align: justify;
 }
 /* ==========================================================================
-   5. Success stories
+   Success stories
    ========================================================================== */
 .section-heading {
   display: flex;
@@ -574,19 +574,6 @@
 /* ==========================================================================
    6. Testimonials & Cards
    ========================================================================== */
-.testimonials {
-  padding-top: 80px;
-  min-height: 100vh;
-  width: 100%;
-  background: #f4f4f4;
-}
-
-.section-testimonials {
-  position: relative !important;
-  width: 100% !important;
-  max-width: 1360px !important;
-  margin: 0 auto !important;
-}
 
 .card-row {
   display: grid;
@@ -594,16 +581,6 @@
   gap: 20px;
   padding: 20px;
 }
-
-/* .card-expertise {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 0 5% 70px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-} */
-
 
 .card-image {
   width: 100% !important;
@@ -728,7 +705,7 @@
   }
 }
 /* ==========================================================================
-   8. Why Choose & Grid Layouts
+   Why Choose & Grid Layouts
    ========================================================================== */
 .why-choose {
   min-height: 100vh;
@@ -786,8 +763,185 @@
   padding-bottom: 30px;
 }
 
+/* ================================
+   TESTIMONIALS
+================================ */
+
+.testimonials {
+    padding-top: 40px;
+    background: #f7f5ef;
+}
+
+
+.testimonial-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.testimonial-heading h2 {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 1.05;
+    margin: 0;
+}
+
+
+.google-rating {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.google-rating h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    letter-spacing: 1px;
+}
+
+.google-stars {
+    color: #f4b400;
+    font-size: 25px;
+    line-height: 1;
+}
+
+.google-rating p {
+    font-size: 14px;
+    margin: 12px 0 18px;
+}
+
+.google-logos {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    
+}
+
+.google-logo {
+  width: 10%;
+  height: auto;
+}
+
+
+.google-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+.reviews-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+
+.reviews-container {
+    display: flex;
+    gap: 25px;
+    transition: transform 0.5s ease;
+}
+
+
+.review-card {
+    flex: 0 0 calc(25.333% - 17px);
+
+    min-height: 270px;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4e1d9;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+}
+
+
+/* Reviewer */
+
+.review-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.reviewer-image {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.review-top h4 {
+    margin: 0 0 5px;
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+/* Stars */
+
+.review-stars {
+    color: #f4b400;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+
+/* Review */
+.review-text {
+    font-size: 15px;
+    line-height: 1.6;
+
+    margin: 25px 0;
+
+    flex: 1;
+}
+
+
+.testimonial-navigation {
+    display: flex;
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 40px;
+}
+
+.testimonial-navigation button {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    border: 1px solid #111;
+
+    background: transparent;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.testimonial-navigation button:hover {
+    background: #111;
+    color: #fff;
+}
+
+
+
+
+
 /* ==========================================================================
-   9. Blogs, FAQ& Footer Sections
+   Blogs, FAQ& Footer Sections
    ========================================================================== */
   .blogs-wrapper {
   display: flex;
@@ -1016,9 +1170,8 @@
 
 
 /* ==========================================================================
-   10. Media Queries (Responsive Layouts)
+   Media Queries (Responsive Layouts)
    ========================================================================== */
-
 
 @media (max-width: 768px) {
 
@@ -1073,7 +1226,6 @@
     text-align: justify;
 }
 
-
   .why-choose {
     display: grid;
   grid-template-columns: 1fr;
@@ -1126,23 +1278,56 @@
 
   /* Mobile menu */
   .mobile-menu {
+    position:fixed;
+    top:0;
+    right:0;
+
+    width: 50%;
+    height: 100vh;
+
     display: flex;
     flex-direction: column;
     gap: 20px;
 
-    width: 100%;
+    padding: 80px 30px 30px;
+    box-sizing: border-box;
 
-    padding: 30px;
+    background-color: #f98f2d;
+    
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
 
-    background-color: white;
+    z-index: 9999;
+  }
+
+  .mobile-menu.open {
+    transform: translateX(0);
   }
 
 
   .mobile-menu a {
     text-decoration: none;
-    color: black;
-    font-size: 18px;
+    font-size: 20px;
+    color:#fff;
   }
+
+  /* .mobile-link:hover {
+    color: #000;
+  } */
+
+  .close-menu {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 24px;
+  color: #fff;
+
+  cursor: pointer;
+}
 
 
   /* Smaller logo on mobile */
@@ -1212,6 +1397,16 @@
     width: 30px;
     height: 30px;
   }
+
+  .testimonial-heading h2 {
+        font-size: 42px;
+    }
+
+    .review-card {
+        flex: 0 0 calc(50% - 13px);
+    }
+
+
   .frequentlySect1 {
     grid-template-columns: 1fr;
     gap:5px;
@@ -1219,9 +1414,9 @@
 
   .quest-ans {
     width: fit-content;
-  height: fit-content;
-  padding: 0;
-  margin: 0;
+    height: fit-content;
+    padding: 0;
+    margin: 0;
   }
 
   .footer {
@@ -1255,7 +1450,7 @@
 
   /* Hide enquiry from bottom bar */
 
-  .enquiry-btn {
+  .enquire-btn {
     display: none;
   }
 
@@ -1320,6 +1515,35 @@
     grid-template-columns: 1fr;
   }
 
+  .testimonials {
+        padding: 70px 20px;
+    }
+
+    .testimonial-heading {
+        text-align: left;
+    }
+
+    .testimonial-heading h2 {
+        font-size: 38px;
+    }
+
+    .google-rating {
+        text-align: left;
+    }
+
+    .google-logo {
+        justify-content: flex-start;
+    }
+
+    .review-card {
+        flex: 0 0 100%;
+    }
+
+    .reviews-container {
+        gap: 15px;
+    }
+
+
   .footer-bottom {
     flex-direction: column;
     text-align: center;
@@ -1330,10 +1554,6 @@
     justify-content: center;
   }
 }
-
-
-  
-
 
 @media (max-width: 480px) {
   .grid-container,

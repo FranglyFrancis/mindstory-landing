@@ -58,6 +58,266 @@
     gap:40px;
 }
 
+/* Cards section */
+.cards-container {
+  display: flex;
+  gap: 20px;
+}
+
+.card1,
+.card2,
+.card3 {
+  flex: 1;
+  height: 300px;
+  width: 150px;
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
+
+}
+.card1{
+     background: #f3c3ec;
+}
+.card2{
+     background: #cbc2ec;
+}
+.card3{
+     background: #a7c0ee;
+}
+
+.card1 h2,
+.card2 h2,
+.card3 h2 {
+    font-size:60px;
+    font-weight: 400;
+    padding-top: 25px;
+    color:#fcfcfc;
+}
+
+.card1 p,
+.card1 p,
+.card1 p
+ {
+    color: #8e8f91;
+    font-size: 16px;
+}
+
+.wave-text {
+  position: absolute;
+  z-index: 2;
+
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 90%;
+  margin: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 23px;
+  font-weight: 400;
+  color: #ece8e8;
+  padding-left: 75px;
+  padding-right: 75px;
+}
+
+.icons {
+ color: #ffffff;
+ opacity: 0.65;
+ font-weight: 600;
+}
+
+.wave-text span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.wave-icon {
+  font-size: 20px;
+  padding: 0;
+  flex: none;
+}
+
+.wave-text1 {
+  position: absolute;
+  z-index: 2;
+
+  top: 70%;
+  transform: rotate(180deg);
+
+  margin: 0;
+
+  display: flex;
+  font-size: 30px;
+  font-weight: 400;
+  color: #ece8e8;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+.mindified {
+    display: block;
+    text-align: center;
+    padding-top: 15px;
+    /* padding-bottom: 20px; */
+    font-size: 30px;
+}
+
+.mindified-desc {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+
+}
+
+/* ==============================
+   TIMELINE
+   ============================== */
+
+.timeline {
+    width: 100%;
+    padding: 60px 20px;
+    overflow: hidden;
+}
+
+.timeline-item {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+/* Year */
+
+.timeline-year {
+    text-align: center;
+    font-size: 58px;
+    font-weight: 300;
+    color: #55a9df;
+    line-height: 1;
+    margin-bottom: 65px;
+}
+
+
+/* Timeline content */
+
+.timeline-content {
+    position: relative;
+}
+
+
+/* Vertical center line */
+
+.timeline-content::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    bottom: -60px;
+    left: 50%;
+    width: 1px;
+    background: #e8e8e8;
+    transform: translateX(-50%);
+}
+
+
+/* Horizontal line */
+.timeline-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 1px;
+    background: #e8e8e8;
+}
+
+
+/* Circle */
+.timeline-icon {
+    position: absolute;
+    top: -61px;
+    left: 50%;
+
+    width: 88px;
+    height: 88px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 50%;
+
+    color: #9bd129;
+    font-size: 38px;
+
+    z-index: 2;
+}
+
+
+/* Card */
+
+.timeline-card {
+    position: relative;
+
+    width: 80%;
+    min-height: 100px;
+
+    box-sizing: border-box;
+
+    padding: 82px 70px 35px;
+
+    background: white;
+    border: 1px solid #e5e5e5;
+
+    text-align: center;
+
+    z-index: 1;
+}
+
+
+/* Date */
+
+.timeline-date {
+    margin: 0 0 26px;
+
+    font-size: 18px;
+    font-weight: 400;
+
+    color: #c8c8c8;
+}
+
+
+/* Heading */
+
+.timeline-card h3 {
+    margin: 0 0 6px;
+
+    font-size: 21px;
+    font-weight: 700;
+
+    color: #333;
+}
+
+
+/* Description */
+
+.timeline-card p:last-child {
+    max-width: 620px;
+    margin: 0 auto;
+
+    font-size: 20px;
+    line-height: 1.5;
+
+    color: #555;
+}
+
 /* 1st Divider */
 .custom-shape-divider-top-1789556561 {
     position: relative;
@@ -99,4 +359,297 @@
 
 .custom-shape-divider-bottom-1789558199 .shape-fill {
     fill: #DBE7EE;
+}
+
+/* 3rd divider */
+.custom-shape-divider-bottom-1789626360 {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-bottom-1789626360 svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 183px;
+}
+
+.custom-shape-divider-bottom-1789626360 .shape-fill {
+    fill: #4C9FDB;
+}
+
+/* 4th divider */
+.custom-shape-divider-top-1789626613 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1789626613 svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 371px;
+}
+
+.custom-shape-divider-top-1789626613 .shape-fill {
+    fill: #59ACE7;
+}
+
+@media (max-width: 768px) {
+
+    /* section {
+        padding-left: 75px;
+        padding-right: 75px;
+    } */
+    /* ==============================
+       ABOUT HERO
+    ============================== */
+
+    .about-intro {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 40px 20px 0;
+    }
+
+    .about-intro h1 {
+        font-size: 42px;
+        line-height: 1.05;
+        margin-bottom: 20px;
+    }
+
+    .about-intro p {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .aboutHeroImage {
+        width: 100%;
+    }
+
+    .aboutHeroImage img {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+
+    /* ==============================
+       ABOUT US
+    ============================== */
+
+    .about-us {
+        padding: 40px 20px;
+    }
+
+    .about-us h3 {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+
+    .about-us p {
+        font-size: 17px;
+        line-height: 1.5;
+    }
+
+
+    /* ==============================
+       3 COLUMN / 2 COLUMN
+    ============================== */
+
+    .about-us-3col,
+    .about-us-2col {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding-top: 40px;
+    }
+
+
+    /* ==============================
+       CARDS
+    ============================== */
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .card1,
+    .card2,
+    .card3 {
+        width: 100%;
+        height: auto;
+        min-height: 220px;
+        padding: 25px 20px;
+        box-sizing: border-box;
+    }
+
+    .card1 h2,
+    .card2 h2,
+    .card3 h2 {
+        font-size: 48px;
+        padding-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    .card1 p,
+    .card2 p,
+    .card3 p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    /* ==============================
+       WAVE TEXT
+    ============================== */
+
+    .wave-text {
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 16px;
+        top: 70%;
+    }
+
+    .wave-text span {
+        gap: 5px;
+    }
+
+    .wave-icon {
+        font-size: 16px;
+    }
+
+    .wave-text1 {
+        font-size: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+
+    /* ==============================
+       MINDIFIED
+    ============================== */
+
+    .mindified {
+        font-size: 24px;
+        padding-top: 10px;
+    }
+
+    .mindified-desc {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+
+    /* ==============================
+       TIMELINE
+    ============================== */
+
+    .timeline {
+        width: 100%;
+        padding: 40px 15px;
+        box-sizing: border-box;
+    }
+
+    .timeline-item {
+        width: 100%;
+        margin: 0 auto 60px;
+    }
+
+    .timeline-year {
+        font-size: 42px;
+        margin-bottom: 55px;
+    }
+
+    .timeline-content {
+        width: 100%;
+    }
+
+
+    /* Vertical line */
+
+    .timeline-content::before {
+        top: -100px;
+        bottom: -50px;
+        left: 50%;
+    }
+
+
+    /* Horizontal line */
+
+    .timeline-line {
+        width: 50%;
+    }
+
+
+    /* Circle */
+    .timeline-icon {
+        width: 70px;
+        height: 70px;
+        top: -36px;
+        font-size: 26px;
+    }
+
+
+    /* Timeline card */
+
+    .timeline-card {
+        width: 100%;
+        min-height: auto;
+        padding: 55px 20px 30px;
+        box-sizing: border-box;
+    }
+
+    .timeline-date {
+        margin-bottom: 18px;
+        font-size: 15px;
+    }
+
+    .timeline-card h3 {
+        font-size: 19px;
+        line-height: 1.3;
+    }
+
+    .timeline-card p:last-child {
+        max-width: 100%;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+
+    /* ==============================
+       WAVES
+    ============================== */
+
+    .custom-shape-divider-top-1789556561 svg {
+        width: 220%;
+        height: 90px;
+    }
+
+    .custom-shape-divider-bottom-1789558199 svg {
+        width: 180%;
+        height: 90px;
+    }
+
+    .custom-shape-divider-bottom-1789626360 svg {
+        width: 250%;
+        height: 110px;
+    }
+
+    .custom-shape-divider-top-1789626613 svg {
+        width: 250%;
+        height: 180px;
+    }
 }

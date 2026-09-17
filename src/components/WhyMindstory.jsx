@@ -1,7 +1,5 @@
-import "../App.css";
-import avatar from "../assets/why.webp"
-
 import { useEffect, useRef, useState } from "react";
+import avatar from "../assets/why.webp"
 
 function WhyMindstory(){
     const [showHero, setShowHero] = useState(false)

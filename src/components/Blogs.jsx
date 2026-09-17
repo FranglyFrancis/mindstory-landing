@@ -1,4 +1,3 @@
-import '../App.css'
 import digital from '../assets/digital.webp'
 import google from '../assets/google.webp'
 import reels from '../assets/reels.webp'

@@ -1,4 +1,3 @@
-import '../App.css'
 import logo from "../assets/footer.webp"
 
 function Footer(){

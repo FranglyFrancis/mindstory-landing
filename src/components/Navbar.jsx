@@ -1,12 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-import "../App.css";
 import logo from "../assets/logo.avif";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-
-import { Link } from "react-router-dom";
 
 function Navbar() {
 
@@ -156,19 +152,39 @@ function Navbar() {
 
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="mobile-menu">
-            <a href="#about">ABOUT</a>
-            <a href="#services">SERVICES</a>
-            <a href="#works">WORKS</a>
-            <a href="#learn">LEARN</a>
-            <a href="#careers">CAREERS</a>
-            <a href="#contact">CONTACT</a>
-            <a href="#contact" className="nav-button">
-              Get a Proposal
-            </a>
+          <div className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}>
+             <button
+              className="close-menu"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <i className="bi bi-x-lg"></i>
+            </button>
+
+              <a href="/about" onClick={() => setMobileMenuOpen(false)}>
+                About
+              </a>
+
+              <a href="/services" onClick={() => setMobileMenuOpen(false)}>
+                Services
+              </a>
+
+              <a href="/works" onClick={() => setMobileMenuOpen(false)}>
+                Works
+              </a>
+
+              <a href="/learn" onClick={() => setMobileMenuOpen(false)}>
+                Learn
+              </a>
+
+              <a href="/careers" onClick={() => setMobileMenuOpen(false)}>
+                Careers
+              </a>
+
+              <a href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                Contact
+              </a>
           </div>
-        )}
       </div>
     </nav>
   );

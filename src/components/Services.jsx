@@ -1,4 +1,3 @@
-import '../App.css'
 import site from '../assets/SEO (1).png'
 import art from '../assets/ART.png'
 import boost from '../assets/SOCIAL (1).png'

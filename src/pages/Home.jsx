@@ -1,4 +1,3 @@
-import '../App.css'
 import Hero from '../components/Hero'
 import Expertise from '../components/Expertise'
 import WhyMindstory from '../components/WhyMindstory'

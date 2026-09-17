@@ -1,5 +1,3 @@
-import "../App.css";
-
 import social from "../assets/social.webp";
 import seo from "../assets/seo.webp";
 import ad from "../assets/ad.webp";

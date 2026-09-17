@@ -1,6 +1,3 @@
-import '../App.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import kairali from '../assets/kairali.png'
 import inker from '../assets/inker.png'
 import gold from '../assets/gold.png'
