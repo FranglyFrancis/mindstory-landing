@@ -178,7 +178,21 @@
 /* ==============================
    TIMELINE
    ============================== */
+.milestones {
+        padding-left: 150px;
+        padding-right: 150px;
+}
 
+.milestones h2 {
+        font-size:50px;
+        font-weight:800;
+        text-align: center;
+}
+.milestones p {
+        font-size:20px;
+        color: rgb(94, 92, 92);
+        text-align: center;
+}
 .timeline {
     width: 100%;
     padding: 60px 20px;
@@ -195,11 +209,12 @@
 
 .timeline-year {
     text-align: center;
-    font-size: 58px;
-    font-weight: 300;
+    font-size: 50px;
+    font-weight: 400;
     color: #55a9df;
     line-height: 1;
-    margin-bottom: 65px;
+    margin-bottom: 80px;
+    padding-bottom: 75px;
 }
 
 
@@ -207,6 +222,14 @@
 
 .timeline-content {
     position: relative;
+    width:80%;
+    margin: 0 auto;
+}
+
+.timeline-connect {
+   
+    margin-bottom: 5px;
+    padding-bottom: 40px;
 }
 
 
@@ -216,11 +239,29 @@
     content: "";
     position: absolute;
     top: -120px;
-    bottom: -60px;
+    bottom: 1px;
     left: 50%;
     width: 1px;
     background: #e8e8e8;
     transform: translateX(-50%);
+}
+
+.timeline-contents::before {
+    content: "";
+    position: absolute;
+    padding-top: 50px;
+    top: -120px;
+    bottom: 1px;
+    left: 50%;
+    width: 1px;
+    background: #e8e8e8;
+    transform: translateX(-50%);
+}
+
+.timeline-contents {
+    position: relative;
+    width:80%;
+    margin: 0 auto;
 }
 
 
@@ -228,8 +269,8 @@
 .timeline-line {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 50%;
+    left: 8%;
+    width: 84%;
     height: 1px;
     background: #e8e8e8;
 }
@@ -238,11 +279,11 @@
 /* Circle */
 .timeline-icon {
     position: absolute;
-    top: -61px;
+    top: -62px;
     left: 50%;
 
-    width: 88px;
-    height: 88px;
+    width: 98px;
+    height: 98px;
 
     transform: translateX(-50%);
 
@@ -266,12 +307,12 @@
 .timeline-card {
     position: relative;
 
-    width: 80%;
-    min-height: 100px;
+    width: 84%;
+    min-height: 280px;
 
     box-sizing: border-box;
-
-    padding: 82px 70px 35px;
+    margin:0 auto; /*centers rectangle*/
+    padding: 80px 70px 35px;
 
     background: white;
     border: 1px solid #e5e5e5;
@@ -361,7 +402,7 @@
     fill: #DBE7EE;
 }
 
-/* 3rd divider */
+/* mindified-top-divider */
 .custom-shape-divider-bottom-1789626360 {
     position: relative;
     bottom: 0;
@@ -369,6 +410,7 @@
     width: 100%;
     overflow: hidden;
     line-height: 0;
+    background: #DBE7EE;
 }
 
 .custom-shape-divider-bottom-1789626360 svg {
@@ -382,7 +424,7 @@
     fill: #4C9FDB;
 }
 
-/* 4th divider */
+/* mindified divider */
 .custom-shape-divider-top-1789626613 {
     position: relative;
     top: 0;
@@ -391,6 +433,8 @@
     overflow: hidden;
     line-height: 0;
     transform: rotate(180deg);
+
+
 }
 
 .custom-shape-divider-top-1789626613 svg {
@@ -398,18 +442,16 @@
     display: block;
     width: calc(300% + 1.3px);
     height: 371px;
+    
 }
 
 .custom-shape-divider-top-1789626613 .shape-fill {
     fill: #59ACE7;
 }
 
+
 @media (max-width: 768px) {
 
-    /* section {
-        padding-left: 75px;
-        padding-right: 75px;
-    } */
     /* ==============================
        ABOUT HERO
     ============================== */
@@ -515,17 +557,30 @@
        WAVE TEXT
     ============================== */
 
-    .wave-text {
-        width: 100%;
-        padding-left: 20px;
-        padding-right: 20px;
-        font-size: 16px;
-        top: 70%;
-    }
+   .wave-text {
+    position: absolute;
+    z-index: 2;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
-    .wave-text span {
-        gap: 5px;
-    }
+    width: 90%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    padding: 0 20px;
+
+    font-size: clamp(14px, 2vw, 23px);
+    color: #ece8e8;
+}
+
+.wave-text span {
+  white-space: nowrap;
+}
 
     .wave-icon {
         font-size: 16px;
@@ -557,6 +612,12 @@
        TIMELINE
     ============================== */
 
+    .milestones {
+        padding: 40px 20px 0;
+    }
+    .milestones h2 {
+        font-size:30px;
+    }
     .timeline {
         width: 100%;
         padding: 40px 15px;
@@ -574,15 +635,17 @@
     }
 
     .timeline-content {
-        width: 100%;
+        position:relative;
+        width: 80%;
+        margin: 0 auto;
     }
 
 
     /* Vertical line */
 
     .timeline-content::before {
-        top: -100px;
-        bottom: -50px;
+        top: -110px;
+        bottom: 1px;
         left: 50%;
     }
 
@@ -644,12 +707,12 @@
     }
 
     .custom-shape-divider-bottom-1789626360 svg {
-        width: 250%;
-        height: 110px;
+        width: 480%;
+        height: 410px;
     }
 
     .custom-shape-divider-top-1789626613 svg {
-        width: 250%;
-        height: 180px;
+        width: 540%;
+        height: 520px;
     }
 }

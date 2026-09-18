@@ -67,7 +67,6 @@ function Testimonials() {
             {/* Reviews */}
 
             <div className="reviews-wrapper">
-
                 <div
                     className="reviews-container"
                     style={{

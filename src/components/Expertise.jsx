@@ -51,7 +51,7 @@ function Expertise() {
 
           <div className="expertise-heading">
             <h2>
-              Our Expertise in Digital Marketing that drives growth
+              Our Expertise in Digital Marketing
             </h2>
 
             <p>

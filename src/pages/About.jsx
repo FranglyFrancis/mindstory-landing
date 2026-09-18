@@ -15,6 +15,8 @@ function About(){
                     <img src={aboutHero} alt="team meeting around a table"  />
                 </div>
             </section>
+
+            {/* about-intro-divider */}
             <div className="custom-shape-divider-top-1789556561">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
@@ -58,7 +60,7 @@ function About(){
                 </div>
             </section>
             
-            {/* section divider */}
+            {/* about-us divider */}
             <div className="custom-shape-divider-bottom-1789558199">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
@@ -101,6 +103,8 @@ function About(){
                     </div>
                 </div>
             </section>
+
+            {/* mindified-top-divider*/}
             <div className="custom-shape-divider-bottom-1789626360">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" className="shape-fill"></path>
@@ -113,10 +117,12 @@ function About(){
                 </p>
             </div>
 
+            {/* mindified divider */}
             <div className="custom-shape-divider-top-1789626613">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" className="shape-fill"></path>
-                </svg>
+                
+                    </svg>
                 <div  className='wave-text1 '>
                 <p>
                     <span className='mindified'>
@@ -128,10 +134,13 @@ function About(){
                 </p>
                 </div>
             </div>
+            
 
-
-            {/* <section className="timeline">
-
+        <section className='milestones'>
+            <h2>Our Milestones</h2>
+            <p>Some remarkable events our digital marketing agency went through.</p>
+             <div className="timeline">
+                
                 <div className="timeline-item">
 
                     <div className="timeline-year">
@@ -140,26 +149,26 @@ function About(){
 
                     <div className="timeline-content">
 
-                    <div className="timeline-line"></div>
+                        {/* <div className="timeline-line"></div> */}
 
-                    <div className="timeline-icon">
-                        ⚑
-                    </div>
+                        <div className="timeline-icon">
+                           <i class="bi bi-flag"></i>
+                        </div>
 
-                    <div className="timeline-card">
+                        <div className="timeline-card">
 
-                        <p className="timeline-date">
-                        January, 2016
-                        </p>
+                            <p className="timeline-date">
+                            January, 2016
+                            </p>
 
-                        <h3>Inception of Excellence</h3>
+                            <h3>Inception of Excellence</h3>
 
-                        <p>
-                        Mindstory embarked on its journey of digital excellence,
-                        laying the foundation for a dynamic digital marketing agency.
-                        </p>
+                            <p>
+                            Mindstory embarked on its journey of digital excellence,
+                            laying the foundation for a dynamic digital marketing agency.
+                            </p>
 
-                    </div>
+                        </div>
 
                     </div>
 
@@ -167,9 +176,64 @@ function About(){
 
 
                 <div className="timeline-item">
+                    <div className="timeline-year">
+                        2017
+                    </div>
+
+                        <div className="timeline-content">
+
+                            <div className="timeline-line"></div>
+
+                            <div className="timeline-icon">
+                                <i class="bi bi-tablet"></i>
+                            </div>
+
+                            <div className="timeline-card">
+
+                                <p className="timeline-date">
+                                October, 2017
+                                </p>
+
+                                <h3>Cinematic Ventures Begin</h3>
+
+                                <p>
+                                Venturing into the world of digital movie promotion, Mindstory expanded its horizons to engage audiences through captivating visual narratives.
+                                </p>
+                            </div>
+                        </div>
+                </div>
+                    
+                {/* Joined card- 2017 */}
+                <div className="timeline-item">
+                    <div className="timeline-connect"></div>
+                    <div className="timeline-contents">
+
+                        <div className="timeline-line"></div>
+
+                        <div className="timeline-icon">
+                           <i class="bi bi-key"></i>
+                        </div>
+
+                        <div className="timeline-card">
+
+                            <p className="timeline-date">
+                            December, 2017
+                            </p>
+
+                            <h3>Pioneering Media Production</h3>
+
+                            <p>
+                                Recognizing the power of storytelling, Mindstory ventured into media production, creating compelling content that resonates with diverse audiences.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                 <div className="timeline-item">
 
                     <div className="timeline-year">
-                    2017
+                    2018
                     </div>
 
                     <div className="timeline-content">
@@ -177,20 +241,19 @@ function About(){
                     <div className="timeline-line"></div>
 
                     <div className="timeline-icon">
-                        ⚑
+                       <i class="bi bi-briefcase"></i>
                     </div>
 
                     <div className="timeline-card">
 
                         <p className="timeline-date">
-                        January, 2017
+                        February, 2018
                         </p>
 
-                        <h3>Growing Forward</h3>
+                        <h3>Harmonious Expanion</h3>
 
                         <p>
-                        The journey continued with new ideas, new clients and
-                        exciting digital experiences.
+                        The launch of Mindstory's own music production marked a harmonious milestone, adding a melodious dimension to our creative endeavors.
                         </p>
 
                     </div>
@@ -199,7 +262,193 @@ function About(){
 
                 </div>
 
-            </section> */}
+                 <div className="timeline-item">
+
+                    <div className="timeline-connect"></div>
+
+                    <div className="timeline-contents">
+
+                        <div className="timeline-line"></div>
+
+                        <div className="timeline-icon">
+                           <i class="bi bi-arrow-up-right"></i>
+                        </div>
+
+                        <div className="timeline-card">
+
+                            <p className="timeline-date">
+                            April, 2018
+                            </p>
+
+                            <h3>Global Operations Unleashed</h3>
+
+                            <p>
+                                Mindstory extended its operations to the GCC region, bringing our digital prowess to a global stage.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                 <div className="timeline-item">
+
+                    <div className="timeline-connect"></div>
+
+                    <div className="timeline-content">
+
+                    <div className="timeline-line"></div>
+
+                    <div className="timeline-icon">
+                        <i class="bi bi-cart"></i>
+                    </div>
+
+                    <div className="timeline-card">
+
+                        <p className="timeline-date">
+                            June, 2018
+                        </p>
+
+                        <h3>E-Commerce Eminence</h3>
+
+                        <p>
+                            A specialized e-commerce marketing wing was initiated, addressing the unique challenges and opportunities in the digital retail landscape.
+                        </p>
+
+                    </div>
+
+                    </div>
+
+                </div>
+
+                 <div className="timeline-item">
+
+                    <div className="timeline-year">
+                    2019
+                    </div>
+
+                    <div className="timeline-content">
+
+                    <div className="timeline-line"></div>
+
+                    <div className="timeline-icon">
+                        <i class="bi bi-google"></i>
+                    </div>
+
+                    <div className="timeline-card">
+
+                        <p className="timeline-date">
+                        May, 2019
+                        </p>
+
+                        <h3>Google Ads Dominance</h3>
+
+                        <p>
+                        Demonstrating commitment to digital advertising, Mindstory managed INR 10 Million exclusively for Google Ads for our clients.
+                        </p>
+
+                    </div>
+
+                    </div>
+
+                </div>
+
+                <div className="timeline-item">
+
+                    <div className="timeline-year">
+                    2020
+                    </div>
+
+                    <div className="timeline-content">
+
+                    <div className="timeline-line"></div>
+
+                    <div className="timeline-icon">
+                        <i class="bi bi-gear-wide-connected"></i>
+                    </div>
+
+                    <div className="timeline-card">
+
+                        <p className="timeline-date">
+                        August, 2020
+                        </p>
+
+                        <h3>Agile Workspces</h3>
+
+                        <p>
+                        Adapting to changing landscapes, Mindstory systematically transitioned to a work-from-home model, fostering agility and continuity.
+                        </p>
+
+                    </div>
+
+                    </div>
+
+                </div>
+
+                <div className="timeline-item">
+
+                    <div className="timeline-year">
+                    2021
+                    </div>
+
+                    <div className="timeline-content">
+
+                    <div className="timeline-line"></div>
+
+                    <div className="timeline-icon">
+                        <i class="bi bi-bar-chart"></i>
+                    </div>
+
+                    <div className="timeline-card">
+
+                        <p className="timeline-date">
+                        October, 2021
+                        </p>
+
+                        <h3>Financial Triumph</h3>
+
+                        <p>
+                            Successfully orchestrating the complete digital marketing for Indel Money Limited's public issue of NCDs.
+                        </p>
+
+                    </div>
+                    </div>
+                </div>
+                  <div className="timeline-item">
+
+                    <div className="timeline-year">
+                    2023
+                    </div>
+
+                    <div className="timeline-content">
+
+                    <div className="timeline-line"></div>
+
+                    <div className="timeline-icon">
+                       <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <div className="timeline-card">
+
+                        <p className="timeline-date">
+                        December,2023
+                        </p>
+
+                        <h3>Triple Triumph</h3>
+
+                        <p>
+                            Carrying the momentum forward, Mindstory orchestrated three impactful digital marketing campaigns for the public issuance of NCDs, solidifying its position as a trusted partner for financial institutions.
+                        </p>
+
+                    </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+           
         </>
     )
 }
