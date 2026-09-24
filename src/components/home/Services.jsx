@@ -1,9 +1,11 @@
-import site from '../assets/SEO (1).png'
-import art from '../assets/ART.png'
-import boost from '../assets/SOCIAL (1).png'
-import ad from '../assets/STRATEGY.png'
-import web from '../assets/WEB (1).png'
-import campaign from '../assets/EMAIL.png'
+import './Services.css';
+
+import site from '../../assets/SEO (1).png';
+import art from '../../assets/ART.png';
+import boost from '../../assets/SOCIAL (1).png';
+import ad from '../../assets/STRATEGY.png';
+import web from '../../assets/WEB (1).png';
+import campaign from '../../assets/EMAIL.png';
 
 function Services(){
 

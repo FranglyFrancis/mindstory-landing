@@ -1,4 +1,6 @@
-import logo from "../assets/footer.webp"
+import './Footer.css'
+import logo from "../../assets/footer.webp"
+
 
 function Footer(){
     return(

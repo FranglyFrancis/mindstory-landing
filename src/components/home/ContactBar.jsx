@@ -1,3 +1,4 @@
+import './ContactBar.css';
 import React from "react";
 
 const ContactBar = () => {

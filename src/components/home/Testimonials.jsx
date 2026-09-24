@@ -1,25 +1,28 @@
+import './Testimonials.css'
+
 import { useState } from "react";
-import google from "../assets/googleR.svg"
-import googleIcon from "../assets/google-icon.svg"
+import google from "../../assets/googleR.svg"
+import googleIcon from "../../assets/google-icon.svg"
+
 const reviews = [
     {
         name: "Marketing Cochin",
-        image: "/images/reviewer1.jpg",
+        image: "",
         text: "Exceptional experience with Mindstory! Their team delivered outstanding results for our business, increasing our online visibility and driving significant growth in leads and sales.",
     },
     {
         name: "Jerin K S",
-        image: "/images/reviewer2.jpg",
+        image: "",
         text: "If you are looking for a digital marketing, branding, or creative consultancy, Mindstory is the place you want to go. They're quick and provide great designs for my business.",
     },
     {
         name: "Nivedhya C A",
-        image: "/images/reviewer3.jpg",
+        image: "",
         text: "Mindstory's creative design is just top-notch. They brought my vision to reality.",
     },
     {
         name: "Ayna Praharshan",
-        image: "/images/reviewer4.jpg",
+        image: "",
         text: "Mindstory provides creative solutions that align beautifully with the brand.",
     },
 ];

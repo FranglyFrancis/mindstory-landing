@@ -1,7 +1,9 @@
+import './Navbar.css';
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import logo from "../assets/logo.avif";
+import logo from "../../assets/logo.avif";
 
 
 function Navbar() {
@@ -12,7 +14,6 @@ function Navbar() {
     <nav>
 
       <div className="navbar navbar-container fixed-top navbar-light bg-light">
-
         <div className="container-fluid navbar-fluid">
 
           {/* Logo */}
@@ -55,7 +56,7 @@ function Navbar() {
             
             {/* Services Section */}
             <div className="nav-dropdown">
-               <a className="navbar-brand" href="#services">
+               <a className="navbar-brand" href="/services">
                   SERVICES
                </a>
                <div className="my-dropdown-menu-3col">
@@ -86,7 +87,7 @@ function Navbar() {
                 </div>
              </div>
 
-            {/* Wroks section */}
+            {/* Works section */}
             <div className="nav-dropdown">
               <a className="navbar-brand" href="#works">
                 WORKS

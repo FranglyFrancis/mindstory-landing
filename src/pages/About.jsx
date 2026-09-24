@@ -11,8 +11,8 @@ function About(){
                         Mindstory, your trusted partner in navigating the dynamic realm of digital marketing. As the best digital marketing agency in Thrissur and Kochi, we take pride in being your go-to team for all things digital. At Mindstory, we don't just provide services; we curate experiences, shaping your brand's digital journey with passion and expertise.
                     </p>
                 </div>
-                <div className='aboutHeroImage'>
-                    <img src={aboutHero} alt="team meeting around a table"  />
+                <div className='about-hero-image'>
+                    <img src={aboutHero} alt="team meeting around a table" className='about-image-slide' />
                 </div>
             </section>
 

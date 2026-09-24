@@ -1,7 +1,10 @@
-import social from "../assets/social.webp";
-import seo from "../assets/seo.webp";
-import ad from "../assets/ad.webp";
-import web from "../assets/web.webp";
+import './Expertise.css';
+import './Cards.css';
+
+import social from "../../assets/social.webp";
+import seo from "../../assets/seo.webp";
+import ad from "../../assets/ad.webp";
+import web from "../../assets/web.webp";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -49,12 +52,12 @@ function Expertise() {
       <section className="expertise">
         <div className="expertise-container">
 
-          <div className="expertise-heading">
-            <h2>
+          <div>
+            <h2 className="expertise-heading">
               Our Expertise in Digital Marketing
             </h2>
 
-            <p>
+            <p className='expertise-desc'>
               At Mindstory, a top digital marketing agency in Kerala,
               we know how to use every type of digital marketing to
               boost your brand’s online presence.

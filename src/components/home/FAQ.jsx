@@ -1,3 +1,5 @@
+import './FAQ.css'
+
 function FrequentlyAsked(){
     return(
         <>

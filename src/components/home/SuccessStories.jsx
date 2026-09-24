@@ -1,11 +1,14 @@
-import kairali from '../assets/kairali.webp'
-import inker from '../assets/inker.webp'
-import gold from '../assets/gold.webp'
-import motory from '../assets/motory.webp'
-import spais from '../assets/spais.webp'
-import wincentre from '../assets/wincentre.webp'
-import boche from '../assets/boche.webp'
-import indel from '../assets/indel.webp'
+import './SuccessStories.css';
+import './Cards.css';
+
+import kairali from '../../assets/kairali.webp';
+import inker from '../../assets/inker.webp';
+import gold from '../../assets/gold.webp';
+import motory from '../../assets/motory.webp';
+import spais from '../../assets/spais.webp';
+import wincentre from '../../assets/wincentre.webp';
+import boche from '../../assets/boche.webp';
+import indel from '../../assets/indel.webp';
 
 function SuccessStories(){
 

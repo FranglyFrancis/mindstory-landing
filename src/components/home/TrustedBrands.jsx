@@ -1,10 +1,12 @@
-import allen from '../assets/allen.png'
-import chaai from '../assets/chaai.jpeg'
-import hyundai from '../assets/hyundai.png'
-import orgo from '../assets/orgo.png'
-import priis from '../assets/priis.png'
-import royal from '../assets/royal.png'
-import lp from '../assets/LP.jpeg'
+import './TrustedBrands.css';
+
+import allen from '../../assets/allen.png';
+import chaai from '../../assets/chaai.jpeg';
+import hyundai from '../../assets/hyundai.png';
+import orgo from '../../assets/orgo.png';
+import priis from '../../assets/priis.png';
+import royal from '../../assets/royal.png';
+import lp from '../../assets/LP.jpeg';
 
 function TrustedBrands(){
     return(
