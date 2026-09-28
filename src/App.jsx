@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from './components/home/Navbar';
-import Footer from './components/home/Footer';
-import ContactBar from './components/home/ContactBar';
+import Navbar from './components/shared/Navbar';
+import Footer from './components/shared/Footer';
+import ContactBar from './components/shared/ContactBar';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from "./pages/services/Services";
+import ServiceDetail from "./pages/services/ServiceDetail";
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About /> }/>
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:slug" element={<ServiceDetail />} /> {/*Service detail- layout for all services  :slug- a placeholder */}
+         
         </Routes>
       </main>
       <Footer />

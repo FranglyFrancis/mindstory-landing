@@ -31,9 +31,6 @@ function Navbar() {
 
             {/* About section */}
             <div className="nav-dropdown">
-              {/* <a className="navbar-brand" href="#about">
-                ABOUT
-              </a> */}
               <Link to="/about" className="navbar-brand">ABOUT</Link>
 
               <div className="my-dropdown-menu-2col">
@@ -56,9 +53,8 @@ function Navbar() {
             
             {/* Services Section */}
             <div className="nav-dropdown">
-               <a className="navbar-brand" href="/services">
-                  SERVICES
-               </a>
+              <Link to="/services" className='navbar-brand'>SERVICES</Link>
+               
                <div className="my-dropdown-menu-3col">
                   <div className="dropdown-column">
                     <h4>WEB DEVELOPMENT</h4>
@@ -70,7 +66,7 @@ function Navbar() {
                     <h4>ONLINE MARKETING</h4>
                     <h6>Strategies That Drive Results</h6>
                     <a href="#digital-marketing"><i className="bi bi-megaphone-fill"></i> Digital Marketing</a>
-                    <a href="#performance-marketing"><i className="bi bi-bullseye"></i> Performance Marketing</a>
+                    <Link to="/"><i className="bi bi-bullseye"></i> Performance Marketing</Link>
                     <a href="#seo"><i className="bi bi-graph-up-arrow"></i> Search Engine Optimization</a>
                     <a href="#emaill-marketing"><i className="bi bi-chat-right-text-fill"></i> Email Marketing</a>
                     <a href="#social-media-marketing"><i className="bi bi-envelope-paper-fill"></i> Social Media Marketing</a>
@@ -135,6 +131,7 @@ function Navbar() {
                 </div>
               </div>
             </div>
+            
             <a href="#contact" className="nav-button">
               GET A PROPOSAL
             </a>

@@ -1,11 +1,12 @@
 import Hero from '../components/home/Hero'
 import Expertise from '../components/home/Expertise'
 import WhyMindstory from '../components/home/WhyMindstory'
-import Services from '../components/home/Services'
+import Services from '../components/home/HomeServices'
 import SuccessStories from '../components/home/SuccessStories'
-import FrequentlyAsked from '../components/home/FAQ'
-import Testimonials from '../components/home/Testimonials'
-import TrustedBrands from '../components/home/TrustedBrands'
+import FAQ from '../components/shared/FAQ'
+import { homeFAQ } from '../data/home/HomeFAQ'
+import Testimonials from '../components/shared/Testimonials'
+import TrustedBrands from '../components/shared/Brands'
 import FeaturedBlogs from '../components/home/Blogs'
 
 function Home() {
@@ -20,7 +21,7 @@ function Home() {
         <Services />
         <FeaturedBlogs />
         <Testimonials />
-        <FrequentlyAsked /> 
+        <FAQ faqs={homeFAQ} /> 
     </>
   )
 }

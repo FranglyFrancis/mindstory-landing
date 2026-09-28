@@ -1,40 +1,7 @@
-.hero-img {
-    width: 100%;
-}
-.services-hero {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-}
-.hero-image-slide {
-    opacity: 0;
-    transform: translateX(180px);
-    animation: heroSlideLeft ease-out 0.9s forwards;
+.testimonials {
+    background: #59ace7 !important; 
 }
 
-@keyframes heroSlideLeft{
-    from {
-        opacity: 0;
-        transform: translateX(160px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0) ;
-    }
-}
-
-.services-hero h1 {
-    padding-top: 30px;
-    font-size: 60px;
-    font-weight: 800;
-    color: #46484b;
-}
-
-.services-hero p {
-    font-size: 24px;
-    font-weight: 200;
-    padding-top: 30px;
-}
 /* wave separator */
 .custom-shape-divider-bottom-1790077022 {
     position: relative;
@@ -56,57 +23,46 @@
 .custom-shape-divider-bottom-1790077022 .shape-fill {
     fill: #D9E6ED;
 }
-/*Service cards */
-.services-list {
-    background: #D9E6ED;
-}
-.services-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 25px;
-    z-index: 2;
 
-}
-
-.service-card {
-    height: auto;
+/* 2nd wave */
+.custom-shape-divider-bottom-1790590724 {
+    position: relative;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    padding: 10px;
-    border-radius: 25px;
-    border:  1px solid #ccc;
-    text-align: center;
-    box-sizing: border-box;
     overflow: hidden;
-    background: #fff;
+    line-height: 0;
 }
 
-.service-card img {
-    width:60%;
+.custom-shape-divider-bottom-1790590724 svg {
+    position: relative;
+    display: block;
+    width: calc(277% + 1.3px);
+    height: 150px;
 }
 
-.service-card h2 {
-    color: #6e5bab;
-    font-size: 25px;
-    font-weight: 650;
-    padding-bottom: 20px;
+.custom-shape-divider-bottom-1790590724 .shape-fill {
+    fill: #59ACE7;
 }
 
-.service-card p {
-    font-size: 15px;
-    color: rgb(113, 110, 110)
+/* 3rd wave */
+.custom-shape-divider-top-1790590927 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
 }
 
-.service-card a {
-    color: #EF9D05;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
+.custom-shape-divider-top-1790590927 svg {
+    position: relative;
+    display: block;
+    width: calc(270% + 1.3px);
+    height: 150px;
 }
 
-.service-card a:hover {
-    color: #fff;
-    background: #EF9D05 ;
-    padding: 10px 15px;
-    border-radius: 50px;
+.custom-shape-divider-top-1790590927 .shape-fill {
+    fill: #59ACE7;
 }
-

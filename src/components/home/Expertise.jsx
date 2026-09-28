@@ -1,10 +1,6 @@
 import './Expertise.css';
-import './Cards.css';
-
-import social from "../../assets/social.webp";
-import seo from "../../assets/seo.webp";
-import ad from "../../assets/ad.webp";
-import web from "../../assets/web.webp";
+import './Card.css';
+import { expertiseList } from '../../data/home/ExpertiseList';
 
 import { useEffect, useRef, useState } from "react";
 
@@ -58,9 +54,7 @@ function Expertise() {
             </h2>
 
             <p className='expertise-desc'>
-              At Mindstory, a top digital marketing agency in Kerala,
-              we know how to use every type of digital marketing to
-              boost your brand’s online presence.
+              At Mindstory, a top digital marketing agency in Kerala, we know how to use every type of digital marketing to boost your brand’s online presence.
             </p>
           </div>
 
@@ -70,42 +64,16 @@ function Expertise() {
               showCards ? "cards-slide-up show" : "cards-slide-up"
             }`}
           >
-            <div className="card-expertise">
-              <img
-                src={social}
-                alt="Social Media"
-                className="card-img"
-              />
-              <h4>Social Media Marketing</h4>
-            </div>
-
-            <div className="card-expertise">
-              <img
-                src={seo}
-                alt="SEO"
-                className="card-img"
-              />
-              <h4>Search Engine Optimization</h4>
-            </div>
-
-            <div className="card-expertise">
-              <img
-                src={ad}
-                alt="Digital Advertising"
-                className="card-img"
-              />
-              <h4>Digital Advertising</h4>
-            </div>
-
-            <div className="card-expertise">
-              <img
-                src={web}
-                alt="Web Development"
-                className="card-img"
-              />
-              <h4>Web Development</h4>
-            </div>
-
+            {expertiseList.map(item => (
+                <div className="card-expertise" key={item.id}>
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    className="card-img"
+                  />
+                  <h4>{item.title}</h4>
+                </div>
+            ))}
           </div>
         </div>
       </section>

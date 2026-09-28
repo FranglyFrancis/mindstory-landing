@@ -1,5 +1,5 @@
 import './About.css';
-import aboutHero from "../assets/about-mindstory.webp"
+import aboutHero from "../assets/hero/about-hero.webp"
 
 function About(){
     return(

@@ -1,4 +1,3 @@
-import ServiceCard from "./ServiceCards"
 import socialMedia from '../../assets/social-media.webp'
 import seo from '../../assets/seoS.webp'
 import logo from '../../assets/logoS.webp'
@@ -6,7 +5,7 @@ import email from'../../assets/emailS.webp'
 import web from '../../assets/web.webp'
 import social from '../../assets/social.webp'
 
-const services = [
+export const services = [
             {
                 id:1,
                 title:" SOCIAL MEDIA MARKETING",
@@ -45,21 +44,3 @@ const services = [
                 image: social
             }
         ];
-
-export default function ServicesList(){
-    
-    return(
-        <>
-            <section className="services-list">
-                <div className="services-grid">
-                    {services.map((service)=>(
-                        <ServiceCard 
-                            key= {service.id}
-                            service= {service}
-                        />
-                    ))}
-                </div>
-            </section>
-        </>
-    )
-}

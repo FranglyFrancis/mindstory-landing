@@ -1,13 +1,17 @@
+import ServiceCard from "./ServiceCard";
+import './ServiceCards.css';
+import { services } from "../../data/services/ServiceCard";
 
-export default function ServiceCard({ service }){
-        return(
-                <div className='cards-container'>
-                    <div className='service-card'>
-                        <img src={service.image} alt="" />
-                        <h2>{service.title}</h2>
-                        <p>{service.description}</p>
-                        <a href="">LEARN MORE</a>
-                    </div>
+export default function ServiceCards(){
+    return(
+        <>
+            <section className="services-list">
+                <div className="services-grid">
+                    {services.map((service)=>(
+                        <ServiceCard key= {service.id} service= {service} />
+                    ))}
                 </div>
-        )
+            </section>
+        </>
+    )
 }

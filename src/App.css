@@ -6,7 +6,7 @@
 
 /* global */
 .centered-desc {
-  /* text-align: center; */
+  text-align: center;
   font-size: 18px;
   padding-bottom: 40px;
 }
@@ -14,6 +14,8 @@
 .justified-text {
   text-align: justify;
 }
+
+
 
 /* Media queries */
 @media (max-width: 768px) {
