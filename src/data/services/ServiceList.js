@@ -1,9 +1,9 @@
-import target from '../../assets/service/small-icon-target.WEBP'
-import globe from '../../assets/service/small-icon-globe.WEBP'
-import coin from '../../assets/service/small-icon-coin.WEBP'
-import cogs from '../../assets/service/small-icon-cogs.WEBP'
-import mail from '../../assets/service/small-icon-mail.WEBP'
-import notebook from '../../assets/service/small-icon-notebook.WEBP'
+import target from '../../assets/service/target.WEBP'
+import globe from '../../assets/service/globe.WEBP'
+import coin from '../../assets/service/coin.WEBP'
+import cogs from '../../assets/service/cogs.WEBP'
+import mail from '../../assets/service/mail.WEBP'
+import notebook from '../../assets/service/notebook.WEBP'
 
 export const services = [
     {
