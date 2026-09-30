@@ -1,4 +1,4 @@
-import local from '../../assets/service/small-icon-target.WEBP'
+import target from '../../assets/service/small-icon-target.WEBP'
 import globe from '../../assets/service/small-icon-globe.WEBP'
 import coin from '../../assets/service/small-icon-coin.WEBP'
 import cogs from '../../assets/service/small-icon-cogs.WEBP'
@@ -8,7 +8,7 @@ import notebook from '../../assets/service/small-icon-notebook.WEBP'
 export const services = [
     {
         id:1,
-        image:local,
+        image:target,
         title:"Local Search Strategy",
         description:"Unlock top rankings with Mindstory's Local Search Strategy. We optimize your content for search engines, ensuring accessibility and a prominent presence in your area. Elevate your digital visibility."
     },
