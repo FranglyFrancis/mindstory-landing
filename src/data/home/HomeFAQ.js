@@ -6,7 +6,7 @@ export const homeFAQ = [
     },
     {
         id:2,
-        question:"How does Mindstory align digital strategies with a brand's identity?" ,
+        question:"2. How does Mindstory align digital strategies with a brand's identity?" ,
         answer:"By conducting thorough brand analysis and understanding the brand's mission and vision, Mindstory creates strategies that reflect the brand's unique identity and market position."
     },
     {

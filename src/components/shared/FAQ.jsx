@@ -1,6 +1,6 @@
 import './FAQ.css';
 
-function FAQ({faqs}){
+export default function FAQ({faqs}){
     return(
         <>
         <section>
@@ -12,12 +12,9 @@ function FAQ({faqs}){
                         <p className='justified-text'>{item.answer}</p>       
                     </div>
                 ))}
-                
             </div>
-            
         </section>
         </>
     )
 }
 
-export default FAQ

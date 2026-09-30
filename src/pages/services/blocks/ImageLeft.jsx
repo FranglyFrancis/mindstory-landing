@@ -1,16 +1,20 @@
-import './ImageLeft.css'
+import './ImageLeft.css';
 
-export default function ImageLeft({content}){
+export default function ImageLeft({image,subtitle,title,description}){
+
     return(
-        <section className="left-image-section">
+        <>
+         <div className='left-image-section'>
             <div>
-                <img className="image-left image-slide-left" src={content.image} alt={content.title} />
+                <img className="image-left image-slide-left" src={image} alt={title} />
             </div>
             <div className="content">
-                <h4>{content.subtitle}!</h4>
-                <h2>{content.title}</h2>
-                <p className="justified-text">{content.description}</p>
+                <h4>{subtitle}</h4>
+                <h2>{title}</h2>
+                <p className="justified-text">{description}</p>
             </div>
-        </section>
+         </div>
+
+        </>
     )
 }

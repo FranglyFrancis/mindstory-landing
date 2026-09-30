@@ -1,19 +1,20 @@
 import './IconList.css';
 
-export default function IconList(){
+export default function IconList({icon, title, description}){
     return(
-        <div className="services-grid">
-            {/* 1st column */}
-            <div className="service-column">
-                <div className="service-icon-box" >
-                    <i className="bi bi-brightness-high"></i>
+        <>
+                {/* 1st column */}
+                <div className="service-column">
+                    <div className="service-icon-box">
+                        <i className={icon}></i>
+                    </div>
+                    <div className="service-content">
+                        <h3>{title}</h3>
+                        <p className='justified-text'>{description}</p>
+                    </div>
                 </div>
-            <div className="service-content">
-                <h3>Call To Action</h3>
-                <p>Drive results with Mindstory's call to action. We draw potential customers from social media to your websites, converting engagement into meaningful interactions and measurable outcomes.</p>
-                </div>
-            </div>
-        </div>
+                </>
+        
     )
     
 }

@@ -15,7 +15,7 @@ import WebDesignSection from '../../../pages/services/sections/WebDesignSection'
 export const heroes = [
     {
         id:1,
-        Section:WebDesignSection,
+        Sections: WebDesignSection,
         image:webHero,
         slug:'web-development',
         title:"Expert Web Development Services in Thrissur",
@@ -23,7 +23,7 @@ export const heroes = [
     },
     {   
         id:2,
-        Section:SocialMediaSection,
+        Sections: SocialMediaSection,
         image:socialHero,
         slug:'social-media-marketing',
         title:"Your Trusted Social Media Marketing Company in Thrissur",
@@ -31,7 +31,7 @@ export const heroes = [
     },
     {
         id:3,
-        Section:SeoSection,
+        Sections: SeoSection,
         image:seoHero,
         slug:'seo-optimisation',
         title:"Boost Your Brand with the Best SEO Agency in Thrissur",
@@ -39,7 +39,7 @@ export const heroes = [
     },
     {
         id:4,
-        Section:LogoDesignSection,
+        Sections: LogoDesignSection,
         image:logoHero,
         slug:'logo-design',
         title:"Crafting Distinctive Identities with Mindstory's Logo Design",
@@ -47,7 +47,7 @@ export const heroes = [
     },
     {
         id:5,
-        Section:EmailMarketingSection,
+        Sections: EmailMarketingSection,
         image:emailHero,
         slug:'email-marketing',
         title:"Strategic Email Marketing for Enhanced Engagement",
@@ -55,7 +55,7 @@ export const heroes = [
     },
     {
         id:6,
-        Section:BrandSection,
+        Sections: BrandSection,
         image:brandHero,
         slug:'brand-identity',
         title:"Unlocking Imagination through Visuals",

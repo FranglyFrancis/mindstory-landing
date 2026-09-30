@@ -3,7 +3,7 @@ import { services } from "../../data/services/ServiceCard";
 import Contact from "./blocks/Contact";
 import { heroes } from "../../data/services/hero/CommonHero";
 import CommonHero from "./CommonHero";
-// import Test from "./sections/Test";
+import Test from "./sections/Test";
 
 export default function ServiceDetail(){
 
@@ -11,9 +11,9 @@ export default function ServiceDetail(){
     const {slug} = useParams();
     const service = services.find((s)=> s.slug === slug)
     const hero = heroes.find((s)=> s.slug === slug)
-    // const Sections = heroes.Section
+    const Sections = hero.Sections
 
-    // Wrong URL
+    // Wrong path
     if(!service) {
         return (
             <section>
@@ -26,7 +26,7 @@ export default function ServiceDetail(){
     return(
         <>
         <CommonHero image={hero.image} title={hero.title} description={hero.description} />
-        {/* <Sections /> */}
+        <Sections />
         {/* <Test /> */}
         <Contact />
         </>
