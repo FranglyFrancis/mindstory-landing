@@ -2,12 +2,13 @@
     display: flex;
     align-items: flex-start;
     gap: 20px;
-    width:80%;
+    width:90%;
 }
 
 .service-icon-box i {
     font-size: 30px;
-    color: #13484d;
+    color: #e19429;
+    margin:0;
 }
 
 .service-content {

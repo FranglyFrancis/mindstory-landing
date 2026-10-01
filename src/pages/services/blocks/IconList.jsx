@@ -14,7 +14,6 @@ export default function IconList({icon, title, description}){
                     </div>
                 </div>
                 </>
-        
     )
     
 }

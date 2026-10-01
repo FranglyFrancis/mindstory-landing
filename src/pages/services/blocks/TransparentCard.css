@@ -16,10 +16,18 @@
 }
 
 .card1 h2 {
-    font-size:60px;
+    font-size:75px;
     font-weight: 400;
     padding-top: 25px;
     color:#58d4a9;
+}
+
+.card1 h3 {
+  font-size:50px;
+  font-weight: 400;
+  opacity: 0.8;
+  padding-top: 25px;
+  color:#58d4a9;
 }
 .card1 p
  {

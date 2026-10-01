@@ -6,6 +6,10 @@ import priis from '../../assets/brands/priis.png';
 import royal from '../../assets/brands/royal.png';
 import lp from '../../assets/brands/LP.jpeg';
 
+export const details = {
+    title: "Trusted Brands",
+    description: "Our commitment to excellence has made us a preferred digital marketing agency for leading brands. We prioritize client satisfaction and deliver custom solutions tailored to your unique needs and aspirations."
+}
 export const brands = [
     {
         id:1,

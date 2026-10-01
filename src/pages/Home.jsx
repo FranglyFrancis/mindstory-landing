@@ -6,7 +6,7 @@ import SuccessStories from '../components/home/SuccessStories'
 import FAQ from '../components/shared/FAQ'
 import { homeFAQ } from '../data/home/HomeFAQ'
 import Testimonials from '../components/shared/Testimonials'
-import TrustedBrands from '../components/shared/Brands'
+import TrustedBrands from '../components/shared/TrustedBrands'
 import FeaturedBlogs from '../components/home/Blogs'
 
 function Home() {

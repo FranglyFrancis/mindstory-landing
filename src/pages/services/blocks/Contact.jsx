@@ -3,7 +3,7 @@ import './Contact.css'
 export default function Contact(){
 
     return(
-          <section className="contact-section">
+          <section className="section-division contact-section">
             <div className='centered-section'>
                 <h6 className='subtitle1'>GROW TRAFFIC & INCREASE REVENUE</h6>
                 <h2>Tell us about your project</h2>

@@ -1,0 +1,37 @@
+.logo-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap:30px;
+}
+
+.logo-section h2 {
+  color: #f29f05;
+  font-size: 45px;
+  font-weight: 700;
+}
+
+.logo-image {
+  width: 70%;
+}
+
+.list-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.list-grid > * {
+  width: calc((100% - 48px) / 3);
+}
+
+.paragraph p {
+    opacity: 0.8;
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .list-grid > * {
+    width: 100%;
+  }
+}

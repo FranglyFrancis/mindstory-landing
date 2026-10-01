@@ -44,3 +44,25 @@
     color: white;
     padding-bottom: 30px;
 }
+
+/* wave */
+.custom-shape-divider-top-1790845741 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1790845741 svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 90px;
+}
+
+.custom-shape-divider-top-1790845741 .shape-fill {
+    fill: #F29F05;
+}
