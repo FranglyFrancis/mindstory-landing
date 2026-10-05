@@ -15,7 +15,7 @@ export default function Contact(){
                     <p>Our team of professional SEO experts is the perfect partner for a successful business partnership.</p>
                     <h3>Testimonials</h3>
 
-                    <TestimonialCard name={'Pooja ES'} text="Excellent services offered by an extremely talented and enthusiastic team of youngsters. The team offers amazing ideas to capture the essesnce of the business and share it with the online world" />
+                    <TestimonialCard name={'Pooja ES'} text="Excellent services offered by an extremely talented and enthusiastic team of youngsters. The team offers amazing ideas to capture the essesence of the business and share it with the online world" />
                 
                 </div>
                 <div className="contact-form">

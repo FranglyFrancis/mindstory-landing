@@ -1,7 +1,7 @@
 import flip from '../../assets/service/flip.webp';
 import question from '../../assets/service/question.webp';
 
-export const services = [
+export const sections = [
     {
         id: 1,
         title: "Services Offered",
