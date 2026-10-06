@@ -1,5 +1,5 @@
 import { lists, cards } from "../../../data/services/EmailMarketing"
-import IconList from "../blocks/IconList"
+import IconList from "../blocks/IconList.tsx"
 import TransparentCard from "../blocks/TransparentCard"
 import './EmailMarketingSection.css'
 

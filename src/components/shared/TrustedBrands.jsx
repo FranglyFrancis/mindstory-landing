@@ -1,5 +1,5 @@
 import './Brands.css';
-import { brands, brandArray, details } from '../../data/home/Brands';
+import { brands, details } from '../../data/home/Brands';
 import Brands from './Brands';
 
 function TrustedBrands(){
@@ -7,7 +7,7 @@ function TrustedBrands(){
     return(
         <>
         <section className='centered-section brands'>
-           <Brands title={details.title} description={details.description} brands={brands} brandArray={brandArray} />
+           <Brands title={details.title} description={details.description} brands={brands} />
         </section>
 
         <div className="custom-shape-divider-top-1788603399">

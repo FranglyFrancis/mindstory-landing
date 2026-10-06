@@ -1,5 +1,5 @@
 import { sectionData, iconList } from "../../../data/services/SocialMedia";
-import IconList from "../blocks/IconList";
+import IconList from "../blocks/IconList.tsx";
 import ImageLeft from "../blocks/ImageLeft";
 import './SocialMediaSection.css';
 

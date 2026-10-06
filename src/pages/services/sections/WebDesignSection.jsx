@@ -1,4 +1,4 @@
-import IconList from '../blocks/IconList';
+import IconList from '../blocks/IconList.tsx';
 import { services } from '../../../data/services/WebDesignSection';
 import './WebDesignSection.css';
 import imgLeftt from '../../../assets/service/web1.webp';

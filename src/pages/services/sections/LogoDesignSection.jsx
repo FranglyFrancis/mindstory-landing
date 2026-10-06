@@ -1,4 +1,4 @@
-import IconList from '../blocks/IconList';
+import IconList from '../blocks/IconList.tsx';
 import { lists, titleLists } from '../../../data/services/LogoDesign'; 
 import './LogoDesignSection.css'
 import Brands from '../../../components/shared/Brands'

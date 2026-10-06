@@ -1,4 +1,4 @@
-import IconList from "../blocks/IconList"
+import IconList from "../blocks/IconList.tsx"
 import ImageLeft from "../blocks/ImageLeft"
 import TitleCard from "../blocks/TitleCard"
 import TransparentCard from "../blocks/TransparentCard"
