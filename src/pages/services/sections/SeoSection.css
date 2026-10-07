@@ -1,0 +1,10 @@
+.seo-section1{
+    background: #f1f2f3;
+    padding-bottom:30px;
+}
+
+/* Cards section */
+.cards-container {
+  display: flex;
+  gap: 20px;
+}
