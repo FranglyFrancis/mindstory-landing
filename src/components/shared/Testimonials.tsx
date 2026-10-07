@@ -8,11 +8,11 @@ function Testimonials() {
 
     const [current, setCurrent] = useState(0);
     const nextReview = () => {
-        setCurrent((current + 1) % reviews.length);
+        setCurrent((current + 1) % testimonials.length);
     };
     const previousReview = () => {
         setCurrent(
-            (current - 1 + reviews.length) % reviews.length
+            (current - 1 + testimonials.length) % testimonials.length
         );
     };
 
