@@ -1,0 +1,68 @@
+.common-hero-section {
+    background: #f29f05;
+}
+
+.common-hero {
+    text-align: center;
+}
+
+.common-hero-image {
+    width:50%;
+    height:50%;
+}
+
+.image-slide {
+    opacity:0;
+    transform: translateX(180px);
+    animation: heroSlideUp ease-out 0.8s forwards;
+}
+
+@keyframes heroSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(140px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.common-hero h1 {
+    text-align: center;
+    font-size: 60px;
+    font-weight: 800;
+    width: 100%;
+    color: white;
+}
+
+.common-hero p {
+    text-align: center;
+    font-size: 25px;
+    width: 100%;
+    color: white;
+    padding-bottom: 30px;
+}
+
+/* wave */
+.custom-shape-divider-top-1790845741 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1790845741 svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 90px;
+}
+
+.custom-shape-divider-top-1790845741 .shape-fill {
+    fill: #F29F05;
+}

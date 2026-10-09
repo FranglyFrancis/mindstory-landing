@@ -1,0 +1,736 @@
+.about-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #ef9d05;
+    color: #fff;
+    padding-top: 50px;
+    gap:40px;
+}
+
+.about-hero-image img{
+    width: 90%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
+/* hero image slide */
+.about-image-slide {
+    opacity: 0;
+    transform: translateY(160px);
+    animation: aboutSlideLeft 0.9s ease-out forwards;
+}
+
+@keyframes aboutSlideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-180px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0)
+    }
+}
+
+.about-intro h1{
+    font-size: 65px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.about-intro p {
+    font-size: 26px;
+    line-height: 1.3;
+    font-weight: 100;
+
+}
+
+.about-us {
+    background: #DBE7EE;   
+}
+
+.about-us h3 {
+    font-weight: 800;
+    color: #46484b;
+    text-align: center;
+
+}
+
+.about-us p {
+    color: #46484b;
+}
+
+.about-us-3col {
+    padding-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:40px;
+}
+
+.about-us-2col {
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:40px;
+}
+
+/* Cards section */
+.cards-container {
+  display: flex;
+  gap: 20px;
+}
+
+.card1,
+.card2,
+.card3 {
+  flex: 1;
+  height: 300px;
+  width: 150px;
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
+
+}
+.card1{
+     background: #f3c3ec;
+}
+.card2{
+     background: #cbc2ec;
+}
+.card3{
+     background: #a7c0ee;
+}
+
+.card1 h2,
+.card2 h2,
+.card3 h2 {
+    font-size:60px;
+    font-weight: 400;
+    padding-top: 25px;
+    color:#fcfcfc;
+}
+
+.card1 p,
+.card1 p,
+.card1 p
+ {
+    color: #8e8f91;
+    font-size: 16px;
+}
+
+.wave-text {
+  position: absolute;
+  z-index: 2;
+
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 90%;
+  margin: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 23px;
+  font-weight: 400;
+  color: #ece8e8;
+  padding-left: 75px;
+  padding-right: 75px;
+}
+
+.icons {
+ color: #ffffff;
+ opacity: 0.65;
+ font-weight: 600;
+}
+
+.wave-text span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.wave-icon {
+  font-size: 20px;
+  padding: 0;
+  flex: none;
+}
+
+.wave-text1 {
+  position: absolute;
+  z-index: 2;
+
+  top: 70%;
+  transform: rotate(180deg);
+
+  margin: 0;
+
+  display: flex;
+  font-size: 30px;
+  font-weight: 400;
+  color: #ece8e8;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+.mindified {
+    display: block;
+    text-align: center;
+    padding-top: 15px;
+    /* padding-bottom: 20px; */
+    font-size: 30px;
+}
+
+.mindified-desc {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+
+}
+
+/* ==============================
+   TIMELINE
+   ============================== */
+.milestones {
+        padding-left: 150px;
+        padding-right: 150px;
+}
+
+.milestones h2 {
+        font-size:50px;
+        font-weight:800;
+        text-align: center;
+}
+.milestones p {
+        font-size:20px;
+        color: rgb(94, 92, 92);
+        text-align: center;
+}
+.timeline {
+    width: 100%;
+    padding: 60px 20px;
+    overflow: hidden;
+}
+
+.timeline-item {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+/* Year */
+
+.timeline-year {
+    text-align: center;
+    font-size: 50px;
+    font-weight: 400;
+    color: #55a9df;
+    line-height: 1;
+    margin-bottom: 80px;
+    padding-bottom: 75px;
+}
+
+
+/* Timeline content */
+
+.timeline-content {
+    position: relative;
+    width:80%;
+    margin: 0 auto;
+}
+
+.timeline-connect {
+   
+    margin-bottom: 5px;
+    padding-bottom: 40px;
+}
+
+
+/* Vertical center line */
+
+.timeline-content::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    bottom: 1px;
+    left: 50%;
+    width: 1px;
+    background: #e8e8e8;
+    transform: translateX(-50%);
+}
+
+.timeline-contents::before {
+    content: "";
+    position: absolute;
+    padding-top: 50px;
+    top: -120px;
+    bottom: 1px;
+    left: 50%;
+    width: 1px;
+    background: #e8e8e8;
+    transform: translateX(-50%);
+}
+
+.timeline-contents {
+    position: relative;
+    width:80%;
+    margin: 0 auto;
+}
+
+
+/* Horizontal line */
+.timeline-line {
+    position: absolute;
+    top: 0;
+    left: 8%;
+    width: 84%;
+    height: 1px;
+    background: #e8e8e8;
+}
+
+
+/* Circle */
+.timeline-icon {
+    position: absolute;
+    top: -62px;
+    left: 50%;
+
+    width: 98px;
+    height: 98px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 50%;
+
+    color: #9bd129;
+    font-size: 38px;
+
+    z-index: 2;
+}
+
+
+/* Card */
+
+.timeline-card {
+    position: relative;
+
+    width: 84%;
+    min-height: 280px;
+
+    box-sizing: border-box;
+    margin:0 auto; /*centers rectangle*/
+    padding: 80px 70px 35px;
+
+    background: white;
+    border: 1px solid #e5e5e5;
+
+    text-align: center;
+
+    z-index: 1;
+}
+
+
+/* Date */
+
+.timeline-date {
+    margin: 0 0 26px;
+
+    font-size: 18px;
+    font-weight: 400;
+
+    color: #c8c8c8;
+}
+
+
+/* Heading */
+
+.timeline-card h3 {
+    margin: 0 0 6px;
+
+    font-size: 21px;
+    font-weight: 700;
+
+    color: #333;
+}
+
+
+/* Description */
+
+.timeline-card p:last-child {
+    max-width: 620px;
+    margin: 0 auto;
+
+    font-size: 20px;
+    line-height: 1.5;
+
+    color: #555;
+}
+
+/* 1st Divider */
+.custom-shape-divider-top-1789556561 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1789556561 svg {
+    position: relative;
+    display: block;
+    width: calc(216% + 1.3px);
+    height: 150px;
+}
+
+.custom-shape-divider-top-1789556561 .shape-fill {
+    fill: #EF9D05;
+}
+
+/*2nd Divider  */
+.custom-shape-divider-bottom-1789558199 {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1789558199 svg {
+    position: relative;
+    display: block;
+    width: calc(134% + 1.3px);
+    height: 150px;
+}
+
+.custom-shape-divider-bottom-1789558199 .shape-fill {
+    fill: #DBE7EE;
+}
+
+/* mindified-top-divider */
+.custom-shape-divider-bottom-1789626360 {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    background: #DBE7EE;
+}
+
+.custom-shape-divider-bottom-1789626360 svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 183px;
+}
+
+.custom-shape-divider-bottom-1789626360 .shape-fill {
+    fill: #4C9FDB;
+}
+
+/* mindified divider */
+.custom-shape-divider-top-1789626613 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+
+
+}
+
+.custom-shape-divider-top-1789626613 svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 371px;
+    
+}
+
+.custom-shape-divider-top-1789626613 .shape-fill {
+    fill: #59ACE7;
+}
+
+
+@media (max-width: 768px) {
+
+    /* ==============================
+       ABOUT HERO
+    ============================== */
+
+    .about-intro {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 40px 20px 0;
+    }
+
+    .about-intro h1 {
+        font-size: 42px;
+        line-height: 1.05;
+        margin-bottom: 20px;
+    }
+
+    .about-intro p {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .aboutHeroImage {
+        width: 100%;
+    }
+
+    .aboutHeroImage img {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+
+    /* ==============================
+       ABOUT US
+    ============================== */
+
+    .about-us {
+        padding: 40px 20px;
+    }
+
+    .about-us h3 {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+
+    .about-us p {
+        font-size: 17px;
+        line-height: 1.5;
+    }
+
+
+    /* ==============================
+       3 COLUMN / 2 COLUMN
+    ============================== */
+
+    .about-us-3col,
+    .about-us-2col {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding-top: 40px;
+    }
+
+
+    /* ==============================
+       CARDS
+    ============================== */
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .card1,
+    .card2,
+    .card3 {
+        width: 100%;
+        height: auto;
+        min-height: 220px;
+        padding: 25px 20px;
+        box-sizing: border-box;
+    }
+
+    .card1 h2,
+    .card2 h2,
+    .card3 h2 {
+        font-size: 48px;
+        padding-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    .card1 p,
+    .card2 p,
+    .card3 p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    /* ==============================
+       WAVE TEXT
+    ============================== */
+
+   .wave-text {
+    position: absolute;
+    z-index: 2;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 90%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    padding: 0 20px;
+
+    font-size: clamp(14px, 2vw, 23px);
+    color: #ece8e8;
+}
+
+.wave-text span {
+  white-space: nowrap;
+}
+
+    .wave-icon {
+        font-size: 16px;
+    }
+
+    .wave-text1 {
+        font-size: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+
+    /* ==============================
+       MINDIFIED
+    ============================== */
+
+    .mindified {
+        font-size: 24px;
+        padding-top: 10px;
+    }
+
+    .mindified-desc {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+
+    /* ==============================
+       TIMELINE
+    ============================== */
+
+    .milestones {
+        padding: 40px 20px 0;
+    }
+    .milestones h2 {
+        font-size:30px;
+    }
+    .timeline {
+        width: 100%;
+        padding: 40px 15px;
+        box-sizing: border-box;
+    }
+
+    .timeline-item {
+        width: 100%;
+        margin: 0 auto 60px;
+    }
+
+    .timeline-year {
+        font-size: 42px;
+        margin-bottom: 55px;
+    }
+
+    .timeline-content {
+        position:relative;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+
+    /* Vertical line */
+
+    .timeline-content::before {
+        top: -110px;
+        bottom: 1px;
+        left: 50%;
+    }
+
+
+    /* Horizontal line */
+
+    .timeline-line {
+        width: 50%;
+    }
+
+
+    /* Circle */
+    .timeline-icon {
+        width: 70px;
+        height: 70px;
+        top: -36px;
+        font-size: 26px;
+    }
+
+
+    /* Timeline card */
+
+    .timeline-card {
+        width: 100%;
+        min-height: auto;
+        padding: 55px 20px 30px;
+        box-sizing: border-box;
+    }
+
+    .timeline-date {
+        margin-bottom: 18px;
+        font-size: 15px;
+    }
+
+    .timeline-card h3 {
+        font-size: 19px;
+        line-height: 1.3;
+    }
+
+    .timeline-card p:last-child {
+        max-width: 100%;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+
+    /* ==============================
+       WAVES
+    ============================== */
+
+    .custom-shape-divider-top-1789556561 svg {
+        width: 220%;
+        height: 90px;
+    }
+
+    .custom-shape-divider-bottom-1789558199 svg {
+        width: 180%;
+        height: 90px;
+    }
+
+    .custom-shape-divider-bottom-1789626360 svg {
+        width: 480%;
+        height: 410px;
+    }
+
+    .custom-shape-divider-top-1789626613 svg {
+        width: 540%;
+        height: 520px;
+    }
+}

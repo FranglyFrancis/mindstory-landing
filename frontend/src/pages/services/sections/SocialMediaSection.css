@@ -1,0 +1,13 @@
+.services-grid-list{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:40px;
+    padding-bottom: 20px;
+}
+
+@media(max-width:768px){
+    .services-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}

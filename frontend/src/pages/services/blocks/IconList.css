@@ -1,0 +1,30 @@
+.service-column {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width:90%;
+}
+
+.service-icon-box i {
+    font-size: 30px;
+    color: #e19429;
+    margin:0;
+}
+
+.service-content {
+    flex: 1;
+}
+
+.service-content h3 {
+    margin: 0 0 8px;
+    font-size: 25px;
+    font-weight: 650;
+    color: #6e5bab;
+}
+
+.service-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgb(137, 135, 135);
+}
+
