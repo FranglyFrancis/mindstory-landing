@@ -42,6 +42,8 @@ export default function ServiceDetail() {
 
   const Section = sections[service.slug];
   if (!Section) return <NotFound />;
+  
+  console.log("slug:", service.slug, "keys:", Object.keys(sections));
 
   return (
     <>

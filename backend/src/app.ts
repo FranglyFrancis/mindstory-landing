@@ -11,4 +11,8 @@ app.get("/api/test", (_req, res) => {
   res.json({ ok: true });
 });
 
+app.get("/", (_req, res) => {
+    res.send("Mindstory API is running");
+  });
+
 export default app;
