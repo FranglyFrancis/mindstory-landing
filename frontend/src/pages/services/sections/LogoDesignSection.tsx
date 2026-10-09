@@ -3,7 +3,7 @@ import { lists, titleLists } from '../../../data/services/LogoDesign.js';
 import './LogoDesignSection.css'
 import Brands from '../../../components/shared/Brands.js'
 import { brands, brandArray} from '../../../data/home/Brands.js';
-import logoImage from '../../../assets/service/email.webp';
+import logoImage from '/images/service/email.webp';
 import TitleList from '../blocks/TitleList.js';
 import '../../services/blocks/TitleList.css';
 
