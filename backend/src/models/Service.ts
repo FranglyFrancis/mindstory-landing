@@ -17,6 +17,10 @@ export interface ITitleItem {
     image: string;
 }
 
+export interface IParaItem {
+  description: string;
+}
+
 export interface IImageItem {
   image: string;
   description: string;
@@ -36,16 +40,16 @@ export interface IService {
   order: number;
   hero: { title: string; description: string; image: string };
 
-  heading?: { title: string; description?: string };
-  intro?: { title: string; left: string; right: string };
-  article?: { heading?: string; paragraphs: string[] };
-  summary?: string;
+  heading?: { title: string; description?: string }; //done
+  intro?: { title: string; left: string; right: string }; //done
+  article?: { title?: string; descriptions: string[] }; //done
   mainImage?: string;
-  lists?: IListItem[];
-  titleCards?: ISectionItem[];
-  iconCards?: IListItem[];
+  lists?: IListItem[]; //done
+  titleCards?: ISectionItem[]; //done
+  iconCards?: IListItem[]; //done
   titleItem?: ITitleItem[];
   imageItem?: IImageItem;
+  paraItem?: IParaItem[];
   features?: {
     title?: string;
     description: string;
@@ -64,17 +68,16 @@ const serviceSchema = new Schema<IService>({
   image: String,
   order: { type: Number, default: 0 },
   hero: { title: String, description: String, image: String },
-
   heading: { title: String, description: String },
   intro: { title: String, left: String, right: String },
-  article: { heading: String, paragraphs: [String] },
-  summary: String,
+  article: { title: String, descriptions: [String] },
   mainImage: String,
   lists: [{ icon: String, title: String, description: String }],
   titleCards: [{ title: String, description: String }],
   iconCards: [{ icon: String, title: String, description: String }],
   titleItem: [ { title:String, image: String, description: String } ],
   imageItem: { image:String, description:String },
+  paraItem: [ {description: String} ],
   features: [
     {
       title: String,
@@ -93,5 +96,6 @@ const serviceSchema = new Schema<IService>({
   brands: [{ image: String, brand: String }],
   faqs: [{ question: String, answer: String }],
 });
+
 
 export const Service = model<IService>("Service", serviceSchema);

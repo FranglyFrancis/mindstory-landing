@@ -191,22 +191,291 @@ try {
     ])
 
     // Logo Section
-    // await Service.create([
-    //   {
-    //     image:'/images/service/logo.webp',
-    //     slug:'logo-design',
-    //     title:"Crafting Distinctive Identities with Mindstory's Logo Design",
-    //     description:"At Mindstory, we understand that a logo is more than just an image; it's the heart and soul of your brand's identity. Based in the vibrant landscapes of Kerala, with thriving branches in Thrissur and Kochi, we are committed to crafting logos that not only stand out but also tell your brand's unique story. Whether you're a budding restaurant in Kochi, an innovative educational institution in Thrissur, or a healthcare provider in the serene backwaters of Kerala, we have the expertise to bring your vision to life.",
-    //     order: 3,
-    //     hero: {
-    //       title:'LOGO DESIGN',
-    //       description:"Craft a powerful first impression with Mindstory's custom logo designs. Our creative expertise ensures your unique brand identity shines, leaving an enduring mark on the world's visual landscape.",
-    //       image: '/images/logoS.webp'
-    //     }
+    await Service.create([
+      {
+        image:'/images/service/logo.webp',
+        slug:'logo-design',
+        title:"Crafting Distinctive Identities with Mindstory's Logo Design",
+        description:"At Mindstory, we understand that a logo is more than just an image; it's the heart and soul of your brand's identity. Based in the vibrant landscapes of Kerala, with thriving branches in Thrissur and Kochi, we are committed to crafting logos that not only stand out but also tell your brand's unique story. Whether you're a budding restaurant in Kochi, an innovative educational institution in Thrissur, or a healthcare provider in the serene backwaters of Kerala, we have the expertise to bring your vision to life.",
+        order: 3,
+        hero: {
+          title:'LOGO DESIGN',
+          description:"Craft a powerful first impression with Mindstory's custom logo designs. Our creative expertise ensures your unique brand identity shines, leaving an enduring mark on the world's visual landscape.",
+          image: '/images/logoS.webp'
+        },
+        article: {
+          title:'Why Choose Mindstory for Your Logo & Branding Needs?',
+          descriptions:[
+            "Tailored Design Solutions",
+            "From simple and elegant logos to intricate design ideas, we tailor our solutions to meet the unique needs of your company, ensuring your logo resonates with your brand ethos."
+          ]
+        },
+        titleCards:  [
+          {
+            id:1,
+            title:"Diverse Industry Expertise",
+            description:"Whether it's a logo design for food brands, educational institutions, hospitals, or clothing lines, our diverse portfolio across various industries in Kerala showcases our versatility and creativity."
+          },
+          {
+            id:2,
+            title:"Digital Excellence",
+            description:"As the premier digital marketing agency in Kerala, we ensure your logo thrives not only offline but also in the digital realm, enhancing your brand's online presence."
+          },
+          {
+            id:3,
+            title:"Creative Collaboration",
+            description:"Our approach is collaborative and inclusive, involving you in every step of the design process to ensure the final logo design aligns with your vision and business goals."
+          },
+          {
+            id:4,
+            title:"Sustainable Branding",
+            description:"We believe in creating logos that stand the test of time, ensuring your brand continues to grow and evolve without losing its core identity."
+          }
+        ],
+        lists: [
+        {
+          "id": 1,
+          icon:"bi bi-award",
+          "title": "Understanding Your Story",
+          "description": "We begin by diving deep into your brand's story, ethos, and objectives, ensuring your logo reflects the essence of your brand."
+        },
+        {
+          "id": 2,
+          icon: "bi bi-stars",
+          "title": "Creative Conceptualization",
+          "description": "Our team of creative experts brainstorm and present logo design ideas that are not only innovative but also aligned with your brand's vision."
+        },
+        {
+          "id": 3,
+          icon:"bi bi-arrow-repeat",
+          "title": "Iterative Design",
+          "description": "Our branding strategies ensure that your logo complements your overall brand identity, creating a cohesive and recognizable brand experience."
+        },
+        {
+          "id": 4,
+          icon:"bi bi-cloud",
+          "title": "Digital Integration",
+          "description": "In today's digital age, a logo needs to shine across various platforms. We ensure your logo is optimized for digital use, enhancing your brand's digital footprint."
+        },
+        {
+          "id": 5,
+          icon:"bi bi-chat-left",
+          "title": "Brand Consistency",
+          "description": "We refine and iterate based on your feedback, ensuring the logo design for your company, whether it's a restaurant, a hospital, or a fashion label, is perfect."
+        }
+      ],
+      paraItem: [
+        {
+          description:
+            "In conclusion, choosing Mindstory for your logo and branding needs means partnering with a digital marketing agency that truly understands the essence of your brand and the dynamics of the market in Kerala. Our bespoke logo designs are not just visually compelling but are strategically crafted to enhance your brand's identity and ensure it resonates with your target audience, whether they're in Kochi, Thrissur, or beyond. Our commitment to excellence, coupled with our deep understanding of the digital landscape, makes us the ideal choice for businesses looking to make a lasting impression."
+        },
+        {
+          description:
+            "Furthermore, Mindstory goes beyond logo design to offer a comprehensive suite of digital marketing services designed to elevate your brand's online presence. From SEO and content marketing to social media management and digital advertising, we have the tools and expertise to drive your brand to the top of search engine rankings, ensuring maximum visibility and engagement. Our holistic approach to digital marketing ensures that your brand not only looks great but also ranks high in the digital space."
+        },
+        {
+          description:
+            "Join the multitude of satisfied clients across Kerala who have transformed their brand identity with Mindstory's innovative logo and branding solutions. Let us be the architects of your brand's success story, crafting a logo that is not only a visual masterpiece but also a strategic tool for growth and recognition in the digital age. Contact Mindstory today, and take the first step towards redefining your brand's identity and achieving unparalleled success in the digital marketplace."
+        } 
+      ],
+      brands: [
+        {
+            id:1,
+            image:'/images/brands/allen.png',
+            brand:"Allen Solly"
+        },
+        {
+            id:2,
+            image:'/images/brands/chaai.jpeg',
+            brand:"Chai Peedika"
+        },
+        {
+            id:3,
+            image:'/images/brands/hyundai.png',
+            brand:"Hyundai"
+        },
+        {
+            id:4,
+            image:'/images/brands/orgo.png',
+            brand:"Orgo Yolks"
+        },
+        {
+            id:5,
+            image:'/images/brands/priis.png',
+            brand:"Priis"
+        },
+        {
+            id:6,
+            image:'/images/brands/royal.png',
+            brand:"Royal Enfield"
+        },
+        {
+            id:7,
+            image:'/images/brands/LP.jpeg',
+            brand:"Louis Philippe"
+        },
+        {
+            id:8,
+            image:'/images/brands/orgo.png',
+            brand:"Orgo Yolks"
+        },
+        {
+            id:9,
+            image:'/images/brands/priis.png',
+            brand:"Priis"
+        },
+        {
+            id:10,
+            image:'/images/brands/royal.png',
+            brand:"Royal Enfield"
+        },
+        {
+            id:11,
+            image:'/images/brands/LP.jpeg',
+            brand:"Louis Philippe"
+        },
+        {
+            id:12,
+            image:'/images/brands/chaai.jpeg',
+            brand:"Chai Peedika"
+        }
+    ]
+    }
 
-    //   }
-    // ])
+    ])
 
+    // Email Section
+    await Service.create([
+      {
+        slug:'email-marketing',
+        title:"Strategic Email Marketing for Enhanced Engagement",
+        description:"Amidst crowded inboxes, Mindstory excels in crafting email campaigns that stand out, delivering tailored content directly to your customers. Our advanced SEO strategies ensure enhanced visibility, making your campaigns not only noticeable but also impactful in a competitive digital landscape.",
+        image:"/images/service/email.webp",
+        order: 4,
+        article: {
+          title: "Stand out in crowded inboxes with Mindstory's strategic Email Marketing services. Our customer-centric and result-driven campaigns are designed to increase brand awareness, drive engagement, nurture leads, and facilitate sales directly to your customers with tailored content.",
+          descriptions: [
+            "Partner with us to build and grow your email program. We creatively design email templates, reaching potential customers at optimal times with relevant offers, fostering trustworthy relations. Mindstory ensures the highest conversion rate among marketing channels, delivering unparalleled ROI for your business.",
+            "Our approach involves understanding the goals of your email campaign to achieve tangible results and a positive impact on your bottom line. From welcome emails introducing your brand to newsletters, announcements, seasonal, or engagement mails, we define target audiences based on unique characteristics and needs, segmenting for conversion-focused emails and optimizing for better conversions.",
+            "Mindstory's specialized team ensures efficiency and effectiveness in every element of your email campaign, maximizing the potential of this powerful marketing channel."
+          ]
+        },
+        lists:[
+          {
+              icon: "bi bi-envelope",
+              title: "Mail Designing",
+              description: "Craft visually compelling emails with Mindstory's Mail Designing expertise. Aligning your branding seamlessly, we infuse valuable and insightful content, ensuring a clean, professional, and informative layout. Leveraging white space and attention-grabbing images, our designs are not just emails; they are responsive, engaging experiences."
+          },
+          {
+              icon: "bi bi-star",
+              title: "Personalize",
+              description:"Connect on a personal level with Mindstory's email personalization. We address subscribers by their individual identities and needs, tailoring subject lines, content, and design. Our personalized approach creates a unified profile, ensuring emails are not just sent but resonate personally and remain relevant."
+          },
+          {
+              icon: "bi bi-journals",
+              title: "Relevance",
+              description: "Maximize impact with ethically targeted emails. Mindstory ensures your emails reach the right audience by inviting website visitors to subscribe in exchange for valuable resources like newsletters, tips, eBooks, white papers, or checklists. We prioritize relevance, ensuring every communication adds value."
+          },
+          {
+              icon: "bi bi-envelope",
+              title: "Follow ups",
+              description: "Nurture leads seamlessly with Mindstory's strategic follow-up emails. From reminding subscribers of pending purchases to sending discount coupons, our email workflows are designed with triggers, guiding subscribers through the conversion journey."
+          },
+          {
+              icon: "bi bi-people",
+              title: "Conversation",
+              description: "Foster genuine engagement with Mindstory's conversational approach to emails. Our friendly and approachable content builds relationships rather than bombarding with marketing messages. Emails are strategically sent based on every customer interaction across online and offline channels, creating meaningful connections."
+          },
+          {
+              icon: "bi bi-graph-up-arrow",
+              title: "Tracking the success",
+              description: "Ensure the success of your email campaigns with Mindstory's continuous tracking and improvement. Our in-depth analytics delve into metrics like open rates, click-through rates, bounce rates, unsubscribes, conversion rates, and more. Aligning these metrics with your email marketing goals, we refine strategies for optimal performance."
+          }
+        ],
+        
+        iconCards: [
+          {
+              icon: "bi bi-recycle",
+              title: "30",
+              description: "Active Email Campaigns"
+          },
+          {
+              icon: "bi bi-box",
+              title: "99",
+              description: "Email Template Design"
+          },
+          { 
+              icon: "bi bi-person",
+              title: "18",
+              description: "Email Marketing Clients"
+          },
+          {
+              icon: "bi bi-brightness-high",
+              title: "14",
+              description: "Tracking & Reporting Parameters"
+          }
+        ]
+      }
+    ])
+
+    // Brand Section
+    await Service.create([
+      {
+        slug:'brand-identity',
+        title:"Unlocking Imagination through Visuals",
+        description:"At Mindstory, we believe that creativity knows no bounds. Our Creative Graphic Design services are meticulously crafted to breathe life into your ideas, transforming them into captivating visuals that leave a lasting impression. Whether you're looking to revamp your brand identity, create stunning marketing materials, or craft engaging digital content, our team of talented designers is here to bring your vision to fruition.",
+        image:"/images/service/brand.webp",
+        order: 5,
+        heading: {
+          title:"Our Approach",
+          description:"We understand that every project is unique, and we tailor our approach to suit your specific needs and goals. Through collaborative brainstorming sessions, we delve deep into your brand ethos, audience preferences, and market trends to develop concepts that resonate with your target demographic. From initial sketches to final execution, we keep you involved every step of the way, ensuring that the end result exceeds your expectations."
+        },
+        sections:  [
+        {
+            title: "Services Offered",
+            image: '/images/service/flip.webp',
+            content: [
+                {
+                    title: "Brand Identity Design",
+                    description: "Your brand is more than just a logo; it's the embodiment of your values and aspirations. We specialize in creating cohesive brand identities that reflect the essence of your business, helping you stand out in a crowded marketplace."
+                },
+                {
+                    title: "Print Design",
+                    description: "From business cards and brochures to packaging and signage, we offer a comprehensive range of print design services that elevate your brand presence both online and offline."
+                },
+                {
+                    title: "Digital Design",
+                    description: "In today's digital age, compelling visuals are essential for capturing and retaining audience attention. Whether it's website graphics, social media assets, or email newsletters, our digital design solutions are crafted to enhance user engagement and drive conversions."
+                },
+                {
+                    title: "Illustration",
+                    description: "Illustrations add a unique touch to any project, infusing it with personality and charm. Our team of skilled illustrators creates custom artworks that bring your ideas to life, whether it's for editorial purposes, merchandise, or multimedia content."
+                }
+                
+            ]
+        },
+        {
+            title: "Why Choose Mindstory?",
+            image: '/images/service/question.webp',
+            content: [
+                {
+                    title: "Creativity Unleashed",
+                    description: "We thrive on pushing the boundaries of creativity, constantly seeking new inspirations and innovative techniques to deliver unparalleled design solutions."
+                },
+                {
+                    title:"Attention to Detail",
+                    description:"We believe that the devil is in the details, and we meticulously refine every aspect of our designs to ensure they are polished to perfection."
+                },
+                {
+                    title:"Client-Centric Approach",
+                    description:"Your satisfaction is our top priority, and we go above and beyond to exceed your expectations, delivering results that are not just aesthetically pleasing but also strategically aligned with your business objectives."
+                }
+            ]
+        }
+    ]
+
+      }
+    ])
 
     // Web Development Section
     await Service.create([
@@ -215,7 +484,7 @@ try {
         title:"WEB DEVELOPMENT",
         description:'Collaborate with our team for outstanding, high-performing, and secure custom websites. Mindstory works closely with enterprises to bring digital visions to life.',
         image: '/images/web.webp',
-        order: 4,
+        order: 6,
         hero: {
                 image: '/images/service/web.webp',
                 title:"Expert Web Development Services in Thrissur",

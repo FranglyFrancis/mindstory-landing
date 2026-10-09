@@ -87,6 +87,10 @@ export type ImageItem = {
     description: string;
 }
 
+export type ParaItem = {
+  description: string;
+}
+
 export type List = {
     id: number;
     icon: string;
@@ -105,7 +109,7 @@ export type ServiceData = {
 
   heading?: { title: string; description?: string };
   intro?: { title: string; left: string; right: string[] };
-  article?: { heading?: string; paragraphs: string[] };
+  article?: { title?: string; descriptions: string[] };
   summary?: string;
   mainImage?: string;
   lists?: { icon: string; title: string; description: string }[];

@@ -1,6 +1,16 @@
 import { List } from '../../types';
 
-export const lists: List[] = [
+export const article = {
+          title: "Stand out in crowded inboxes with Mindstory's strategic Email Marketing services. Our customer-centric and result-driven campaigns are designed to increase brand awareness, drive engagement, nurture leads, and facilitate sales directly to your customers with tailored content.",
+          descriptions: [
+            "Partner with us to build and grow your email program. We creatively design email templates, reaching potential customers at optimal times with relevant offers, fostering trustworthy relations. Mindstory ensures the highest conversion rate among marketing channels, delivering unparalleled ROI for your business.",
+            "Our approach involves understanding the goals of your email campaign to achieve tangible results and a positive impact on your bottom line. From welcome emails introducing your brand to newsletters, announcements, seasonal, or engagement mails, we define target audiences based on unique characteristics and needs, segmenting for conversion-focused emails and optimizing for better conversions.",
+            "Mindstory's specialized team ensures efficiency and effectiveness in every element of your email campaign, maximizing the potential of this powerful marketing channel." 
+          ]
+        }
+
+
+export const lists: List[] =[
     {
         id: 1,
         icon: "bi bi-envelope",
@@ -39,7 +49,7 @@ export const lists: List[] = [
     }
 ]
 
-export const cards = [
+export const iconCards = [
     {
         id: 1,
         icon: "bi bi-recycle",
@@ -52,7 +62,7 @@ export const cards = [
         title: "99",
         description: "Email Template Design"
     },
-    {
+    { 
         id: 3,
         icon: "bi bi-person",
         title: "18",
