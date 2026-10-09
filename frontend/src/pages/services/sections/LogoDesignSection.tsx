@@ -23,16 +23,16 @@ export default function LogoDesignSection(){
                     </div>
 
                     <img src={logoImage} className='logo-image' alt="Logo Avatar" />
-                    {titleCards.map((list)=>(
-                        <TitleList key={list.id} title={list.title} description={list.description} />
+                    {titleCards.map((list,index)=>(
+                        <TitleList key={index} title={list.title} description={list.description} />
                     ))}
 
                 </div>
             </div>
 
             <div className="list-grid section-division">
-                {lists.map((list) => (
-                    <IconList key={list.id} icon={list.icon} title={list.title} description={list.description} />
+                {lists.map((list,index) => (
+                    <IconList key={index} icon={list.icon} title={list.title} description={list.description} />
                 ))}
             </div>
 

@@ -22,8 +22,8 @@ export default function WebDesignSection(){
 
             {/* 2nd */}
             <div className='list-item'>
-                {services.map((list)=>(
-                    <IconList key={list.id} title={list.title} icon={list.icon} description={list.description} />
+                {services.map((list,index)=>(
+                    <IconList key={index} title={list.title} icon={list.icon} description={list.description} />
                 ))}
             </div>
 

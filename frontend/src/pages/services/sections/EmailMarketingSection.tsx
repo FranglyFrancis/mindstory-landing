@@ -14,8 +14,8 @@ export default function EmailMarketingSection(){
 
             <p className="centered-desc">{article.descriptions[2]}</p>
             <div className="list-item section-division">
-                {lists.map((list)=>(
-                    <IconList key={list.id} icon={list.icon} title={list.title} description={list.description} />
+                {lists.map((list,index)=>(
+                    <IconList key={index} icon={list.icon} title={list.title} description={list.description} />
                 ))}
             </div>
 
@@ -27,8 +27,8 @@ export default function EmailMarketingSection(){
             </div>
             
              <div className="cards-container">
-                {iconCards.map((card)=>(
-                    <TransparentCard key={card.id} icon={card.icon} title={card.title} description={card.description} />
+                {iconCards.map((card,index)=>(
+                    <TransparentCard key={index} icon={card.icon} title={card.title} description={card.description} />
                 ))}
                     
              </div>

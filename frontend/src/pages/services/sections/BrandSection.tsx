@@ -11,8 +11,8 @@ export default function BrandSection(){
                 <p>{heading.description}</p>
             </div>
             
-            {sections.map((section) => (
-                <div key={section.id} className="info-row section-division">
+            {sections.map((section,index) => (
+                <div key={index} className="info-row section-division">
                     <div className="info-image">
                         <img src={section.image} alt={section.title} />
                     </div>
@@ -21,8 +21,8 @@ export default function BrandSection(){
                         <h2 className="title">{section.title}</h2>
 
                         <div className="info-grid">
-                            {section.content.map((item) => (
-                            <div key={item.id} className="info-item">
+                            {section.content.map((item,index) => (
+                            <div key={index} className="info-item">
                                 <span>
                                     <p className="subtitle"><strong>{item.title}:</strong></p> 
                                     <p className="paragraph">{item.description}</p>

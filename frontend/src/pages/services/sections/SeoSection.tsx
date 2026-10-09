@@ -13,8 +13,8 @@ export default function SeoSection(){
             <p className="centered-desc">{heading.description}</p>
             
             <div className="title-cards-container">
-                {titleCards.map((card)=>(
-                    <TitleCard key={card.id} title={card.title} description={card.description}/>
+                {titleCards.map((card,index)=>(
+                    <TitleCard key={index} title={card.title} description={card.description}/>
                 ))}
             </div>
             
@@ -22,8 +22,8 @@ export default function SeoSection(){
         
         <section className="seo-section2">
             <div className="cards-container">
-                {iconCards.map((item)=>(
-                    <TransparentCard key={item.id} icon={item.icon}  title={item.title} description={item.description} />
+                {iconCards.map((item,index)=>(
+                    <TransparentCard key={index} icon={item.icon}  title={item.title} description={item.description} />
                 ))}
             </div>
         </section>

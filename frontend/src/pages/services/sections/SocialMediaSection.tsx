@@ -10,8 +10,8 @@ export default function SocialMediaSection(){
             <ImageLeft subtitle={""} title={""}  image={imageItem.image} description={imageItem.description} />
             
             <div className="services-grid-list">
-                {iconCards.map((list)=>(
-                    <IconList key={list.id} icon={list.icon} title={list.title} description={list.description} />
+                {iconCards.map((list,index)=>(
+                    <IconList key={index} icon={list.icon} title={list.title} description={list.description} />
                 ))}
             </div>
         </section>
