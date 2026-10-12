@@ -1,0 +1,44 @@
+.hero-img {
+    width: 100%;
+}
+.services-hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+}
+.hero-image-slide {
+    opacity: 0;
+    transform: translateX(180px);
+    animation: heroSlideLeft ease-out 0.9s forwards;
+}
+
+@keyframes heroSlideLeft{
+    from {
+        opacity: 0;
+        transform: translateX(160px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) ;
+    }
+}
+
+.services-hero h1 {
+    padding-top: 30px;
+    font-size: 60px;
+    font-weight: 800;
+    color: #46484b;
+}
+
+.services-hero p {
+    font-size: 24px;
+    font-weight: 200;
+    padding-top: 30px;
+}
+
+@media (max-width:768px){
+    .services-hero{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}

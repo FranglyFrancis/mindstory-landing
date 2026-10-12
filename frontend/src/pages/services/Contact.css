@@ -1,0 +1,33 @@
+.contact-section h2{
+    font-size:40px;
+    font-weight: 800;
+}
+
+.subtitle2 {
+    font-size: 18px;
+    padding-bottom:30px;
+}
+
+.contact-section p {
+    font-size: 28px;
+    color: #5e5f5f;
+}
+
+.contact-section {
+    background: #dbe7ee;
+
+}
+.contact-division{
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr ;
+    gap:40px;
+}
+
+.subtitle1 {
+    padding-top: 20px;
+    color:#f29f05;
+    font-size: 18px;
+}
+
+
+

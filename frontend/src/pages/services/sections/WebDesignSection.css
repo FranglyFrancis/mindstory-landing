@@ -1,0 +1,44 @@
+.web-division {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:25px;
+}
+
+.web-left h2 {
+    font-size: 35px;
+    font-weight: 600;
+    opacity: 0.9;
+    padding-bottom: 20px;
+}
+
+.web-left p, .web-right p {
+    opacity: 0.8;
+    font-size: 20px;
+}
+
+.list-item {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3),1fr);
+    gap:20px;
+}
+
+.web-division {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px
+}
+
+.left-image {
+    width:70%;
+}
+
+.right-image {
+    width:60%;
+}
+
+.image-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+

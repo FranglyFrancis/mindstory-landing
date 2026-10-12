@@ -1,0 +1,23 @@
+.title-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+.title-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 5% 70px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding:20px;
+}
+.title-card h4 {
+  color: #6e5bab;
+  font-size:25px;
+  font-weight:400;
+}
+.title-card p {
+  opacity: 0.8;
+  font-size: 14px;
+}
