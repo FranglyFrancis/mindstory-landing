@@ -6,7 +6,6 @@ type ServiceCardProps =  {
 }
 
 export default function ServiceCard({ service }: ServiceCardProps) {
-
         return(
                 <div className='service-card'>
                         <div className="card-details">
