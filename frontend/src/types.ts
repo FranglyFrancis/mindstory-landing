@@ -81,7 +81,6 @@ export type ImageItem = {
 }
 
 export type List = {
-    id: number;
     icon: string;
     title: string;
     description: string;

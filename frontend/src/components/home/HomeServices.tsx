@@ -10,8 +10,8 @@ function Services(){
             <h2 className='centered-section'>All-In-One Digital Marketing Hub:Elevate Your Brand!</h2>
             <p className="justified-text centered-desc">Mindstory, the best digital marketing agency in Thrissur, Kerala is your go-to hub for all things digital. From SEO to custom website design, we offer a comprehensive suite of services to elevate your brand and drive business growth.</p>
             <div className="grid-container">
-                {servicesList.map(service => (
-                    <ServiceItem key={service.id} item={service} />
+                {servicesList.map((service,index) => (
+                    <ServiceItem key={index} item={service} />
                 ))}
             </div>
         </section>
