@@ -1,4 +1,4 @@
-import { API_URL } from "../../../../backend/src/config"
+import { API_URL } from "../../config"
 import { useEffect, useState, type ReactNode } from "react";
 import { useParams } from "react-router-dom";
 import Contact from "./blocks/Contact";
