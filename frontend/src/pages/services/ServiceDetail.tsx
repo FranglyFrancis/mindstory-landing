@@ -1,3 +1,4 @@
+import { API_URL } from "../../../../backend/src/config"
 import { useEffect, useState, type ReactNode } from "react";
 import { useParams } from "react-router-dom";
 import Contact from "./blocks/Contact";
@@ -48,12 +49,7 @@ export default function ServiceDetail() {
 
   useEffect(() => {
     setStatus("loading");
-    fetch(`${import.meta.env.VITE_API_URL}/api/services/${slug}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: IService) => {
-        setService(data);
-        setStatus("ok");
-      })
+    fetch(`${API_URL}/api/services/${slug}`)
       .catch(() => setStatus("notfound"));
   }, [slug]);
 
