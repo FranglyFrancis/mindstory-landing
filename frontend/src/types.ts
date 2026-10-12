@@ -39,7 +39,6 @@ export type Testimony = {
 
 // Services
 export type CommonService = {
-    id: number;
     slug: string;
     image: string;
     title: string;
@@ -71,7 +70,6 @@ export type SectionItem = {
 }
 
 export type Section = {
-    id: number;
     title: string;
     image: string;
     content: SectionItem[]

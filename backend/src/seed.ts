@@ -193,7 +193,6 @@ try {
     // Logo Section
     await Service.create([
       {
-<<<<<<< HEAD
         image:'/images/logoS.webp',
         slug:'logo-design',
         title:"LOGO DESIGN",
@@ -203,17 +202,6 @@ try {
           title:'Crafting Distinctive Identities with Mindstory',
           description:"At Mindstory, we understand that a logo is more than just an image; it's the heart and soul of your brand's identity. Based in the vibrant landscapes of Kerala, with thriving branches in Thrissur and Kochi, we are committed to crafting logos that not only stand out but also tell your brand's unique story. Whether you're a budding restaurant in Kochi, an innovative educational institution in Thrissur, or a healthcare provider in the serene backwaters of Kerala, we have the expertise to bring your vision to life.",
           image: '/images/service/logo.webp'
-=======
-        image:'/images/service/logo.webp',
-        slug:'logo-design',
-        title:"Crafting Distinctive Identities with Mindstory's Logo Design",
-        description:"At Mindstory, we understand that a logo is more than just an image; it's the heart and soul of your brand's identity. Based in the vibrant landscapes of Kerala, with thriving branches in Thrissur and Kochi, we are committed to crafting logos that not only stand out but also tell your brand's unique story. Whether you're a budding restaurant in Kochi, an innovative educational institution in Thrissur, or a healthcare provider in the serene backwaters of Kerala, we have the expertise to bring your vision to life.",
-        order: 3,
-        hero: {
-          title:'LOGO DESIGN',
-          description:"Craft a powerful first impression with Mindstory's custom logo designs. Our creative expertise ensures your unique brand identity shines, leaving an enduring mark on the world's visual landscape.",
-          image: '/images/logoS.webp'
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
         },
         article: {
           title:'Why Choose Mindstory for Your Logo & Branding Needs?',
@@ -360,7 +348,6 @@ try {
     await Service.create([
       {
         slug:'email-marketing',
-<<<<<<< HEAD
         title:"EMAIL MARKETING",
         description:'Stand out in crowded inboxes with our Email Marketing campaigns. We help you reach your customers directly, delivering the right content to captivate and engage.',
         image:'/images/emailS.webp',
@@ -371,12 +358,6 @@ try {
           title:"Strategic Email Marketing for Enhanced Engagement",
           description:"Amidst crowded inboxes, Mindstory excels in crafting email campaigns that stand out, delivering tailored content directly to your customers. Our advanced SEO strategies ensure enhanced visibility, making your campaigns not only noticeable but also impactful in a competitive digital landscape."
         },
-=======
-        title:"Strategic Email Marketing for Enhanced Engagement",
-        description:"Amidst crowded inboxes, Mindstory excels in crafting email campaigns that stand out, delivering tailored content directly to your customers. Our advanced SEO strategies ensure enhanced visibility, making your campaigns not only noticeable but also impactful in a competitive digital landscape.",
-        image:"/images/service/email.webp",
-        order: 4,
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
         article: {
           title: "Stand out in crowded inboxes with Mindstory's strategic Email Marketing services. Our customer-centric and result-driven campaigns are designed to increase brand awareness, drive engagement, nurture leads, and facilitate sales directly to your customers with tailored content.",
           descriptions: [
@@ -447,7 +428,6 @@ try {
     await Service.create([
       {
         slug:'brand-identity',
-<<<<<<< HEAD
         title:'BRAND IDENTITY',
         description:'Connect with your audience through unique art and illustrations. Mindstory helps forge strong brand identities with visuals crafted specifically for your website.',
         image:"/images/service/brand.webp",
@@ -457,12 +437,6 @@ try {
            title:"Unlocking Imagination through Visuals",
            description:"At Mindstory, we believe that creativity knows no bounds. Our Creative Graphic Design services are meticulously crafted to breathe life into your ideas, transforming them into captivating visuals that leave a lasting impression. Whether you're looking to revamp your brand identity, create stunning marketing materials, or craft engaging digital content, our team of talented designers is here to bring your vision to fruition."
         },
-=======
-        title:"Unlocking Imagination through Visuals",
-        description:"At Mindstory, we believe that creativity knows no bounds. Our Creative Graphic Design services are meticulously crafted to breathe life into your ideas, transforming them into captivating visuals that leave a lasting impression. Whether you're looking to revamp your brand identity, create stunning marketing materials, or craft engaging digital content, our team of talented designers is here to bring your vision to fruition.",
-        image:"/images/service/brand.webp",
-        order: 5,
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
         heading: {
           title:"Our Approach",
           description:"We understand that every project is unique, and we tailor our approach to suit your specific needs and goals. Through collaborative brainstorming sessions, we delve deep into your brand ethos, audience preferences, and market trends to develop concepts that resonate with your target demographic. From initial sketches to final execution, we keep you involved every step of the way, ensuring that the end result exceeds your expectations."
@@ -520,17 +494,10 @@ try {
         slug:'web-development',
         title:"WEB DEVELOPMENT",
         description:'Collaborate with our team for outstanding, high-performing, and secure custom websites. Mindstory works closely with enterprises to bring digital visions to life.',
-<<<<<<< HEAD
         image: '/images/social.webp',
         order: 6,
         hero: {
                 image: '/images/service/web-service.webp',
-=======
-        image: '/images/web.webp',
-        order: 6,
-        hero: {
-                image: '/images/service/web.webp',
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
                 title:"Expert Web Development Services in Thrissur",
                 description:"Looking for a dynamic and innovative website development company in Thrissur? Mindstory is your go-to partner for comprehensive web development services, covering everything from custom website design to full-stack development. Our holistic approach ensures that every element of your website, from its visual appeal to its technical functionality, is optimized for peak performance. Let us transform your vision into a powerful digital presence—connect with Mindstory today to create a website that truly stands out! Enhance your online presence with Mindstory, the leading web development company in Thrissur, offering cutting-edge web development services tailored to your business needs. Our expertise combines creativity with advanced technology to craft visually stunning, high-performing websites that captivate and engage users. Whether you're looking for seamless front-end development or robust back-end solutions, our team ensures a smooth, user-friendly experience that drives results."
         },
@@ -602,7 +569,3 @@ finally{
     await mongoose.disconnect();
     console.log("done");
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342

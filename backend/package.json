@@ -22,10 +22,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.4",
     "dotenv": "^18.0.6",
-<<<<<<< HEAD
     "ts-node-dev": "^2.0.0",
-=======
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },

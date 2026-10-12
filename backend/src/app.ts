@@ -1,29 +1,29 @@
 import express from "express";
 import cors from "cors";
 import serviceRoutes from "./routes/serviceRoutes.js";
-<<<<<<< HEAD
 import faqRoutes from "./routes/faqRoutes.js";
-=======
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
 
 const app = express();
-app.use(cors({ origin: process.env.FRONTEND_URL ?? "http://localhost:5173" }));
+const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:5173")
+  .split(",")
+  .map((o) => o.trim().replace(/\/$/, ""));
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (curl, Postman) and listed origins
+      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS blocked: ${origin}`));
+    },
+  })
+);
+
 app.use(express.json());
 app.use("/api/services", serviceRoutes);
-<<<<<<< HEAD
 app.use("/api/faqs", faqRoutes);
-=======
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
 
 app.get("/api/test", (_req, res) => {
   res.json({ ok: true });
 });
 
-<<<<<<< HEAD
-=======
-app.get("/", (_req, res) => {
-    res.send("Mindstory API is running");
-  });
-
->>>>>>> 0634e2c5660ef805531cfb4532acefa3c72a1342
 export default app;
