@@ -32,7 +32,7 @@ export async function create(req: Request, res: Response) {
 export async function update(req: Request, res: Response) {
   try {
     const doc = await Service.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
       overwrite: true, // replace the whole document so removed fields really disappear
     });

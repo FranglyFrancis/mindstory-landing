@@ -46,7 +46,6 @@ export default function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
   const [service, setService] = useState<IService | null>(null);
   const [status, setStatus] = useState<"loading" | "ok" | "notfound">("loading");
-  console.log(service)
  
   useEffect(() => {
     setStatus("loading");

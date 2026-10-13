@@ -59,6 +59,8 @@ export interface IService {
   sections?: ISection[];
   brands?: { image: string; brand: string }[];
   faqs?: { question: string; answer: string }[];
+  hiddenSections?: string[];
+
 }
 
 const serviceSchema = new Schema<IService>({
@@ -95,6 +97,7 @@ const serviceSchema = new Schema<IService>({
   ],
   brands: [{ image: String, brand: String }],
   faqs: [{ question: String, answer: String }],
+  hiddenSections: [String],
 });
 
 
