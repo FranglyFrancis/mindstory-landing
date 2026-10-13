@@ -66,7 +66,7 @@ export default function ServiceDetail() {
         title={service.title}
         description={service.description}
       />
-      {renderSection(service)}
+      { renderSection(service) }
       <Contact />
     </>
   );
