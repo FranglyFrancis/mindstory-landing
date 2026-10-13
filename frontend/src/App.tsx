@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import './App.css';
 import Navbar from './components/shared/Navbar';
 import Footer from './components/shared/Footer';
 import ContactBar from './components/shared/ContactBar';
@@ -7,7 +8,7 @@ import About from './pages/About';
 import Services from "./pages/services/Services";
 import ServiceDetail from "./pages/services/ServiceDetail";
 import { NotFound } from "./pages/NotFound";
-import './App.css';
+import AdminPanel from "./pages/AdminPanel";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/about" element={<About /> }/>
           <Route path="/services" element={<Services />} />
           <Route path="/services/:slug" element={<ServiceDetail />} /> {/*Service detail- layout for all services  :slug- a placeholder */}
+          <Route path="/admin" element={<AdminPanel />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

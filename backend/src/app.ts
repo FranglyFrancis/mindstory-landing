@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:5173")
@@ -24,6 +25,7 @@ app.use(
 
 app.use("/api/services", serviceRoutes);
 app.use("/api/faqs", faqRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/api/test", (_req, res) => {
   res.json({ ok: true });
