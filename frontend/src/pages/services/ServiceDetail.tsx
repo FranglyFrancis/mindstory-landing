@@ -46,14 +46,27 @@ export default function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
   const [service, setService] = useState<IService | null>(null);
   const [status, setStatus] = useState<"loading" | "ok" | "notfound">("loading");
-
+  console.log(service)
+ 
   useEffect(() => {
     setStatus("loading");
     fetch(`${API_URL}/api/services/${slug}`)
-      .catch(() => setStatus("notfound"));
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data: IService) => {
+        setService(data);
+        setStatus("ok");
+      })
+      .catch((e) => {
+        console.error("Service fetch failed:", e);
+        setStatus("notfound");
+      });
   }, [slug]);
 
-  if (status === "loading") return <p>Loading...</p>;
+
+  if (status === "loading") return <p>Loading Sections...</p>;
   if (status === "notfound" || !service) return <NotFound />;
 
   const renderSection = sections[service.slug];
