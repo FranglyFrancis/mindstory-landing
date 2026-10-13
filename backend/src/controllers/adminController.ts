@@ -5,10 +5,12 @@ import { Service } from "../models/Service.js";
 
 const sha = (s: string) => crypto.createHash("sha256").update(s).digest();
 
+const clean = (s: string) => s.trim().replace(/^["']|["']$/g, "");
+
 export function login(req: Request, res: Response) {
-  const password = String(req.body?.password ?? "");
-console.log("password set:", !!process.env.ADMIN_PASSWORD, "length:", process.env.ADMIN_PASSWORD?.length, "typed length:", password.length);
-  const ok = crypto.timingSafeEqual(sha(password), sha(process.env.ADMIN_PASSWORD ?? ""));
+  const password = String(req.body?.password ?? "").trim();
+  const expected = clean(process.env.ADMIN_PASSWORD ?? "");
+  const ok = expected.length > 0 && crypto.timingSafeEqual(sha(password), sha(expected));
   if (!ok) return res.status(401).json({ error: "Wrong password" });
   const token = jwt.sign({ admin: true }, process.env.JWT_SECRET!, { expiresIn: "8h" });
   res.json({ token });
