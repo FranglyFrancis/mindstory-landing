@@ -362,9 +362,9 @@ function newService() {
             {/* <button onClick={() => load()}>Reload</button> */}
             <button onClick={logout}>Logout</button>
             </div>
-            <button className="primary" onClick={newService} style={{ width: "100%", marginBottom: 10 }}>
+            {/* <button className="primary" onClick={newService} style={{ width: "100%", marginBottom: 10 }}>
             + New service
-            </button>
+            </button> */}
             {services.map((s) => (
             <div key={s._id} onClick={() => select(s)}
                 className={`admin-item ${s._id === doc?._id ? "active" : ""}`}>
@@ -378,10 +378,10 @@ function newService() {
             <p>Select a service or create a new one.</p>
             ) : (
             <>
-                <div className="admin-tabs">
+                {/* <div className="admin-tabs">
                 <button className={mode === "form" ? "primary" : ""} onClick={() => switchMode("form")}>Form</button>
-                {/* <button className={mode === "json" ? "primary" : ""} onClick={() => switchMode("json")}>JSON</button> */}
-                </div>
+                <button className={mode === "json" ? "primary" : ""} onClick={() => switchMode("json")}>JSON</button>
+                </div> */}
 
                 {mode === "form" ? (
                 <>
