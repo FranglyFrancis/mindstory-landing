@@ -1,7 +1,7 @@
-import { useEffect,useState } from "react";
-import { API_URL } from "../config";
-import './AdminPanel.css';
-
+import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
+import { api } from "./api";
+import "./ServicesPage.css"; 
 
 /* ---------- field definitions (match your Mongoose schema) ---------- */
 type FieldSpec = {
@@ -123,19 +123,9 @@ function blank(specs: FieldSpec[]): Doc {
   return out;
 }
 
-async function api(path: string, token: string, options: RequestInit = {}) {
-  const res = await fetch(`${API_URL}/api/admin${path}`, {
-    ...options,
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
-  return data;
-}
-
 /* ---------- generic form renderer ---------- */
-const box: React.CSSProperties = {};
-const input: React.CSSProperties = {};
+const box: CSSProperties = {};
+const input: CSSProperties = {};
 
 function move<T>(arr: T[], from: number, to: number): T[] {
   if (to < 0 || to >= arr.length) return arr;
@@ -224,9 +214,8 @@ function FieldInput({ spec, value, onChange }: { spec: FieldSpec; value: any; on
 }
 
 /* ---------- page ---------- */
-export default function AdminPanel() {
-  const [token, setToken] = useState(sessionStorage.getItem("admin-token") ?? "");
-  const [password, setPassword] = useState("");
+// Login, token and logout now live in AdminApp / AdminLayout. This page only edits services.
+export default function ServicesPage() {
   const [services, setServices] = useState<Doc[]>([]);
   const [doc, setDoc] = useState<Doc | null>(null);
   const [mode, setMode] = useState<"form" | "json">("form");
@@ -234,55 +223,31 @@ export default function AdminPanel() {
   const [msg, setMsg] = useState("");
   const [shown, setShown] = useState<string[]>([]); // optional sections open in the form
 
-  async function load(t = token) {
-  try {
-    const list = await api("/services", t);
-    setServices(list);
-    return list as Doc[];
-  } catch (e: any) {
-    setMsg(e.message);
-    logout();
-    return [] as Doc[];
-  }
-}
-
-  async function login() {
+  async function load() {
     try {
-      const res = await fetch(`${API_URL}/api/admin/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Login failed");
-      sessionStorage.setItem("admin-token", data.token);
-      setToken(data.token);
-      setPassword("");
-      setMsg("");
+      const list = await api("/services");
+      setServices(list);
+      return list as Doc[];
     } catch (e: any) {
       setMsg(e.message);
+      return [] as Doc[];
     }
   }
 
-  function logout() {
-    sessionStorage.removeItem("admin-token");
-    setToken("");
+  function select(s: Doc) {
+    setDoc(JSON.parse(JSON.stringify(s)));
+    setShown(filledKeys(s));
+    if (s._id) sessionStorage.setItem("admin-last-id", s._id);
+    setMode("form");
+    setMsg("");
   }
 
- function select(s: Doc) {
-  setDoc(JSON.parse(JSON.stringify(s)));
-  setShown(filledKeys(s));
-  if (s._id) sessionStorage.setItem("admin-last-id", s._id);
-  setMode("form");
-  setMsg("");
-}
-
-function newService() {
-  setDoc({ ...blank(serviceFields), slug: "new-service", title: "New Service", hiddenSections: [] });
-  setShown([]);
-  setMode("form");
-  setMsg("");
-}
+  function newService() {
+    setDoc({ ...blank(serviceFields), slug: "new-service", title: "New Service", hiddenSections: [] });
+    setShown([]);
+    setMode("form");
+    setMsg("");
+  }
 
   function switchMode(next: "form" | "json") {
     if (!doc) return;
@@ -292,8 +257,9 @@ function newService() {
         const parsed = JSON.parse(jsonText);
         setDoc(parsed);
         setShown(filledKeys(parsed));
-        } catch { return setMsg("Invalid JSON, fix it first"); }
+      } catch { return setMsg("Invalid JSON, fix it first"); }
     }
+    setMode(next);
   }
 
   async function save() {
@@ -303,8 +269,8 @@ function newService() {
       delete body._id;
       delete body.__v;
       const saved = id
-        ? await api(`/services/${id}`, token, { method: "PUT", body: JSON.stringify(body) })
-        : await api("/services", token, { method: "POST", body: JSON.stringify(body) });
+        ? await api(`/services/${id}`, { method: "PUT", body: JSON.stringify(body) })
+        : await api("/services", { method: "POST", body: JSON.stringify(body) });
       setDoc(saved);
       setShown(filledKeys(saved));
       setMsg("Saved");
@@ -317,7 +283,7 @@ function newService() {
   async function remove() {
     if (!doc?._id || !confirm("Delete this service?")) return;
     try {
-      await api(`/services/${doc._id}`, token, { method: "DELETE" });
+      await api(`/services/${doc._id}`, { method: "DELETE" });
       setMsg("Deleted");
       const list = await load();
       if (list.length) select(list[0]);
@@ -328,43 +294,23 @@ function newService() {
   }
 
   useEffect(() => {
-  if (!token) return;
-  (async () => {
-    const list = await load(token);
-    if (!list.length) return;
-    const lastId = sessionStorage.getItem("admin-last-id");
-    select(list.find((s) => s._id === lastId) ?? list[0]);
-  })();
-}, [token]);
+    (async () => {
+      const list = await load();
+      if (!list.length) return;
+      const lastId = sessionStorage.getItem("admin-last-id");
+      select(list.find((s) => s._id === lastId) ?? list[0]);
+    })();
+  }, []);
 
-  if (!token) {
-    return (
-      <div className="admin">
-        <div className="admin-login">
-            <h2>Admin login</h2>
-            <input type="password" placeholder="Password" value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && login()} />
-            <button className="primary" onClick={login} style={{ marginTop: 12 }}>Login</button>
-            {msg && <p className="admin-msg">{msg}</p>}
-        </div>
-      </div>
-    );
-  }
-
-  
+  // switchMode is kept for when you re-enable the Form/JSON tabs below
+  void switchMode;
 
   return (
-    
     <div className="admin admin-layout">
         <aside className="admin-sidebar">
-            <div className="admin-actions">
-            {/* <button onClick={() => load()}>Reload</button> */}
-            <button onClick={logout}>Logout</button>
-            </div>
-            {/* <button className="primary" onClick={newService} style={{ width: "100%", marginBottom: 10 }}>
+            <button className="primary" onClick={newService} style={{ width: "100%", marginBottom: 10 }}>
             + New service
-            </button> */}
+            </button>
             {services.map((s) => (
             <div key={s._id} onClick={() => select(s)}
                 className={`admin-item ${s._id === doc?._id ? "active" : ""}`}>
@@ -375,7 +321,7 @@ function newService() {
 
         <main className="admin-main">
             {!doc ? (
-            <p>Select a service or create a new one.</p>
+            <p>{msg || "Select a service or create a new one."}</p>
             ) : (
             <>
                 {/* <div className="admin-tabs">
@@ -385,7 +331,6 @@ function newService() {
 
                 {mode === "form" ? (
                 <>
-                    <>
                     <Visibility doc={doc} onChange={setDoc} />
                     <Fields specs={coreFields} value={doc} onChange={setDoc} />
                     <Fields
@@ -410,9 +355,7 @@ function newService() {
                         </select>
                         </div>
                     )} */}
-                    </>
                 </>
-
                 ) : (
                 <textarea value={jsonText} onChange={(e) => setJsonText(e.target.value)}
                     spellCheck={false} style={{ height: "70vh", fontFamily: "monospace" }} />

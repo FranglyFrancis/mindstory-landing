@@ -1,0 +1,171 @@
+/* Services editor. Everything is scoped under .admin-layout so it can't affect the login page or other dashboard sections. */
+
+.admin-layout {
+  --sv-ink: var(--ad-ink, #15201d);
+  --sv-accent: var(--ad-accent, #2f7a63);
+  --sv-accent-dark: var(--ad-accent-dark, #256350);
+  --sv-line: var(--ad-line, #dcdcd4);
+  --sv-muted: var(--ad-muted, #667068);
+  --sv-danger: var(--ad-danger, #b3261e);
+
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  color: var(--sv-ink);
+}
+
+/* ---------- left: list of services ---------- */
+.admin-layout .admin-sidebar {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid var(--sv-line);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.admin-layout .admin-item {
+  padding: 10px 12px;
+  margin-bottom: 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.admin-layout .admin-item small { color: var(--sv-muted); }
+.admin-layout .admin-item:hover { background: #f0f0ea; }
+.admin-layout .admin-item.active { background: #e6f2ed; font-weight: 600; }
+
+/* ---------- right: the form ---------- */
+.admin-layout .admin-main {
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--sv-line);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* field wrappers have no class, so give them spacing */
+.admin-layout .admin-main div:not([class]) { margin-bottom: 14px; }
+
+.admin-layout label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.admin-layout input:not([type="checkbox"]),
+.admin-layout textarea,
+.admin-layout select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--sv-ink);
+  background: #fff;
+  border: 1px solid var(--sv-line);
+  border-radius: 6px;
+}
+.admin-layout textarea { resize: vertical; line-height: 1.5; }
+
+.admin-layout input:focus-visible,
+.admin-layout textarea:focus-visible,
+.admin-layout select:focus-visible,
+.admin-layout button:focus-visible,
+.admin-layout summary:focus-visible {
+  outline: 2px solid var(--sv-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- collapsible groups and lists ---------- */
+.admin-layout details {
+  border: 1px solid var(--sv-line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: #fbfbf9;
+}
+.admin-layout details[open] > summary { margin-bottom: 14px; }
+.admin-layout summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+
+/* show / hide checkboxes */
+.admin-layout details > label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.admin-layout input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--sv-accent); }
+
+/* one item inside a list */
+.admin-layout .card {
+  background: #fff;
+  border: 1px solid var(--sv-line);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.admin-layout .card-tools {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+/* paragraph rows: textarea + remove button */
+.admin-layout .row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.admin-layout .row textarea { flex: 1; }
+
+/* ---------- buttons ---------- */
+.admin-layout button {
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 12px;
+  color: var(--sv-ink);
+  background: #fff;
+  border: 1px solid var(--sv-line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.admin-layout button:hover { background: #f0f0ea; }
+.admin-layout button.primary { background: var(--sv-accent); border-color: var(--sv-accent); color: #fff; font-weight: 600; }
+.admin-layout button.primary:hover { background: var(--sv-accent-dark); }
+.admin-layout button.danger { color: var(--sv-danger); border-color: #e3b9b5; }
+.admin-layout button.danger:hover { background: #fbeceb; }
+
+/* ---------- save bar stays visible while scrolling ---------- */
+.admin-layout .admin-savebar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px -24px -24px;
+  padding: 14px 24px;
+  background: #fff;
+  border-top: 1px solid var(--sv-line);
+  border-radius: 0 0 8px 8px;
+}
+.admin-layout .admin-msg { font-size: 14px; color: var(--sv-muted); }
+
+/* optional Form / JSON tabs, if you re-enable them */
+.admin-layout .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+
+/* ---------- small screens ---------- */
+@media (max-width: 800px) {
+  .admin-layout { grid-template-columns: 1fr; }
+  .admin-layout .admin-sidebar { position: static; max-height: 240px; }
+  .admin-layout .admin-main { padding: 16px; }
+  .admin-layout .admin-savebar { margin: 20px -16px -16px; padding: 12px 16px; }
+}
