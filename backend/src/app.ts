@@ -18,22 +18,11 @@ const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:5173")
 app.use(express.json({ limit: "10mb" }));
 
 // CORS only for the API, and never throw
-// app.use(
-//   "/api",
-//   cors({
-//     origin: (origin, callback) => {
-//       callback(null, !origin || allowedOrigins.includes(origin));
-//     },
-//   })
-// );
 app.use(
+  "/api",
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Origin not allowed by CORS"));
-      }
+      callback(null, !origin || allowedOrigins.includes(origin));
     },
   })
 );
@@ -41,11 +30,11 @@ app.use(
 
 app.use("/api/services", serviceRoutes);
 app.use("/api/faqs", faqRoutes);
+app.use("/api/brands", brandRoutes);
+app.use("/api/admin/brands", brandRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/success-stories", publicSuccessRouter);
 app.use("/api/admin", adminSuccessRouter);
-app.use("/api/brands", brandRoutes);
-app.use("/api/admin/brands", brandRoutes);
 
 
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
@@ -62,7 +51,13 @@ const clientDist = path.join(__dirname, "../../frontend/dist");
 app.use(express.static(clientDist));
 
 app.use((req, res, next) => {
-  if (req.method !== "GET" || req.path.startsWith("/api")) return next();
+  if (
+    req.method !== "GET" ||
+    req.path.startsWith("/api") ||
+    req.path.startsWith("/uploads") ||
+    path.extname(req.path)          // a request for a file (.css, .js, .png...) that wasn't found
+  ) return next();
+  res.setHeader("Cache-Control", "no-cache");   // browsers always fetch the latest index.html after a deploy
   res.sendFile(path.join(clientDist, "index.html"));
 });
 
