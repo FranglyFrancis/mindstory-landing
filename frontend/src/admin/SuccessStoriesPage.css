@@ -32,7 +32,7 @@
 .ss-cell-text { min-width: 0; }
 .ss-cell-text strong { display: block; font-size: 15px; }
 .ss-clamp {
-  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+  display: -webkit-box;  line-clamp: 1; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
   max-width: 360px; margin-top: 2px; font-size: 13px; color: var(--ad-muted);
 }
 

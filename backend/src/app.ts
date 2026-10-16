@@ -3,13 +3,23 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import serviceRoutes from "./routes/serviceRoutes.js";
-import faqRoutes from "./routes/faqRoutes.js";
 import adminRoutes from "./routes/adminAuthRoutes.js";
 import { publicSuccessRouter, adminSuccessRouter } from "./routes/successStoryRoutes.js";
 import brandRoutes from "./routes/brandRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
 import "./utils/cloudinary.js";   // runs the config
 import fs from "fs";
+import { Router } from "express";
+import { Brand } from "./models/Brand.js";
+import { publicFaqRouter, adminFaqRouter } from "./routes/faqRoutes.js";
+import { publicBlogRouter, adminBlogRouter } from "./routes/blogRoutes.js";
+import { adminImageUploadRouter } from "./routes/imageUploadRoutes.js";
+
+
+export const publicBrandRouter = Router();
+   publicBrandRouter.get("/", async (_req, res) => {
+     res.json(await Brand.find().sort({ createdAt: 1 }).select("brand image -_id"));
+   });
 
 const app = express();
 const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:5173")
@@ -32,9 +42,13 @@ app.use(
 
 
 app.use("/api/services", serviceRoutes);
-app.use("/api/faqs", faqRoutes);
+app.use("/api/faqs", publicFaqRouter);
+app.use("/api/admin", adminFaqRouter);
 app.use("/api/brands", brandRoutes);
 app.use("/api/admin/brands", brandRoutes);
+app.use("/api/blogs", publicBlogRouter);
+app.use("/api/admin", adminBlogRouter);
+app.use("/api/admin", adminImageUploadRouter);
 app.use("/api/admin", adminRoutes);
 app.use("/api/success-stories", publicSuccessRouter);
 app.use("/api/admin", adminSuccessRouter);

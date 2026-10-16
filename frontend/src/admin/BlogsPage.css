@@ -1,0 +1,81 @@
+/* Blogs page: a list of blog cards, plus an add / edit form. Reuses .ad-* controls and variables from admin.css. */
+
+/* ---------- shared bits ---------- */
+.bl-hint { display: block; margin-top: 6px; font-size: 13px; color: var(--ad-muted); line-height: 1.4; }
+
+/* the Add / Edit / Cancel buttons are links, so make them look like the real buttons */
+.bl-head .ad-btn, .bl-empty .ad-btn, .bl-actions .ad-btn, .bl-item-actions .ad-btn, .bl-page a.ad-btn {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; text-decoration: none;
+}
+
+/* ---------- list page ---------- */
+.bl-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.ad-page .bl-head h2 { margin: 0; font-size: 30px; letter-spacing: -.02em; }
+.bl-head .ad-sub { margin: 6px 0 0; }
+.bl-head .ad-btn.solid { padding: 11px 18px; font-size: 15px; border-radius: 9px; }
+
+.bl-empty { padding: 44px 24px; text-align: center; border-radius: 14px; }
+.bl-empty p { margin: 0 0 16px; color: var(--ad-muted); }
+
+.bl-list {
+  list-style: none; margin: 0; padding: 0; overflow: hidden;
+  background: #fff; border: 1px solid var(--ad-line); border-radius: 14px;
+}
+.bl-item {
+  display: grid; grid-template-columns: 132px minmax(0, 1fr) auto; gap: 18px; align-items: start;
+  padding: 18px 20px;
+}
+.bl-item + .bl-item { border-top: 1px solid var(--ad-line); }
+.bl-item:hover { background: #fafaf7; }
+
+.bl-thumb {
+  display: block; width: 132px; height: 88px; object-fit: cover;
+  background: #f0f0ea; border: 1px solid var(--ad-line); border-radius: 10px;
+}
+
+.bl-body { min-width: 0; }
+.bl-list .bl-body h3 { margin: 0 0 4px; font-size: 16px; line-height: 1.35; overflow-wrap: anywhere; }
+.bl-body p {
+  margin: 0; font-size: 14px; line-height: 1.5; color: var(--ad-muted);
+  display: -webkit-box;  line-clamp: 2;-webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.bl-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 10px; font-size: 13px; color: var(--ad-muted); }
+.bl-chip { padding: 3px 11px; font-size: 12.5px; font-weight: 600; background: #eceeee; color: var(--ad-muted); border-radius: 99px; }
+.bl-chip.on { background: #e6f4ec; color: #1d6b45; }
+.bl-url { min-width: 0; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.bl-item-actions { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+/* ---------- add / edit form ---------- */
+.ad-page.bl-page > h2 { margin: 0 0 20px; font-size: 30px; letter-spacing: -.02em; }
+
+.bl-form {
+  max-width: 720px; padding: 24px;
+  background: #fff; border: 1px solid var(--ad-line); border-radius: 14px;
+}
+.bl-form textarea.ad-input { resize: vertical; line-height: 1.5; }
+
+.bl-check { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 16px; font-size: 14px; line-height: 1.4; cursor: pointer; }
+.bl-check input { flex: none; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--ad-accent); cursor: pointer; }
+.bl-check input:focus-visible { outline: 2px solid var(--ad-accent); outline-offset: 2px; }
+
+.bl-order { max-width: 200px; }
+
+.bl-form .ad-note { margin: 4px 0 0; }
+.bl-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--ad-line); }
+
+/* ---------- smaller screens ---------- */
+@media (max-width: 720px) {
+  .bl-item { grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 16px; }
+  .bl-thumb { width: 96px; height: 72px; }
+  .bl-item-actions { grid-column: 1 / -1; }
+  .bl-url { max-width: 100%; }
+  .bl-form { padding: 18px; }
+}
+@media (max-width: 480px) {
+  .ad-page .bl-head h2, .ad-page.bl-page > h2 { font-size: 26px; }
+  .bl-item { grid-template-columns: 80px minmax(0, 1fr); }
+  .bl-thumb { width: 80px; height: 60px; }
+  .bl-order { max-width: none; }
+}

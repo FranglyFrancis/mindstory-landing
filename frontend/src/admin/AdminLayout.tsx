@@ -7,6 +7,8 @@ import type { AdminUser } from "./api";
 import { PageCrumbContext } from "./adminPage";
 import type { PageProps } from "./adminPage";
 import BrandsPage from "./BrandsPage";
+import FaqsPage from "./FaqsPage";
+import BlogsPage from "./BlogsPage";
 
 /* ---------- icons ---------- */
 const Svg = ({ children }: { children: ReactNode }) => (
@@ -25,6 +27,20 @@ const UsersIcon = () => (
 );
 const BrandsIcon = () => (
   <Svg><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z" /><circle cx="7.5" cy="7.5" r="1.2" /></Svg>
+);
+const BlogIcon = () => (
+  <Svg>
+    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+    <path d="M14 3v5h5" />
+    <path d="M9 13h6M9 17h6" />
+  </Svg>
+);
+const FaqIcon = () => (
+  <Svg>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7" />
+    <path d="M12 17h.01" />
+  </Svg>
 );
 const MenuIcon = () => (
   <Svg><path d="M4 6h16M4 12h16M4 18h16" /></Svg>
@@ -46,6 +62,8 @@ const NAV: NavItem[] = [
   { id: "stories", label: "Success Stories", icon: <StoriesIcon />, page: SuccessStoriesPage },
   { id: "services", label: "Services", icon: <ServicesIcon />, page: ServicesPage },
   { id: "brands", label: "Brands", icon: <BrandsIcon />, page: BrandsPage },
+  { id: "blogs", label: "Blogs", icon: <BlogIcon />, page: BlogsPage }, // <-- 3. the menu entry
+  { id: "faqs", label: "FAQs", icon: <FaqIcon />, page: FaqsPage },
   { id: "users", label: "Users", icon: <UsersIcon />, page: UsersPage, superOnly: true },
   // { id: "blog", label: "Blog", icon: <ServicesIcon />, page: BlogPage },
 ];

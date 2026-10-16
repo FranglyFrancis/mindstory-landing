@@ -1,0 +1,63 @@
+/* Reusable image upload box (ImageUpload.tsx). Uses the colour variables from admin.css. */
+
+.iu { margin-bottom: 16px; }
+.iu-label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+.iu-label span { margin-left: 2px; }
+
+.iu-drop {
+  position: relative; overflow: hidden; aspect-ratio: 16 / 10; max-width: 420px;
+  background: #fafaf7; border: 2px dashed #c3c8c0; border-radius: 10px;
+  transition: border-color .15s, background .15s;
+}
+.iu-drop:hover, .iu-drop.is-over { border-color: var(--ad-accent); background: #f0f7f4; }
+.iu-drop.is-over { border-style: solid; }
+.iu-drop.has-image { background: #fff; border-style: solid; border-color: var(--ad-line); }
+
+.iu-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  width: 100%; height: 100%; padding: 12px; box-sizing: border-box;
+  font: inherit; text-align: center; color: var(--ad-muted); background: none; border: 0; cursor: pointer;
+}
+.iu-empty:focus-visible { outline: 2px solid var(--ad-accent); outline-offset: -4px; border-radius: 8px; }
+.iu-icon {
+  display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 6px;
+  color: var(--ad-accent-dark); background: #e6f2ed; border-radius: 50%;
+}
+.iu-title { font-size: 14px; font-weight: 600; color: var(--ad-ink); }
+.iu-hint { font-size: 12px; line-height: 1.35; }
+
+.iu-preview { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.iu-bar {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; gap: 8px;
+  padding: 24px 8px 8px; background: linear-gradient(to top, rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
+  opacity: 0; transition: opacity .15s;
+}
+.iu-drop:hover .iu-bar, .iu-drop:focus-within .iu-bar { opacity: 1; }
+.iu-bar button {
+  padding: 5px 11px; font: inherit; font-size: 13px; color: var(--ad-ink);
+  background: #fff; border: 0; border-radius: 5px; cursor: pointer;
+}
+.iu-bar button:hover { background: #f0f0ea; }
+.iu-bar button.remove { color: var(--ad-danger); }
+.iu-bar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.iu-busy {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  font-size: 13px; color: var(--ad-ink); background: rgba(255, 255, 255, .9);
+}
+.iu-spin {
+  width: 20px; height: 20px; border: 2px solid var(--ad-line); border-top-color: var(--ad-accent);
+  border-radius: 50%; animation: iu-rot .7s linear infinite;
+}
+@keyframes iu-rot { to { transform: rotate(360deg); } }
+
+.iu-err { display: block; margin-top: 6px; font-size: 13px; color: var(--ad-danger); }
+
+/* touch screens have no hover, so keep Replace / Remove visible */
+@media (hover: none) { .iu-bar { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .iu-drop, .iu-bar { transition: none; }
+  .iu-spin { animation-duration: 2s; }
+}
