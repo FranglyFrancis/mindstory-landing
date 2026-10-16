@@ -7,6 +7,9 @@ import faqRoutes from "./routes/faqRoutes.js";
 import adminRoutes from "./routes/adminAuthRoutes.js";
 import { publicSuccessRouter, adminSuccessRouter } from "./routes/successStoryRoutes.js";
 import brandRoutes from "./routes/brandRoutes.js";
+import { v2 as cloudinary } from "cloudinary";
+import "./utils/cloudinary.js";   // runs the config
+
 
 const app = express();
 const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:5173")
@@ -42,6 +45,21 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.get("/api/test", (_req, res) => {
   res.json({ ok: true });
+});
+
+app.get("/api/cloudinary-check", async (_req, res) => {
+  const info = {
+    cloud: process.env.CLOUDINARY_CLOUD_NAME ?? null,
+    keyLength: process.env.CLOUDINARY_API_KEY?.length ?? 0,
+    keyEnds: process.env.CLOUDINARY_API_KEY?.slice(-4) ?? null,
+    secretLength: process.env.CLOUDINARY_API_SECRET?.length ?? 0,
+  };
+  try {
+    const ping = await cloudinary.api.ping();
+    res.json({ ok: true, info, ping });
+  } catch (e: any) {
+    res.status(500).json({ ok: false, info, error: e?.message || e?.error?.message || String(e) });
+  }
 });
 
 // ---- serve the built frontend ----

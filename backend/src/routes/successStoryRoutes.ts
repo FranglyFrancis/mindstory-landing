@@ -31,9 +31,9 @@ adminSuccessRouter.post("/upload", requireAuth, (req: Request, res: Response) =>
        try {
          const url = await uploadImage(req.file.buffer);
          return res.json({ url });
-       } catch (e) {
-         console.error("Cloudinary upload error:", e);
-         return res.status(500).json({ error: "Upload failed" });
-       }
+       } catch (e: any) {
+          console.error("Cloudinary upload error:", e);
+          return res.status(500).json({ error: e?.message || e?.error?.message || "Upload failed" });
+        }
      });
 });
