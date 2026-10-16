@@ -5,6 +5,7 @@
      api_key: process.env.CLOUDINARY_API_KEY,
      api_secret: process.env.CLOUDINARY_API_SECRET,
    });
+ 
 
    export function uploadImage(buffer: Buffer): Promise<string> {
      return new Promise((resolve, reject) => {
