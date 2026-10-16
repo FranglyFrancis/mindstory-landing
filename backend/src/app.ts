@@ -9,7 +9,7 @@ import { publicSuccessRouter, adminSuccessRouter } from "./routes/successStoryRo
 import brandRoutes from "./routes/brandRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
 import "./utils/cloudinary.js";   // runs the config
-
+import fs from "fs";
 
 const app = express();
 const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:5173")
@@ -62,21 +62,26 @@ app.get("/api/cloudinary-check", async (_req, res) => {
   }
 });
 
-// ---- serve the built frontend ----
+// ---- serve the built frontend (only when it exists, e.g. a single combined service) ----
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientDist = path.join(__dirname, "../../frontend/dist");
 
-app.use(express.static(clientDist));
+if (fs.existsSync(path.join(clientDist, "index.html"))) {
+  app.use(express.static(clientDist));
 
-app.use((req, res, next) => {
-  if (
-    req.method !== "GET" ||
-    req.path.startsWith("/api") ||
-    req.path.startsWith("/uploads") ||
-    path.extname(req.path)          // a request for a file (.css, .js, .png...) that wasn't found
-  ) return next();
-  res.setHeader("Cache-Control", "no-cache");   // browsers always fetch the latest index.html after a deploy
-  res.sendFile(path.join(clientDist, "index.html"));
-});
+  app.use((req, res, next) => {
+    if (
+      req.method !== "GET" ||
+      req.path.startsWith("/api") ||
+      req.path.startsWith("/uploads") ||
+      path.extname(req.path)
+    ) return next();
+    res.setHeader("Cache-Control", "no-cache");
+    res.sendFile(path.join(clientDist, "index.html"));
+  });
+} else {
+  // API-only service: answer the root address with a simple message instead of an error
+  app.get("/", (_req, res) => res.json({ ok: true, service: "api" }));
+}
 
 export default app;
