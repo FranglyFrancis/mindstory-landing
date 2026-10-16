@@ -7,7 +7,7 @@ function TrustedBrands(){
     return(
         <>
         <section className='centered-section brands'>
-           <Brands title={details.title} description={details.description} brands={brands} />
+           <Brands title={details.title} description={details.description} />
         </section>
 
         <div className="custom-shape-divider-top-1788603399">
