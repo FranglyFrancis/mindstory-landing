@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './SuccessStories.css';
 import './Card.css';
-import { storyArray } from '../../data/home/SuccessStories';
+// import { storyArray } from '../../data/home/SuccessStories';
 import { API_URL } from '../../config';
 import { imgSrc } from '../../utils/imgSrc';
 import { Blog } from '../../types';
@@ -22,6 +22,14 @@ const toCard = (s: ApiStory) =>
         image: imgSrc(s.projectImage),
         url: `/project-view/${s.slug}`,
     }) as unknown as Blog;
+
+export function storyArray<T>(array: T[],size: number): T[][]{
+    const stories: T[][] = [];
+    for(let i = 0; i < array.length; i += size){
+        stories.push(array.slice(i, i + size))
+    }
+    return stories;
+} 
 
 function SuccessStories(){
 

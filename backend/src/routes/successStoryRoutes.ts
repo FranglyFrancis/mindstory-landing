@@ -4,6 +4,8 @@ import { upload } from "../middleware/upload.js";
 import {
   listPublic, getPublic, listAdmin, createStory, updateStory, deleteStory,
 } from "../controllers/successStoryController.js";
+import { uploadImage } from "../utils/cloudinary.js";
+
 
 /* public: used by the website carousel */
 export const publicSuccessRouter = Router();
@@ -20,27 +22,18 @@ adminSuccessRouter.put("/success-stories/:id", updateStory);
 adminSuccessRouter.delete("/success-stories/:id", deleteStory);
 
 adminSuccessRouter.post("/upload", requireAuth, (req: Request, res: Response) => {
-  upload.single("file")(req, res, (err: any) => {
-    if (err) {
-      console.error("Multer upload error:", err);
-
-      const message =
-        err.code === "LIMIT_FILE_SIZE"
-          ? "Image must be under 5 MB"
-          : err.message || "Upload failed";
-
-      return res.status(400).json({ error: message });
-    }
-
-    if (!req.file) {
-      return res.status(400).json({
-        error: "Choose a PNG, JPG, WEBP or GIF image",
-      });
-    }
-
-    console.log("Uploaded file:", req.file.path);
-    return res.json({
-      url: `/uploads/${req.file.filename}`,
-    });
-  });
+     upload.single("file")(req, res, async (err: any) => {
+       if (err) {
+         const message = err.code === "LIMIT_FILE_SIZE" ? "Image must be under 5 MB" : err.message || "Upload failed";
+         return res.status(400).json({ error: message });
+       }
+       if (!req.file) return res.status(400).json({ error: "Choose a PNG, JPG, WEBP or GIF image" });
+       try {
+         const url = await uploadImage(req.file.buffer);
+         return res.json({ url });
+       } catch (e) {
+         console.error("Cloudinary upload error:", e);
+         return res.status(500).json({ error: "Upload failed" });
+       }
+     });
 });
