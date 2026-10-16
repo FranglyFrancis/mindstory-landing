@@ -9,14 +9,12 @@ import "../../services/blocks/TitleList.css";
 type Props = {
   lists?: IService["lists"];
   titleLists?: IService["titleCards"];
-  brands?: IService["brands"];
   image?: string;
 };
 
 export default function LogoDesignSection({
   lists = [],
   titleLists = [],
-  brands = [],
   image,
 }: Props) {
   return (
@@ -59,7 +57,7 @@ export default function LogoDesignSection({
         </div>
 
         <div className="section-division">
-          <Brands title={""} description={""} brands={brands} />
+          <Brands title={""} description={""} />
         </div>
       </section>
     </>

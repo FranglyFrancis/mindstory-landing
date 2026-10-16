@@ -1,5 +1,4 @@
 import './Brands.css';
-import { brands, details } from '../../data/home/Brands';
 import Brands from './Brands';
 
 function TrustedBrands(){
@@ -7,7 +6,7 @@ function TrustedBrands(){
     return(
         <>
         <section className='centered-section brands'>
-           <Brands title={details.title} description={details.description} />
+           <Brands title="Trusted Brands" description="Our commitment to excellence has made us a preferred digital marketing agency for leading brands. We prioritize client satisfaction and deliver custom solutions tailored to your unique needs and aspirations." />
         </section>
 
         <div className="custom-shape-divider-top-1788603399">

@@ -29,7 +29,6 @@ const sections: Record<string, (s: IService) => ReactNode> = {
     <LogoDesignSection
       lists={s.lists}
       titleLists={s.titleCards}
-      brands={s.brands}
       image={s.mainImage}
     />
   ),
