@@ -30,20 +30,3 @@ router.put("/users/:id", requireAuth, requireSuperAdmin, updateUser);
 router.delete("/users/:id", requireAuth, requireSuperAdmin, deleteUser);
 
 export default router;
-
-/*
-  ── In your server file (app.ts / server.ts) ──
-
-  import adminAuthRoutes from "./routes/adminAuthRoutes";
-  import { requireAuth } from "./middleware/auth";
-
-  app.set("trust proxy", 1); // only if you deploy behind a proxy (Render, Railway, Nginx...), needed for rate limiting
-  app.use("/api/admin", adminAuthRoutes);
-
-  // IMPORTANT: protect your existing admin services routes.
-  // Either mount them with the middleware:
-  app.use("/api/admin/services", requireAuth, yourExistingServicesRouter);
-  // ...or put `router.use(requireAuth);` at the top of that router file.
-
-  Then delete the old password-only login route and the old admin password env variable.
-*/

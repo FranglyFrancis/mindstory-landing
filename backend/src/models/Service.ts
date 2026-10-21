@@ -1,104 +1,81 @@
 import { Schema, model } from "mongoose";
 
-export interface ISectionItem {
-  title: string;
-  description: string;
-}
+/*
+  Matches your IService interface.
+  Required: slug, title, description, image (card), order, hero (title, description, image).
+  Everything else is an optional section. A section is either absent, or present with its required fields filled.
+*/
 
-export interface ISection {
-  title: string;
-  image: string;
-  content: ISectionItem[];
-}
+const req = { type: String, required: true, trim: true };
+const opt = { type: String, trim: true, default: "" };
+const sub = (def: Record<string, unknown>) => new Schema(def, { _id: false });
 
-export interface ITitleItem {
-    title: string;
-    description: string;
-    image: string;
-}
+const iconItem = sub({ icon: req, title: req, description: req });
+const titleDesc = sub({ title: req, description: req });
 
-export interface IParaItem {
-  description: string;
-}
-
-export interface IImageItem {
-  image: string;
-  description: string;
-}
-
-export interface IListItem {
-  icon: string;
-  title: string;
-  description: string;
-}
-
-export interface IService {
-  slug: string;
-  title: string;
-  description: string;
-  image: string;
-  order: number;
-  hero: { title: string; description: string; image: string };
-
-  heading?: { title: string; description?: string }; //done
-  intro?: { title: string; left: string; right: string }; //done
-  article?: { title?: string; descriptions: string[] }; //done
-  mainImage?: string;
-  lists?: IListItem[]; //done
-  titleCards?: ISectionItem[]; //done
-  iconCards?: IListItem[]; //done
-  titleItem?: ITitleItem[];
-  imageItem?: IImageItem;
-  paraItem?: IParaItem[];
-  features?: {
-    title?: string;
-    description: string;
-    image: string;
-    imagePosition: "left" | "right";
-  }[];
-  sections?: ISection[];
-  brands?: { image: string; brand: string }[];
-  faqs?: { question: string; answer: string }[];
-  hiddenSections?: string[];
-
-}
-
-const serviceSchema = new Schema<IService>({
-  slug: { type: String, required: true, unique: true },
-  title: { type: String, required: true },
-  description: String,
-  image: String,
-  order: { type: Number, default: 0 },
-  hero: { title: String, description: String, image: String },
-  heading: { title: String, description: String },
-  intro: { title: String, left: String, right: String },
-  article: { title: String, descriptions: [String] },
-  mainImage: String,
-  lists: [{ icon: String, title: String, description: String }],
-  titleCards: [{ title: String, description: String }],
-  iconCards: [{ icon: String, title: String, description: String }],
-  titleItem: [ { title:String, image: String, description: String } ],
-  imageItem: { image:String, description:String },
-  paraItem: [ {description: String} ],
-  features: [
-    {
-      title: String,
-      description: String,
-      image: String,
-      imagePosition: { type: String, enum: ["left", "right"] },
+const serviceSchema = new Schema(
+  {
+    // ---- IServiceListItem (also what the home page Expertise cards use) ----
+    slug: {
+      type: String, required: true, unique: true, trim: true, lowercase: true,
+      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug can only use lowercase letters, numbers and hyphens"],
     },
-  ],
-  sections: [
-    {
-      title: String,
-      image: String,
-      content: [{ title: String, description: String }],
+    title: req,
+    description: {
+      type: String,
+      required: false
     },
-  ],
-  brands: [{ image: String, brand: String }],
-  faqs: [{ question: String, answer: String }],
-  hiddenSections: [String],
-});
+    image: req,
 
+    // ---- IService: required ----
+    order: { type: Number, required: true },
+    hero: { type: sub({ title: req, description: req, image: req }), required: true },
 
-export const Service = model<IService>("Service", serviceSchema);
+    // ---- IService: optional sections ----
+    mainImage: { type: String, trim: true },
+    heading: { type: sub({ title: req, description: opt }), default: undefined },
+    intro: { type: sub({ title: req, left: req, right: req }), default: undefined },
+    article: {
+      type: sub({
+        title: opt,
+        descriptions: {
+          type: [String],
+          validate: [(v: string[]) => v.length > 0, "article needs at least one paragraph"],
+        },
+      }),
+      default: undefined,
+    },
+    lists: { type: [iconItem], default: undefined },
+    iconCards: { type: [iconItem], default: undefined },
+    titleCards: { type: [titleDesc], default: undefined },
+    titleItem: { type: [sub({ title: req, description: req, image: req })], default: undefined },
+    imageItem: { type: sub({ image: req, description: req }), default: undefined },
+    paraItem: { type: [sub({ description: req })], default: undefined },
+    features: {
+      type: [
+        sub({
+          title: opt,
+          description: req,
+          image: req,
+          imagePosition: { type: String, enum: ["left", "right"], required: true },
+        }),
+      ],
+      default: undefined,
+    },
+    sections: {
+      type: [sub({ title: req, image: req, content: { type: [titleDesc], default: [] } })],
+      default: undefined,
+    },
+    brands: { type: [sub({ image: req, brand: req })], default: undefined },
+    faqs: { type: [sub({ question: req, answer: req })], default: undefined },
+
+    // sections the admin switched off for the website without deleting their content
+    hiddenSections: { type: [String], default: [] },
+      // the order the admin arranged the sections in
+    sectionOrder: { type: [String], default: [] },
+  },
+
+  { timestamps: true }
+);
+
+export const Service = model("Service", serviceSchema);

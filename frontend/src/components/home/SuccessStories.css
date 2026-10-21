@@ -1,9 +1,18 @@
-.section-heading {
+.section-heading span {
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
+  gap: 10px;
 }
 
+.section-heading h1 {
+  font-size: 35px;
+  font-weight: 800;
+  opacity: 0.8;
+}
+
+.section-heading p {
+  font-size: 20px;
+}
 .section-heading a {
   color: #d26c05;
 }
@@ -12,22 +21,34 @@
   text-decoration: none;
   color:#f7993b
 }
+
+
+.cards-wrapper {
+  display: flex;
+  justify-content: center;   /* a slide with 1 or 2 cards stays centered */
+  gap: 25px;
+  align-items: stretch;
+  width: 100%;
+}
+
+
 .project-card {
   position: relative;
-  display: block;            /* it's a link now */
-  /* width: 300px; */
-  min-width: 450px;
-  max-width: 450px;
-  min-height: 300px;
-  max-height: 300px;
-  /* flex: 0 0 300px; */
+  display: block;
+  flex: 0 0 calc((100% - 50px) / 3);   /* exactly 1/3 of the row minus the two gaps */
+  width: calc((100% - 50px) / 3);
+  min-width: 0;
+  max-width: none;
+  aspect-ratio: 383 / 257;
+  border: none;
+  border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
   color: inherit;
   text-decoration: none;
 }
 
-/* this rule was commented out in your file, but the <img> uses class "card-image", so it was never styled */
+
 .project-card .card-image {
   width: 100%;
   height: 100%;
@@ -38,99 +59,79 @@
 .project-overlay {
   position: absolute;
   inset: 0;
-
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 6px;
-
-  padding: 25px;
-
-  background: rgba(230, 145, 16, 0.6);
-  color: white;
-
+  justify-content: center;   /* text sits in the middle, like the screenshot */
+  gap: 14px;
+  padding: 0 40px;
+  background: #f9bc2c;       /* solid yellow */
+  color: #444;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.project-card:hover .project-overlay {
+.project-card:hover .project-overlay,
+.project-card:focus-visible .project-overlay {
   opacity: 1;
 }
 
-.project-overlay h3,
-.project-overlay p {
-  size: 5px;
+.project-overlay h3 {
   margin: 0;
+  font-size: 21px;
+  font-weight: 500;
+  color: #3b3b3b;
 }
 
-.cards-wrapper {
-  display: flex;
-  gap: 20px;
-  /* justify-content: flex-start; */
-  align-items: stretch;
-  justify-items: center;
+.project-overlay p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;     /* long descriptions end with "..." */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.stories-viewport {
   width: 100%;
+  overflow: hidden;
 }
 
-.carousel-arrows {
+.stories-track {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  justify-content: flex-end;
+  transition: transform 0.5s ease;
 }
 
-.carousel-arrows .carousel-control-prev,
-.carousel-arrows .carousel-control-next {
-  position: static;
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  border: 1px solid #dfdede;
-  border-radius: 0;
-  opacity: 1;
+.stories-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.stories-dots {
   display: flex;
-  align-items: center;
   justify-content: center;
-  
+  gap: 10px;
+  margin-top: 18px;
 }
 
-.carousel-arrows .carousel-control-prev:hover,
-.carousel-arrows .carousel-control-next:hover {
-  background: #6071ef;
+.stories-dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #e0e0e0;
+  cursor: pointer;
 }
 
-.carousel-arrows .carousel-control-prev-icon,
-.carousel-arrows .carousel-control-next-icon {
-  width: 18px;
-  height: 18px;
-  background-size: 14px 14px;
-  filter: invert(1);
-  opacity: 0.2;
+.stories-dots button.active {
+  background: #999;
 }
 
-.desktop-carousel {
-  display: block;
-}
-
-.mobile-carousel {
-  display: none;
-}
-
-.desktop-arrow{
-    display: block;
-  }
-  
-  .mobile-arrow{
-    display: none;
-  }
-
-@media (max-width: 768px){
-   .desktop-arrow{
-    display: none;
-  }
-
-  .mobile-arrow{
-    display: block;
+@media (max-width: 768px) {
+  .project-card {
+    flex: 0 0 100%;
+    width: 100%;
   }
 }

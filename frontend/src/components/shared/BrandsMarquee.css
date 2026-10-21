@@ -1,0 +1,75 @@
+
+.brands-marquee {
+  --gap: 24px;
+  --brand-w: 6px;
+  overflow: hidden;
+  padding: 8px 0 12px;
+  /* soft fade at both edges */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.brands-track {
+  display: flex;
+  width: max-content;
+  animation: brands-scroll var(--duration, 48s) linear infinite;
+  will-change: transform;
+}
+@keyframes brands-scroll {
+  to { transform: translateX(-50%); }   /* exactly one of the two identical sets */
+}
+
+/* hovering or tabbing into the strip, or pressing Pause, stops it */
+.brands-marquee:hover .brands-track,
+.brands-marquee:focus-within .brands-track,
+.brands-marquee.is-paused .brands-track { animation-play-state: paused; }
+
+/* the trailing padding (instead of a gap between the two sets) keeps both sets exactly the same width */
+.brands-set {
+  display: flex;
+  gap: var(--gap);
+  margin: 0;
+  padding: 0 var(--gap) 0 0;
+  list-style: none;
+}
+.brands-item { flex: 0 0 var(--brand-w); display: flex; }
+
+/* make whatever BrandCard renders fill its slot, even if its own CSS sets a width */
+.brands-set > .brands-item > * {
+  width: 100%;
+  max-width: 180px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Pause / Play (people must be able to stop moving content) */
+.brands-toggle {
+  display: block;
+  margin: 6px auto 0;
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 99px;
+  opacity: .75;
+  cursor: pointer;
+}
+.brands-toggle:hover { opacity: 1; }
+.brands-toggle:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+
+@media (max-width: 600px) {
+  .brands-marquee { --gap: 16px; --brand-w: 140px; }
+}
+
+/* visitors who ask their device for less motion get a normal row they can scroll by hand */
+@media (prefers-reduced-motion: reduce) {
+  .brands-marquee {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .brands-track { animation: none; }
+  .brands-dup, .brands-toggle { display: none; }
+}

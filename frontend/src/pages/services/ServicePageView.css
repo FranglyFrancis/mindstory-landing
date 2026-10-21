@@ -1,0 +1,60 @@
+/* Sections of a service page built from the admin panel. Everything is prefixed sb- so it can't clash with the rest of the site. */
+
+.sb-page { max-width: 1100px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
+.sb-block { margin: 56px 0; }
+.sb-title { margin: 0 0 20px; text-align: center; }
+
+.sb-block p { line-height: 1.8; }
+
+/* main image */
+.sb-main img { display: block; width: 100%; max-height: 560px; object-fit: cover; border-radius: 16px; }
+
+/* intro: two columns */
+.sb-two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.sb-two p { margin: 0; }
+
+/* title cards and title items */
+.sb-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.sb-card { padding: 24px; background: #fff; border: 1px solid #e4e4e4; border-radius: 12px; }
+.sb-card h3 { margin: 0 0 10px; font-size: 1.2rem; }
+.sb-card p { margin: 0; color: #555; }
+.sb-card-image img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; margin-bottom: 16px; border-radius: 8px; }
+
+/* image item */
+.sb-imageitem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px; align-items: center; }
+.sb-imageitem img { display: block; width: 100%; border-radius: 12px; }
+.sb-imageitem p { margin: 0; }
+
+/* features: text and image side by side, image left or right */
+.sb-feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; margin-bottom: 56px; }
+.sb-feature:last-child { margin-bottom: 0; }
+.sb-feature img { display: block; width: 100%; border-radius: 12px; }
+.sb-feature.is-right img { order: 2; }
+.sb-feature h3 { margin: 0 0 12px; }
+.sb-feature p { margin: 0; }
+
+/* sections: image with grouped content */
+.sb-group { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 32px; align-items: start; margin-bottom: 48px; }
+.sb-group:last-child { margin-bottom: 0; }
+.sb-group img { display: block; width: 100%; border-radius: 12px; }
+.sb-group h3 { margin: 0 0 16px; }
+.sb-content { margin-bottom: 16px; }
+.sb-content h4 { margin: 0 0 4px; font-size: 1.05rem; }
+.sb-content p { margin: 0; color: #555; }
+
+/* brand logos */
+.sb-brands { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 24px 40px; margin: 0; padding: 0; list-style: none; }
+.sb-brands img { display: block; max-width: 140px; max-height: 70px; object-fit: contain; }
+
+/* FAQs */
+.sb-faqs { max-width: 820px; margin-left: auto; margin-right: auto; }
+.sb-faqs details { padding: 16px 0; border-bottom: 1px solid #e4e4e4; }
+.sb-faqs summary { cursor: pointer; font-weight: 600; }
+.sb-faqs summary:focus-visible { outline: 2px solid #d26c05; outline-offset: 4px; }
+.sb-faqs details p { margin: 12px 0 0; color: #555; }
+
+@media (max-width: 800px) {
+  .sb-block { margin: 40px 0; }
+  .sb-two, .sb-imageitem, .sb-feature, .sb-group { grid-template-columns: 1fr; gap: 20px; }
+  .sb-feature.is-right img { order: 0; }
+}

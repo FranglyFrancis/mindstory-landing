@@ -1,0 +1,59 @@
+/* Expertise carousel: used only when there are more than 4 services. With 4 or fewer, your normal .card-row is used. */
+
+.expertise-carousel {
+  --gap: 20px;
+  --per-view: 4;
+  width: 100%;
+}
+
+/* the scrolling row */
+.expertise-track {
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  padding: 12px 2px 16px;              /* room so card shadows are not cut off */
+  scrollbar-width: none;               /* the arrow buttons replace the scrollbar; swiping and the keyboard still work */
+  -webkit-overflow-scrolling: touch;
+}
+.expertise-track::-webkit-scrollbar { display: none; }
+.expertise-track:focus-visible { outline: 3px solid #fff; outline-offset: 2px; border-radius: 12px; }
+
+/* each card takes an equal share of the row */
+.expertise-slide {
+  flex: 0 0 calc((100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view));
+  min-width: 0;
+  scroll-snap-align: start;
+  display: flex;
+}
+/* make whatever ExpertiseItem renders fill its slide, even if its own CSS sets a fixed width */
+.expertise-track > .expertise-slide > * {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* previous / next */
+.expertise-nav { display: flex; justify-content: center; gap: 12px; margin-top: 8px; }
+.expertise-arrow {
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  color: #1b2a2c; background: #fff; border: 0; border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .18); cursor: pointer;
+  transition: transform .15s, opacity .15s;
+}
+.expertise-arrow:hover:not(:disabled) { transform: scale(1.06); }
+.expertise-arrow:disabled { opacity: .45; cursor: default; box-shadow: none; }
+.expertise-arrow:focus-visible { outline: 3px solid #1b2a2c; outline-offset: 3px; }
+
+/* fewer cards per screen on smaller widths */
+@media (max-width: 1100px) { .expertise-carousel { --per-view: 3; } }
+@media (max-width: 800px)  { .expertise-carousel { --per-view: 2; } }
+@media (max-width: 520px) {
+  .expertise-carousel { --per-view: 1.15; --gap: 14px; }   /* a peek of the next card shows it can be swiped */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expertise-arrow { transition: none; }
+}

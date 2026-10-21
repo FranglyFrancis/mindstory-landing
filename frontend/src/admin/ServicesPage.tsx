@@ -1,374 +1,464 @@
-import { useEffect, useState } from "react";
-import type { CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "./api";
-import "./ServicesPage.css"; 
+import ImageUpload from "./ImageUpload";
+import ServiceField from "./ServiceField";
+import { imgSrc } from "../utils/imgSrc";
+import { usePageCrumb } from "./adminPage";
+import type { PageProps } from "./adminPage";
+import {
+  CUSTOM_LAYOUT_SLUGS, HERO, SECTIONS, SECTION_BY_KEY,
+  asObj, cleanValue, emptyValue, hasContent, summarize, validateValue,
+} from "./serviceSections";
+import "./ServicesAdmin.css";
 
-/* ---------- field definitions (match your Mongoose schema) ---------- */
-type FieldSpec = {
-  key: string;
-  label: string;
-  type?: "text" | "textarea" | "number" | "select" | "group" | "list" | "strings";
-  options?: string[];
-  fields?: FieldSpec[];
+type Obj = Record<string, unknown>;
+type Note = { ok: boolean; text: string } | null;
+
+/** One row of the listing (the full document is loaded when you open Edit). */
+type Row = {
+  _id: string; slug: string; title: string; description: string; image: string;
+  order: number; sectionCount: number; updatedAt?: string;
+};
+type Doc = {
+  _id: string; slug: string; title: string; description: string; image: string; order: number;
+  hero: Obj; sectionOrder?: string[]; hiddenSections?: string[];
+  [section: string]: unknown;
 };
 
-const t = (key: string, label = key): FieldSpec => ({ key, label });
-const ta = (key: string, label = key): FieldSpec => ({ key, label, type: "textarea" });
+/* Admin API path (your api() helper adds /api/admin in front).
+   It is deliberately NOT "/services": an older admin route at /api/admin/services/:slug would answer
+   an edit request first, treating the id as a slug. Change this one line if you remove those old routes. */
+const BASE = "/service-pages";
 
-const iconItem = [t("icon"), t("title"), ta("description")];
-const titleDesc = [t("title"), ta("description")];
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const slugify = (s: string) =>
+  s.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const fmtDate = (iso?: string) =>
+  iso ? new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "-";
 
-const serviceFields: FieldSpec[] = [
-  t("slug"),
-  t("title"),
-  ta("description"),
-  t("image", "Card image path"),
-  { key: "order", label: "Order", type: "number" },
-  t("mainImage", "Main image path"),
-  { key: "hero", label: "Hero", type: "group", fields: [t("title"), ta("description"), t("image")] },
-  { key: "heading", label: "Heading", type: "group", fields: titleDesc },
-  { key: "intro", label: "Intro", type: "group", fields: [t("title"), ta("left"), ta("right")] },
-  {
-    key: "article", label: "Article", type: "group",
-    fields: [t("title"), { key: "descriptions", label: "Paragraphs", type: "strings" }],
-  },
-  { key: "lists", label: "Lists (icon, title, description)", type: "list", fields: iconItem },
-  { key: "iconCards", label: "Icon cards", type: "list", fields: iconItem },
-  { key: "titleCards", label: "Title cards", type: "list", fields: titleDesc },
-  { key: "titleItem", label: "Title items (title, description, image)", type: "list", fields: [t("title"), ta("description"), t("image")] },
-  { key: "imageItem", label: "Image item", type: "group", fields: [t("image"), ta("description")] },
-  { key: "paraItem", label: "Paragraph items", type: "list", fields: [ta("description")] },
-  {
-    key: "features", label: "Features", type: "list",
-    fields: [
-      t("title"), ta("description"), t("image"),
-      { key: "imagePosition", label: "Image position", type: "select", options: ["left", "right"] },
-    ],
-  },
-  {
-    key: "sections", label: "Sections", type: "list",
-    fields: [
-      t("title"), t("image"),
-      { key: "content", label: "Content", type: "list", fields: titleDesc },
-    ],
-  },
-  { key: "brands", label: "Brands", type: "list", fields: [t("image"), t("brand")] },
-  { key: "faqs", label: "FAQs", type: "list", fields: [t("question"), ta("answer")] },
-];
+/* =========================== page =========================== */
+/* #services            -> listing
+   #services/new        -> add
+   #services/edit/<id>  -> edit              */
 
-// fields that are always shown
-const coreKeys = ["slug", "title", "description", "image", "order"];
-const coreFields = serviceFields.filter((s) => coreKeys.includes(s.key));
-const optionalFields = serviceFields.filter((s) => !coreKeys.includes(s.key));
+export default function ServicesPage({ path }: PageProps) {
+  const [rows, setRows] = useState<Row[] | null>(null);
+  const [note, setNote] = useState<Note>(null);
 
-function isEmpty(spec: FieldSpec, v: any): boolean {
-  if (v == null) return true;
-  switch (spec.type) {
-    case "list":
-      return !Array.isArray(v) || v.length === 0;
-    case "strings":
-      return !Array.isArray(v) || v.every((s) => !String(s).trim());
-    case "group":
-      return spec.fields!.every((f) => isEmpty(f, v[f.key]));
-    case "number":
-      return false;
-    default:
-      return String(v).trim() === "";
-  }
-}
-
-// keys of optional sections that currently have data
-const filledKeys = (d: Doc) =>
-  optionalFields.filter((s) => !isEmpty(s, d[s.key])).map((s) => s.key);
-
-const toggleable = serviceFields.filter((s) => s.type === "group" || s.type === "list");
-
-function Visibility({ doc, onChange }: { doc: Doc; onChange: (v: Doc) => void }) {
-  const hidden: string[] = doc.hiddenSections ?? [];
-  const items = toggleable.filter((s) => !isEmpty(s, doc[s.key]));
-  if (!items.length) return null;
-
-  const toggle = (key: string) =>
-    onChange({
-      ...doc,
-      hiddenSections: hidden.includes(key) ? hidden.filter((k) => k !== key) : [...hidden, key],
-    });
-
-  return (
-    <details open>
-      <summary>Show / hide sections ({hidden.length} hidden)</summary>
-      {items.map((s) => (
-        <label key={s.key}>
-          <input type="checkbox" checked={!hidden.includes(s.key)} onChange={() => toggle(s.key)} />{" "}
-          {s.label}
-          {hidden.includes(s.key) && <small style={{ color: "#c00" }}> (hidden)</small>}
-        </label>
-      ))}
-    </details>
-  );
-}
-
-/* ---------- helpers ---------- */
-type Doc = Record<string, any>;
-
-function blank(specs: FieldSpec[]): Doc {
-  const out: Doc = {};
-  for (const s of specs) {
-    if (s.type === "list" || s.type === "strings") out[s.key] = [];
-    else if (s.type === "group") out[s.key] = blank(s.fields!);
-    else if (s.type === "number") out[s.key] = 0;
-    else if (s.type === "select") out[s.key] = s.options![0];
-    else out[s.key] = "";
-  }
-  return out;
-}
-
-/* ---------- generic form renderer ---------- */
-const box: CSSProperties = {};
-const input: CSSProperties = {};
-
-function move<T>(arr: T[], from: number, to: number): T[] {
-  if (to < 0 || to >= arr.length) return arr;
-  const copy = [...arr];
-  [copy[from], copy[to]] = [copy[to], copy[from]];
-  return copy;
-}
-
-function Fields({ specs, value, onChange }: { specs: FieldSpec[]; value: Doc; onChange: (v: Doc) => void }) {
-  return (
-    <>
-      {specs.map((s) => (
-        <FieldInput
-          key={s.key}
-          spec={s}
-          value={value?.[s.key]}
-          onChange={(v) => onChange({ ...value, [s.key]: v })}
-        />
-      ))}
-    </>
-  );
-}
-
-function FieldInput({ spec, value, onChange }: { spec: FieldSpec; value: any; onChange: (v: any) => void }) {
-  const label = <label>{spec.label}</label>;
-
-  if (spec.type === "textarea")
-    return <div>{label}<textarea rows={3} style={input} value={value ?? ""} onChange={(e) => onChange(e.target.value)} /></div>;
-
-  if (spec.type === "number")
-    return <div>{label}<input type="number" style={input} value={value ?? 0} onChange={(e) => onChange(Number(e.target.value))} /></div>;
-
-  if (spec.type === "select")
-    return (
-      <div>{label}
-        <select style={input} value={value ?? spec.options![0]} onChange={(e) => onChange(e.target.value)}>
-          {spec.options!.map((o) => <option key={o}>{o}</option>)}
-        </select>
-      </div>
-    );
-
-  if (spec.type === "group")
-    return (
-      <details style={box}>
-        <summary style={{ cursor: "pointer", fontWeight: 600 }}>{spec.label}</summary>
-        <Fields specs={spec.fields!} value={value ?? {}} onChange={onChange} />
-      </details>
-    );
-
-  if (spec.type === "strings") {
-    const items: string[] = value ?? [];
-    return (
-      <div>{label}
-        {items.map((v, i) => (
-          <div key={i} className="row">
-            <textarea rows={3} style={input} value={v} onChange={(e) => onChange(items.map((x, j) => (j === i ? e.target.value : x)))} />
-            <button onClick={() => onChange(items.filter((_, j) => j !== i))}>✕</button>
-          </div>
-        ))}
-        <button onClick={() => onChange([...items, ""])}>+ Add paragraph</button>
-      </div>
-    );
-  }
-
-  if (spec.type === "list") {
-    const items: Doc[] = value ?? [];
-    return (
-      <details style={box}>
-        <summary style={{ cursor: "pointer", fontWeight: 600 }}>{spec.label} ({items.length})</summary>
-        {items.map((item, i) => (
-          <div key={i} className="card">
-            <div className="card-tools">
-                <button onClick={() => onChange(move(items, i, i - 1))}>↑</button>
-                <button onClick={() => onChange(move(items, i, i + 1))}>↓</button>
-                <button className="danger" onClick={() => onChange(items.filter((_, j) => j !== i))}>Remove</button>
-            </div>
-            <Fields specs={spec.fields!} value={item} onChange={(v) => onChange(items.map((x, j) => (j === i ? v : x)))} />
-          </div>
-        ))}
-        <button onClick={() => onChange([...items, blank(spec.fields!)])}>+ Add item</button>
-      </details>
-    );
-  }
-
-  return <div>{label}<input style={input} value={value ?? ""} onChange={(e) => onChange(e.target.value)} /></div>;
-}
-
-/* ---------- page ---------- */
-// Login, token and logout now live in AdminApp / AdminLayout. This page only edits services.
-export default function ServicesPage() {
-  const [services, setServices] = useState<Doc[]>([]);
-  const [doc, setDoc] = useState<Doc | null>(null);
-  const [mode, setMode] = useState<"form" | "json">("form");
-  const [jsonText, setJsonText] = useState("");
-  const [msg, setMsg] = useState("");
-  const [shown, setShown] = useState<string[]>([]); // optional sections open in the form
-
-  async function load() {
+  const load = useCallback(async () => {
     try {
-      const list = await api("/services");
-      setServices(list);
-      return list as Doc[];
+      setRows(await api<Row[]>(BASE));
     } catch (e: any) {
-      setMsg(e.message);
-      return [] as Doc[];
+      setRows((r) => r ?? []);
+      setNote({ ok: false, text: e.message });
     }
-  }
-
-  function select(s: Doc) {
-    setDoc(JSON.parse(JSON.stringify(s)));
-    setShown(filledKeys(s));
-    if (s._id) sessionStorage.setItem("admin-last-id", s._id);
-    setMode("form");
-    setMsg("");
-  }
-
-  function newService() {
-    setDoc({ ...blank(serviceFields), slug: "new-service", title: "New Service", hiddenSections: [] });
-    setShown([]);
-    setMode("form");
-    setMsg("");
-  }
-
-  function switchMode(next: "form" | "json") {
-    if (!doc) return;
-    if (next === "json") setJsonText(JSON.stringify(doc, null, 2));
-    else {
-      try {
-        const parsed = JSON.parse(jsonText);
-        setDoc(parsed);
-        setShown(filledKeys(parsed));
-      } catch { return setMsg("Invalid JSON, fix it first"); }
-    }
-    setMode(next);
-  }
-
-  async function save() {
-    try {
-      const body = mode === "json" ? JSON.parse(jsonText) : { ...doc };
-      const id = doc?._id;
-      delete body._id;
-      delete body.__v;
-      const saved = id
-        ? await api(`/services/${id}`, { method: "PUT", body: JSON.stringify(body) })
-        : await api("/services", { method: "POST", body: JSON.stringify(body) });
-      setDoc(saved);
-      setShown(filledKeys(saved));
-      setMsg("Saved");
-      load();
-    } catch (e: any) {
-      setMsg(`Error: ${e.message}`);
-    }
-  }
-
-  async function remove() {
-    if (!doc?._id || !confirm("Delete this service?")) return;
-    try {
-      await api(`/services/${doc._id}`, { method: "DELETE" });
-      setMsg("Deleted");
-      const list = await load();
-      if (list.length) select(list[0]);
-      else setDoc(null);
-    } catch (e: any) {
-      setMsg(`Error: ${e.message}`);
-    }
-  }
-
-  useEffect(() => {
-    (async () => {
-      const list = await load();
-      if (!list.length) return;
-      const lastId = sessionStorage.getItem("admin-last-id");
-      select(list.find((s) => s._id === lastId) ?? list[0]);
-    })();
   }, []);
+  useEffect(() => { void load(); }, [load]);
 
-  // switchMode is kept for when you re-enable the Form/JSON tabs below
-  void switchMode;
+  const adding = path[0] === "new";
+  const editId = path[0] === "edit" ? path[1] : undefined;
+  const inForm = adding || !!editId;
+
+  useEffect(() => { if (inForm) setNote(null); }, [inForm, editId]);
+
+  const goList = (n?: Note) => {
+    if (n) setNote(n);
+    window.location.hash = "services";
+  };
+
+  if (inForm) {
+    if (rows === null) return <p className="ad-sub" role="status">Loading…</p>;
+    const nextOrder = rows.reduce((m, r) => Math.max(m, r.order ?? 0), 0) + 1;
+    return <ServiceEditor key={editId ?? "new"} id={editId} nextOrder={nextOrder} reload={load} onDone={goList} />;
+  }
+
+  return <ServiceList rows={rows} note={note} setNote={setNote} reload={load} />;
+}
+
+/* =========================== listing =========================== */
+
+function ServiceList({
+  rows, note, setNote, reload,
+}: { rows: Row[] | null; note: Note; setNote: (n: Note) => void; reload: () => Promise<void> }) {
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const sorted = useMemo(() => (rows ? [...rows].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) : []), [rows]);
+
+  const add = () => { window.location.hash = "services/new"; };
+
+  async function remove(r: Row) {
+    const extra = CUSTOM_LAYOUT_SLUGS.includes(r.slug) ? "\n\nThis service has a hand-built page, which will stop working." : "";
+    if (!window.confirm(`Delete "${r.title}"? This cannot be undone.${extra}`)) return;
+    setBusyId(r._id);
+    setNote(null);
+    try {
+      await api(`${BASE}/${r._id}`, { method: "DELETE" });
+      setNote({ ok: true, text: `${r.title} deleted.` });
+      await reload();
+    } catch (e: any) {
+      setNote({ ok: false, text: e.message });
+    } finally {
+      setBusyId(null);
+    }
+  }
 
   return (
-    <div className="admin admin-layout">
-        <aside className="admin-sidebar">
-            <button className="primary" onClick={newService} style={{ width: "100%", marginBottom: 10 }}>
-            + New service
-            </button>
-            {services.map((s) => (
-            <div key={s._id} onClick={() => select(s)}
-                className={`admin-item ${s._id === doc?._id ? "active" : ""}`}>
-                {s.title} <small>({s.slug})</small>
-            </div>
-            ))}
-        </aside>
+    <div className="sv-page">
+      <div className="sv-head">
+        <div>
+          <h2>Services</h2>
+          <p className="ad-sub sv-sub">{rows === null ? "Loading…" : `${rows.length} ${rows.length === 1 ? "service" : "services"}. Shown in the Expertise section, in this order.`}</p>
+        </div>
+        <button type="button" className="ad-btn solid sv-add-btn" onClick={add}>+ Add service</button>
+      </div>
 
-        <main className="admin-main">
-            {!doc ? (
-            <p>{msg || "Select a service or create a new one."}</p>
-            ) : (
-            <>
-                {/* <div className="admin-tabs">
-                <button className={mode === "form" ? "primary" : ""} onClick={() => switchMode("form")}>Form</button>
-                <button className={mode === "json" ? "primary" : ""} onClick={() => switchMode("json")}>JSON</button>
-                </div> */}
+      {note && <p className={`ad-note ${note.ok ? "ok" : "error"}`} role={note.ok ? "status" : "alert"}>{note.text}</p>}
 
-                {mode === "form" ? (
-                <>
-                    <Visibility doc={doc} onChange={setDoc} />
-                    <Fields specs={coreFields} value={doc} onChange={setDoc} />
-                    <Fields
-                        specs={optionalFields.filter((s) => shown.includes(s.key))}
-                        value={doc}
-                        onChange={setDoc}
-                    />
+      {rows && rows.length === 0 && (
+        <div className="sv-card sv-empty">
+          <p>No services yet.</p>
+          <button type="button" className="ad-btn solid" onClick={add}>Add your first service</button>
+        </div>
+      )}
 
-                    {/* {optionalFields.some((s) => !shown.includes(s.key)) && (
-                        <div>
-                        <label>Add section</label>
-                        <select
-                            value=""
-                            onChange={(e) => e.target.value && setShown([...shown, e.target.value])}
-                        >
-                            <option value="">+ Choose a section to add...</option>
-                            {optionalFields
-                            .filter((s) => !shown.includes(s.key))
-                            .map((s) => (
-                                <option key={s.key} value={s.key}>{s.label}</option>
-                            ))}
-                        </select>
-                        </div>
-                    )} */}
-                </>
-                ) : (
-                <textarea value={jsonText} onChange={(e) => setJsonText(e.target.value)}
-                    spellCheck={false} style={{ height: "70vh", fontFamily: "monospace" }} />
-                )}
+      {rows && rows.length > 0 && (
+        <div className="sv-card sv-table-wrap">
+          <table className="sv-table">
+            <thead>
+              <tr>
+                <th>Service</th><th>Page address</th><th>Sections</th><th>Order</th><th>Updated</th>
+                <th><span className="sv-sr">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {sorted.map((r) => (
+                <tr key={r._id}>
+                  <td>
+                    <div className="sv-cell">
+                      {r.image ? <img className="sv-thumb" src={imgSrc(r.image)} alt="" loading="lazy" /> : <span className="sv-thumb" aria-hidden="true" />}
+                      <div className="sv-cell-text">
+                        <strong>{r.title}</strong>
+                        {r.description && <span className="sv-clamp">{r.description}</span>}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="sv-muted">/services/{r.slug}</td>
+                  <td>{r.sectionCount}{CUSTOM_LAYOUT_SLUGS.includes(r.slug) && <span className="sv-tag" title="Hand-built page layout">Custom</span>}</td>
+                  <td>{r.order}</td>
+                  <td className="sv-muted">{fmtDate(r.updatedAt)}</td>
+                  <td>
+                    <div className="sv-row-actions">
+                      <button type="button" className="sv-link" disabled={busyId === r._id} onClick={() => { window.location.hash = `services/edit/${r._id}`; }}>Edit</button>
+                      <a className="sv-link" href={`/services/${r.slug}`} target="_blank" rel="noreferrer">Preview</a>
+                      <button type="button" className="sv-link danger" disabled={busyId === r._id} onClick={() => remove(r)}>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
 
-                <div className="admin-savebar">
-                <button className="primary" onClick={save}>Save</button>
-                {doc._id && <button className="danger" onClick={remove}>Delete</button>}
-                <span className="admin-msg">{msg}</span>
+/* =========================== add / edit =========================== */
+
+function ServiceEditor({
+  id, nextOrder, reload, onDone,
+}: { id?: string; nextOrder: number; reload: () => Promise<void>; onDone: (n?: Note) => void }) {
+  usePageCrumb(id ? "Edit service" : "Add service");
+
+  const [loading, setLoading] = useState(!!id);
+  const [loadError, setLoadError] = useState("");
+  const [origSlug, setOrigSlug] = useState("");
+
+  // service details (what the Expertise card shows)
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [slugTouched, setSlugTouched] = useState(false);
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [order, setOrder] = useState(String(nextOrder));
+
+  // page content
+  const [hero, setHero] = useState<Obj>(() => emptyValue(HERO) as Obj);
+  const [values, setValues] = useState<Obj>({});         // section key -> content
+  const [keys, setKeys] = useState<string[]>([]);        // sections on the page, in order
+  const [hidden, setHidden] = useState<string[]>([]);    // switched off for the website (content is kept)
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  const [focusKey, setFocusKey] = useState<string | null>(null);
+
+  const [err, setErr] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  const custom = CUSTOM_LAYOUT_SLUGS.includes(origSlug);
+
+  /* ---------- load an existing service ---------- */
+  useEffect(() => {
+    if (!id) return;
+    let off = false;
+    api<Doc>(`${BASE}/${id}`)
+      .then((d) => {
+        if (off) return;
+        setOrigSlug(d.slug);
+        setTitle(d.title ?? "");
+        setSlug(d.slug ?? "");
+        setSlugTouched(true);
+        setDescription(d.description ?? "");
+        setImage(d.image ?? "");
+        setOrder(String(d.order ?? 0));
+        setHero({ ...(emptyValue(HERO) as Obj), ...asObj(d.hero) });
+
+        // sections that have content, in the saved order (the rest follow in the website's default order)
+        const present = SECTIONS.map((s) => s.key).filter((k) => hasContent(d[k]));
+        const saved = (d.sectionOrder ?? []).filter((k) => present.includes(k));
+        const ordered = [...saved, ...present.filter((k) => !saved.includes(k))];
+        setKeys(ordered);
+        setValues(Object.fromEntries(ordered.map((k) => [k, d[k]])));
+        setHidden((d.hiddenSections ?? []).filter((k) => ordered.includes(k)));
+      })
+      .catch((e) => { if (!off) setLoadError(e.message); })
+      .finally(() => { if (!off) setLoading(false); });
+    return () => { off = true; };
+  }, [id]);
+
+  // bring a newly added (or invalid) section into view
+  useEffect(() => {
+    if (!focusKey) return;
+    const card = document.getElementById(`sv-sec-${focusKey}`);
+    if (card) {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      card.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      (card.querySelector("input,textarea,select") as HTMLElement | null)?.focus({ preventScroll: true });
+    }
+    setFocusKey(null);
+  }, [focusKey]);
+
+  /* ---------- section actions ---------- */
+  const addSection = (key: string) => {
+    if (keys.includes(key)) return;
+    setKeys((k) => [...k, key]);
+    setValues((v) => ({ ...v, [key]: v[key] ?? emptyValue(SECTION_BY_KEY[key]) }));
+    setOpen((o) => ({ ...o, [key]: true }));
+    setFocusKey(key);
+  };
+
+  const removeSection = (key: string) => {
+    const def = SECTION_BY_KEY[key];
+    if (hasContent(values[key]) && !window.confirm(`Remove "${def.label}"? Its content is deleted when you save.\n\nTo keep it but hide it on the website, use "Show on website" instead.`)) return;
+    setKeys((k) => k.filter((x) => x !== key));
+    setHidden((h) => h.filter((x) => x !== key));
+    setValues((v) => { const { [key]: _gone, ...rest } = v; return rest; });
+  };
+
+  const move = (i: number, d: number) => {
+    const j = i + d;
+    if (j < 0 || j >= keys.length) return;
+    setKeys((k) => { const n = [...k]; [n[i], n[j]] = [n[j], n[i]]; return n; });
+  };
+
+  const toggleShown = (key: string) =>
+    setHidden((h) => (h.includes(key) ? h.filter((x) => x !== key) : [...h, key]));
+
+  /* ---------- save ---------- */
+  async function save() {
+    const fail = (m: string) => { setErr(m); return; };
+    setErr("");
+
+    const t = title.trim();
+    const sl = slug.trim();
+    if (!t) return fail("Enter the service name.");
+    if (!SLUG_RE.test(sl)) return fail("The page address can only use lowercase letters, numbers and hyphens.");
+    if (!description.trim()) return fail("Enter the short description shown on the service card.");
+    if (!image) return fail("Upload the card image.");
+    if (!Number.isFinite(Number(order))) return fail("Order must be a number.");
+
+    const heroClean = cleanValue(HERO, hero);
+    const heroProblem = validateValue(HERO, heroClean, "Hero banner");
+    if (heroProblem) return fail(heroProblem);
+
+    const body: Obj = {
+      title: t, slug: sl, description: description.trim(), image, order: Number(order),
+      hero: heroClean, sectionOrder: keys, hiddenSections: hidden.filter((k) => keys.includes(k)),
+    };
+    for (const k of keys) {
+      const def = SECTION_BY_KEY[k];
+      const cleaned = cleanValue(def, values[k]);
+      const problem = validateValue(def, cleaned, def.label);
+      if (problem) {
+        setOpen((o) => ({ ...o, [k]: true }));
+        setFocusKey(k);
+        return fail(problem);
+      }
+      body[k] = cleaned;
+    }
+
+    setSaving(true);
+    try {
+      if (id) await api(`${BASE}/${id}`, { method: "PUT", body: JSON.stringify(body) });
+      else await api(BASE, { method: "POST", body: JSON.stringify(body) });
+      await reload();
+      onDone({ ok: true, text: `${t} saved.` });
+    } catch (e: any) {
+      setErr(e.message);
+      setSaving(false);
+    }
+  }
+
+  /* ---------- render ---------- */
+  if (loading) return <p className="ad-sub" role="status">Loading…</p>;
+  if (loadError) {
+    return (
+      <div className="sv-page">
+        <p className="ad-note error" role="alert">{loadError}</p>
+        <button type="button" className="ad-btn" onClick={() => onDone()}>Back to services</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="sv-page">
+      <div className="sv-head">
+        <h2>{id ? "Edit service" : "Add service"}</h2>
+        <div className="sv-head-actions">
+          {id && <a className="ad-btn" href={`/services/${origSlug}`} target="_blank" rel="noreferrer">Preview</a>}
+          <button type="button" className="ad-btn" onClick={() => onDone()}>Cancel</button>
+        </div>
+      </div>
+
+      {custom && (
+        <p className="sv-info">
+          This service has a hand-built page layout. Changes to text and images here appear on the page,
+          but the section order and "Show on website" don't change that layout.
+        </p>
+      )}
+
+      <div className="sv-editor">
+        <div className="sv-main">
+          {/* ---- service details ---- */}
+          <section className="sv-panel">
+            <h3>Service details</h3>
+            <p className="sv-hint">Shown on the Expertise cards and used for the page address.</p>
+            <div className="sv-two">
+              <div className="ad-field">
+                <label htmlFor="sv-title">Service name<span aria-hidden="true">*</span></label>
+                <input id="sv-title" className="ad-input" maxLength={150} value={title}
+                       onChange={(e) => { setTitle(e.target.value); if (!slugTouched) setSlug(slugify(e.target.value)); }} />
+              </div>
+              <div className="ad-field">
+                <label htmlFor="sv-slug">Page address<span aria-hidden="true">*</span></label>
+                <div className="sv-prefix">
+                  <span>/services/</span>
+                  <input id="sv-slug" maxLength={80} value={slug} disabled={custom}
+                         onChange={(e) => { setSlug(e.target.value.toLowerCase()); setSlugTouched(true); }} />
                 </div>
-            </>
-            )}
-        </main>
+                {custom && <small className="sv-hint">Locked: the hand-built page is tied to this address.</small>}
+              </div>
+            </div>
+            <div className="ad-field">
+              <label htmlFor="sv-desc">Short description<span aria-hidden="true">*</span></label>
+              <textarea id="sv-desc" className="ad-input sv-area" rows={2} value={description} onChange={(e) => setDescription(e.target.value)} />
+            </div>
+            <div className="sv-two">
+              <ImageUpload label="Card image" required value={image} onChange={(url: string) => setImage(url)} />
+              <div className="ad-field sv-order">
+                <label htmlFor="sv-order">Order</label>
+                <input id="sv-order" className="ad-input" type="number" value={order} onChange={(e) => setOrder(e.target.value)} />
+                <small className="sv-hint">Lower numbers show first in the Expertise section.</small>
+              </div>
+            </div>
+          </section>
+
+          {/* ---- hero (always) ---- */}
+          <section className="sv-sec is-open is-hero">
+            <div className="sv-sec-head">
+              <div className="sv-sec-title"><b>Hero banner</b><span>Always shown at the top of the page.</span></div>
+              <button type="button" className="sv-link" onClick={() => setHero((h) => ({ ...h, title: h.title || title, description: h.description || description, image: h.image || image }))}>
+                Fill from service details
+              </button>
+            </div>
+            <div className="sv-sec-body">
+              <ServiceField def={HERO} value={hero} hideLabel onChange={(v) => setHero(asObj(v))} />
+            </div>
+          </section>
+
+          {/* ---- chosen sections ---- */}
+          <section className="sv-panel">
+            <div className="sv-panel-head">
+              <h3>Page sections</h3>
+              <span className="sv-hint">{custom ? "Edit the content below." : "Use the arrows to change the order."}</span>
+            </div>
+
+            {keys.length === 0 && <p className="sv-empty-note">No sections yet. Pick one from the library to add it.</p>}
+
+            <div className="sv-sections">
+              {keys.map((key, i) => {
+                const def = SECTION_BY_KEY[key];
+                const isOpen = !!open[key];
+                const off = hidden.includes(key);
+                return (
+                  <section key={key} id={`sv-sec-${key}`} className={`sv-sec ${isOpen ? "is-open" : ""} ${off ? "is-off" : ""}`}>
+                    <div className="sv-sec-head">
+                      <div className="sv-sec-title">
+                        <b>{def.label}{off && <span className="sv-tag">Hidden</span>}</b>
+                        <span>{summarize(def, values[key])}</span>
+                      </div>
+                      <div className="sv-tools">
+                        {!custom && (
+                          <>
+                            <button type="button" className="sv-tool" disabled={i === 0} aria-label={`Move ${def.label} up`} onClick={() => move(i, -1)}>↑</button>
+                            <button type="button" className="sv-tool" disabled={i === keys.length - 1} aria-label={`Move ${def.label} down`} onClick={() => move(i, 1)}>↓</button>
+                            <label className="sv-switch" title="Show this section on the website">
+                              <input type="checkbox" role="switch" checked={!off} onChange={() => toggleShown(key)} />
+                              <span className="sv-switch-track" aria-hidden="true" />
+                              <span className="sv-sr">Show {def.label} on the website</span>
+                            </label>
+                          </>
+                        )}
+                        <button type="button" className="sv-link" aria-expanded={isOpen} onClick={() => setOpen((o) => ({ ...o, [key]: !o[key] }))}>
+                          {isOpen ? "Close" : "Edit"}
+                        </button>
+                        <button type="button" className="sv-link danger" aria-label={`Remove ${def.label}`} onClick={() => removeSection(key)}>Remove</button>
+                      </div>
+                    </div>
+                    {isOpen && (
+                      <div className="sv-sec-body">
+                        <ServiceField def={def} value={values[key]} hideLabel onChange={(v) => setValues((all) => ({ ...all, [key]: v }))} />
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
+          </section>
+        </div>
+
+        {/* ---- library ---- */}
+        <aside className="sv-lib" aria-label="Section library">
+          <h3>Section library</h3>
+          <p className="sv-hint">Pick a ready-made section. It is added to the end of the page.</p>
+          <ul>
+            {SECTIONS.map((s) => {
+              const added = keys.includes(s.key);
+              return (
+                <li key={s.key} className="sv-lib-item">
+                  <div><b>{s.label}</b><span>{s.description}</span></div>
+                  <button type="button" className="ad-btn small" disabled={added} aria-label={`Add ${s.label}`} onClick={() => addSection(s.key)}>
+                    {added ? "Added" : "Add"}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
+      </div>
+
+      <div className="sv-savebar">
+        <button type="button" className="ad-btn solid" disabled={saving} onClick={save}>{saving ? "Saving…" : "Save service"}</button>
+        <button type="button" className="ad-btn" disabled={saving} onClick={() => onDone()}>Cancel</button>
+        {err && <span className="sv-err" role="alert">{err}</span>}
+      </div>
     </div>
   );
 }

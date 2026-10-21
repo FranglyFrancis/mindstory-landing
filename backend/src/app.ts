@@ -2,8 +2,10 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import serviceRoutes from "./routes/serviceRoutes.js";
+import { publicServiceRouter } from "./routes/serviceRoutes.js"
 import adminRoutes from "./routes/adminAuthRoutes.js";
+import adminAuthRoutes from "./routes/adminAuthRoutes.js";
+import { requireAuth } from "./middleware/auth.js";
 import { publicSuccessRouter, adminSuccessRouter } from "./routes/successStoryRoutes.js";
 import brandRoutes from "./routes/brandRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
@@ -14,7 +16,7 @@ import { Brand } from "./models/Brand.js";
 import { publicFaqRouter, adminFaqRouter } from "./routes/faqRoutes.js";
 import { publicBlogRouter, adminBlogRouter } from "./routes/blogRoutes.js";
 import { adminImageUploadRouter } from "./routes/imageUploadRoutes.js";
-
+import { adminServiceRouter } from "./routes/serviceAdminRoutes.js";
 
 export const publicBrandRouter = Router();
    publicBrandRouter.get("/", async (_req, res) => {
@@ -27,7 +29,7 @@ const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:5173")
   .split(",")
   .map((o) => o.trim().replace(/\/$/, ""));
 
-// app.use(express.json());
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "10mb" }));
 
 // CORS only for the API, and never throw
@@ -40,20 +42,20 @@ app.use(
   })
 );
 
-
-app.use("/api/services", serviceRoutes);
+app.use("/api/admin", adminAuthRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminServiceRouter);
 app.use("/api/faqs", publicFaqRouter);
 app.use("/api/admin", adminFaqRouter);
+app.use("/api/services", publicServiceRouter);
+app.use("/api/admin", adminServiceRouter);
 app.use("/api/brands", brandRoutes);
 app.use("/api/admin/brands", brandRoutes);
 app.use("/api/blogs", publicBlogRouter);
 app.use("/api/admin", adminBlogRouter);
 app.use("/api/admin", adminImageUploadRouter);
-app.use("/api/admin", adminRoutes);
 app.use("/api/success-stories", publicSuccessRouter);
 app.use("/api/admin", adminSuccessRouter);
-
-
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 

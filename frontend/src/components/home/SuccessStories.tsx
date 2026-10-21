@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './SuccessStories.css';
 import './Card.css';
 // import { storyArray } from '../../data/home/SuccessStories';
@@ -30,102 +30,123 @@ export function storyArray<T>(array: T[],size: number): T[][]{
     }
     return stories;
 } 
+const MOBILE_QUERY = '(max-width: 768px)';
 
-function SuccessStories(){
+function SuccessStories() {
+    const [stories, setStories] = useState<Blog[]>([]);
+    const [paused, setPaused] = useState(false);
+    const [perView, setPerView] = useState(() =>
+        window.matchMedia(MOBILE_QUERY).matches ? 1 : 3
+    );
+    const [index, setIndex] = useState(0);
+    const [touchX, setTouchX] = useState<number | null>(null);
 
-const [stories, setStories] = useState<Blog[]>([]);
+    useEffect(() => {
+        fetch(`${API_URL}/api/success-stories`)
+            .then((r) => (r.ok ? r.json() : Promise.reject()))
+            .then((list: ApiStory[]) => setStories(list.map(toCard)))
+            .catch(() => setStories([]));
+    }, []);
 
-useEffect(() => {
-    fetch(`${API_URL}/api/success-stories`)
-        .then((r) => (r.ok ? r.json() : Promise.reject()))
-        .then((list: ApiStory[]) => setStories(list.map(toCard)))
-        .catch(() => setStories([]));
-}, []);
+    // 3 cards per slide on desktop, 1 on mobile
+    useEffect(() => {
+        const mq = window.matchMedia(MOBILE_QUERY);
+        const onChange = () => setPerView(mq.matches ? 1 : 3);
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
+    }, []);
 
-// same helper as before: any number of projects becomes as many slides as needed
-const slides = storyArray(stories,3);
-const mobSlides = storyArray(stories,1);
 
-// nothing created yet (or still loading): don't render an empty carousel
-if (stories.length === 0) return null;
 
-    return(
-        <>
+    const slides = useMemo(() => storyArray(stories, perView), [stories, perView]);
+
+    // auto advance every 4 seconds; restarts after a manual click
+    useEffect(() => {
+        if (slides.length < 2 || paused) return;
+        const t = setTimeout(() => setIndex((i) => (i + 1) % slides.length), 4000);
+        return () => clearTimeout(t);
+    }, [index, slides.length, paused]);
+
+    // keep the index valid when the slide count changes (resize / data load)
+    useEffect(() => {
+        if (index >= slides.length) setIndex(0);
+    }, [slides.length, index]);
+
+    const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
+    const next = () => setIndex((i) => (i + 1) % slides.length);
+
+    const onTouchEnd = (e: React.TouchEvent) => {
+        if (touchX === null) return;
+        const diff = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(diff) > 50) (diff < 0 ? next : prev)();
+        setTouchX(null);
+    };
+
+    if (stories.length === 0) return null;
+
+    return (
         <section>
-            <div className='section-heading'>
-                <h1>The Work That Speaks </h1> 
-                <a href=""> | View Projects</a>
+            <div className="section-heading">
+                <span><h1>The Work That Speaks </h1> <a href=""> | View Projects</a></span>
             </div>
             <p>From bold ideas to meaningful impact, explore the brands we've helped shape and the stories we've brought to life.</p>
-            
-            {/* Desktop arrow (only needed when there is more than one slide) */}
-            {slides.length > 1 && (
-            <div className="desktop-arrow">
-                <div className="carousel-arrows">
-                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+
+            {/* {slides.length > 1 && (
+                <div
+                    className="stories-viewport"
+                    onMouseEnter={() => setPaused(true)}
+                    onMouseLeave={() => setPaused(false)}
+                    onTouchStart={(e) => { setPaused(true); setTouchX(e.touches[0].clientX); }}
+                    onTouchEnd={(e) => { onTouchEnd(e); setPaused(false); }}
+                >
+                    <button className="carousel-contr
+                    ol-prev" type="button" onClick={prev}>
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Previous</span>
                     </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                    <button className="carousel-control-next" type="button" onClick={next}>
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Next</span>
                     </button>
                 </div>
-            </div>
-            )}
-                
-            <div className="desktop-carousel">
-                <div id="carouselExampleFade" className="carousel slide carousel-fade">
-                    <div className="carousel-inner">
-                            {slides.map((slideGroup,index)=>(
-                                <div key={index} className= {`carousel-item ${index === 0 ? 'active' : ''}`} >
-                                <div className={`cards-wrapper ${index === 0 ? 'cards-view' : ''}`}>
-                                    {slideGroup.map(story => (
-                                        <SuccessCard key={story.id} card={story} />
-                                    ))}
-                                </div>
-                                </div>
-                            ))}
-                    </div>
-                </div>
-            </div>
+            )} */}
 
-          {/*Mobile arrow */}
-            {mobSlides.length > 1 && (
-            <div className="mobile-arrow">
-                <div className="carousel-arrows">
-                    <button className="carousel-control-prev" type="button" data-bs-target="#mobileCarousel" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-
-                    <button className="carousel-control-next" type="button"data-bs-target="#mobileCarousel" data-bs-slide="next">
-                        <span className="carousel-control-next-icon"aria-hidden="true"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-            )}
-
-            {/* Mobile carousel */}
-            <div className="mobile-carousel">
-                <div id="mobileCarousel" className="carousel slide carousel-fade">
-                    <div className="carousel-inner">
-                    {mobSlides.map((slide,index)=>(
-                        <div key={index} className={`carousel-item ${index === 0 ?  'active' : ''}`}>
-                            <div className="mobile-card-wrapper">
-                                {slide.map(story=>(
+            <div
+                className="stories-viewport"
+                onTouchStart={(e) => setTouchX(e.touches[0].clientX)}
+                onTouchEnd={onTouchEnd}
+            >
+                <div
+                    className="stories-track"
+                    style={{ transform: `translateX(-${index * 100}%)` }}
+                >
+                    {slides.map((group, i) => (
+                        <div className="stories-slide" key={i}>
+                            <div className="cards-wrapper">
+                                {group.map((story) => (
                                     <SuccessCard key={story.id} card={story} />
                                 ))}
                             </div>
                         </div>
-                        ))}
-                    </div>
+                    ))}
                 </div>
             </div>
+
+            {slides.length > 1 && (
+                <div className="stories-dots">
+                    {slides.map((_, i) => (
+                        <button
+                            key={i}
+                            type="button"
+                            className={i === index ? 'active' : ''}
+                            onClick={() => setIndex(i)}
+                            aria-label={`Go to slide ${i + 1}`}
+                        />
+                    ))}
+                </div>
+            )}
         </section>
-        </>
-    )
+    );
 }
 
-export default SuccessStories
+export default SuccessStories;

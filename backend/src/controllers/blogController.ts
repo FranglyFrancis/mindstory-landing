@@ -61,7 +61,7 @@ export async function updateBlog(req: Request, res: Response) {
     const result = parse(req.body);
     if ("error" in result) return res.status(400).json({ error: result.error });
 
-    const blog = await Blog.findByIdAndUpdate(req.params.id, result.data, { new: true, runValidators: true });
+    const blog = await Blog.findByIdAndUpdate(req.params.id, result.data, { returnDocument: 'after', runValidators: true });
     if (!blog) return res.status(404).json({ error: "Blog not found" });
     res.json(blog);
   } catch (e) {

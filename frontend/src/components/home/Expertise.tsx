@@ -1,12 +1,113 @@
 import './Expertise.css';
 import './Card.css';
-import { expertiseList } from '../../data/home/ExpertiseList';
+import './ExpertiseCarousel.css';   
+import { useServices, SERVICE_PATH } from '../../hooks/useServices';
+import type { ServiceListItem } from '../../hooks/useServices';
+import { imgSrc } from '../../utils/imgSrc';
 
-import { useEffect, useRef, useState } from "react";
+import { Children, useCallback, useEffect, useRef, useState } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import ExpertiseItem from './ExpertiseItem';
+
+// the item shape your ExpertiseItem card already expects
+type ExpertiseListItem = ComponentProps<typeof ExpertiseItem>["list"];
+
+// service from the database -> card. If ExpertiseItem reads other fields, add them here.
+const toItem = (s: ServiceListItem) =>
+  ({
+    id: s.slug,
+    title: s.title,
+    image: imgSrc(s.image),
+    url: `${s.slug}`,
+  }) as unknown as ExpertiseListItem;
+
+// up to this many services stay in the normal row; one more and they become a carousel
+const MAX_IN_ROW = 4;
+
+/* ---------- carousel ---------- */
+
+const Chevron = ({ dir }: { dir: "left" | "right" }) => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
+  </svg>
+);
+
+/** Cards in a swipeable row with Previous / Next buttons. Scrolls by a whole set of visible cards. */
+function Carousel({ children, label }: { children: ReactNode; label: string }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [edge, setEdge] = useState({ atStart: true, atEnd: false });
+  const slides = Children.toArray(children);
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setEdge({
+      atStart: el.scrollLeft <= 1,
+      atEnd: el.scrollLeft + el.clientWidth >= el.scrollWidth - 1,
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => { el.removeEventListener("scroll", update); ro.disconnect(); };
+  }, [update, slides.length]);
+
+  function go(dir: 1 | -1) {
+    const el = trackRef.current;
+    const first = el?.querySelector<HTMLElement>(".expertise-slide");
+    if (!el || !first) return;
+    const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+    const step = first.offsetWidth + gap;                                        // one card
+    const visible = Math.max(1, Math.floor((el.clientWidth + gap) / step + 0.01)); // cards on screen
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollBy({ left: dir * visible * step, behavior: reduced ? "auto" : "smooth" });
+  }
+
+  return (
+    <>
+      <div
+        className="expertise-track"
+        ref={trackRef}
+        tabIndex={0}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={label}
+      >
+        {slides.map((child, i) => (
+          <div
+            className="expertise-slide"
+            key={i}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${slides.length}`}
+          >
+            {child}
+          </div>
+        ))}
+      </div>
+
+      <div className="expertise-nav">
+        <button type="button" className="expertise-arrow" aria-label="Previous services" disabled={edge.atStart} onClick={() => go(-1)}>
+          <Chevron dir="left" />
+        </button>
+        <button type="button" className="expertise-arrow" aria-label="Next services" disabled={edge.atEnd} onClick={() => go(1)}>
+          <Chevron dir="right" />
+        </button>
+      </div>
+    </>
+  );
+}
+
+/* ---------- section ---------- */
 
 function Expertise() {
   const [showCards, setShowCards] = useState(false);
+  const { services } = useServices();
 
   const cardsRef = useRef(null);
 
@@ -29,6 +130,12 @@ function Expertise() {
 
     return () => observer.disconnect();
   }, []);
+
+  const asCarousel = services.length > MAX_IN_ROW;
+
+  const cards = services.map(service => (
+    <ExpertiseItem key={service.slug} list={toItem(service)} />
+  ));
 
   return (
     <>
@@ -59,16 +166,14 @@ function Expertise() {
             </p>
           </div>
 
+          {/* same element either way (so the scroll-in animation keeps working); only its classes change */}
           <div
             ref={cardsRef}
-            className={`card-row cards-view ${
+            className={`${asCarousel ? "expertise-carousel" : "card-row cards-view"} ${
               showCards ? "cards-slide-up show" : "cards-slide-up"
             }`}
           >
-            {expertiseList.map(item => (
-              <ExpertiseItem key={item.id} list={item} />
-            ))}
-
+            {asCarousel ? <Carousel label="Our services">{cards}</Carousel> : cards}
           </div>
         </div>
       </section>

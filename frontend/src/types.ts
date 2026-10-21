@@ -1,6 +1,8 @@
 // Home
 import { ComponentType, ReactNode } from "react";
 
+
+
 export type Blog = {
     id: number;
     image: string;
@@ -32,10 +34,13 @@ export type HomeList = {
 }
 
 export type Testimony = {
-    id: number;
+    id: number | string;
     name: string;
     text: string;
-}
+    rating?: number;
+    photo?: string; 
+    when?: string;  
+};
 
 // Services
 export type CommonService = {
@@ -67,6 +72,12 @@ export type SectionHeading = {
 export type SectionItem = {
         title: string;
         description: string;
+}
+
+export type ExpertiseCard = {
+    title: string;
+    url: string;
+    image: string;
 }
 
 export type Section = {

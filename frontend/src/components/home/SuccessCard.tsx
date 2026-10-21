@@ -1,18 +1,17 @@
 import { Blog } from "../../types"
 
 type SuccessCardProps = {
-    card : Blog
+    card: Blog
 }
 
-export default function SuccessCard({ card }: SuccessCardProps){
-    return(
-        <div className="card project-card" onClick={() => window.location.href = card.url}>
+export default function SuccessCard({ card }: SuccessCardProps) {
+    return (
+        <a href={card.url} className="card project-card">
             <img src={card.image} className="card-image" alt={card.title} />
             <div className="project-overlay">
-                <small>
-                    {card.description}
-                </small>
+                <h3>{card.title}</h3>
+                <p>{card.description}</p>
             </div>
-        </div>
+        </a>
     )
 }

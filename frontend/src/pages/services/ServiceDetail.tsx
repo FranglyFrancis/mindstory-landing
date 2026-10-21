@@ -10,9 +10,12 @@ import SeoSection from "./sections/SeoSection";
 import LogoDesignSection from "./sections/LogoDesignSection";
 import EmailMarketingSection from "./sections/EmailMarketingSection";
 import BrandSection from "./sections/BrandSection";
+import ServicePageView from "./ServicePageView";
+import type { ServiceData } from "./ServicePageView";
 import type { IService } from "../../api/services";
 
-// slug -> render function (components can't be stored in MongoDB)
+// slug -> hand-built page. These keep working exactly as before.
+// Any service that is NOT listed here is built from the sections chosen in the admin panel.
 const sections: Record<string, (s: IService) => ReactNode> = {
   "social-media-marketing": (s) => (
     <SocialMediaSection imageItem={s.imageItem} iconCards={s.iconCards} />
@@ -68,8 +71,18 @@ export default function ServiceDetail() {
   if (status === "notfound" || !service) return <NotFound />;
 
   const renderSection = sections[service.slug];
-  if (!renderSection) return <NotFound />;
 
+  // a service created in the admin panel: hero + its sections in the saved order
+  if (!renderSection) {
+    return (
+      <>
+        <ServicePageView service={service as ServiceData} />
+        <Contact />
+      </>
+    );
+  }
+
+  // one of the hand-built pages
   return (
     <>
       <CommonHero

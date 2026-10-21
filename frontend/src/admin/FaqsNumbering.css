@@ -1,0 +1,22 @@
+/* Question numbers and the per-page groups on the FAQs listing. Loaded after FaqsPage.css. */
+
+.fq-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* one block per page */
+.fq-group { margin-bottom: 28px; }
+.fq-group:last-child { margin-bottom: 0; }
+.fq-group .fq-group-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.ad-page .fq-group-head h3 { display: flex; align-items: baseline; gap: 10px; margin: 0; font-size: 18px; }
+.fq-group-head h3 span { font-size: 13px; font-weight: 500; color: var(--ad-muted); }
+
+.fq-link { padding: 0; font: inherit; font-weight: 600; color: var(--ad-accent-dark); background: none; border: 0; cursor: pointer; }
+.fq-link:hover { text-decoration: underline; }
+.fq-link:focus-visible { outline: 2px solid var(--ad-accent); outline-offset: 3px; border-radius: 3px; }
+
+/* the number in front of each question */
+.fq-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 26px; height: 26px; padding: 0 7px; margin-right: 10px; box-sizing: border-box;
+  font-size: 13px; font-weight: 700; line-height: 1; color: var(--ad-accent-dark);
+  background: #357d5f; border-radius: 99px; vertical-align: 1px;
+}

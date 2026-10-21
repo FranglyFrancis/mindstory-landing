@@ -28,6 +28,14 @@
   text-align: center;
 }
 
+.expertise-title {
+  text-decoration: none !important;
+}
+
+.expertise-title h4 {
+  color: #000;
+}
+
 .card-img {
   display: block;
   transition: opacity 0.3s ease;

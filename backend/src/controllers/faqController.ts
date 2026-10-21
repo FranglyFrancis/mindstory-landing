@@ -49,7 +49,7 @@ export async function updateFaq(req: Request, res: Response) {
     const gaps = missing(data);
     if (gaps.length) return res.status(400).json({ error: `Missing required fields: ${gaps.join(", ")}` });
 
-    const faq = await Faq.findByIdAndUpdate(req.params.id, data, { new: true, runValidators: true });
+    const faq = await Faq.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after', runValidators: true });
     if (!faq) return res.status(404).json({ error: "FAQ not found" });
     res.json(faq);
   } catch (e) {

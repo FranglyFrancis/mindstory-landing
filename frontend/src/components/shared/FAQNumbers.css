@@ -1,0 +1,24 @@
+.faq-question {
+  --faq-num-bg: #fff;   /* badge background */
+  --faq-num-fg: #845ede;   /* number colour */
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.faq-num {
+  flex: none;
+  display: inline-flex;
+  align-items: center; 
+  min-width: 28px;
+  height: 28px;
+  box-sizing: border-box;
+  font-size: 18px; font-weight: 700; line-height: 1;
+  color: var(--faq-num-fg); /*background: var(--faq-num-bg); border-radius: 99px;*/
+}
+
+/* the text wraps beside the badge instead of underneath it */
+.faq-text { flex: 1; min-width: 0; }
+
+/* read aloud by screen readers as "Question 3:", but not shown (the badge is hidden from them instead) */
+.faq-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

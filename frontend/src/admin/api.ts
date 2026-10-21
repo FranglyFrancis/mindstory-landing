@@ -15,26 +15,6 @@ export const getToken = () => sessionStorage.getItem(KEY) ?? "";
 export const setToken = (t: string) => sessionStorage.setItem(KEY, t);
 export const clearToken = () => sessionStorage.removeItem(KEY);
 
-/** Calls /api/admin<path>. Throws Error(message) on failure. A 401 while logged in sends the user back to the login page. */
-// export async function api<T = any>(path: string, options: RequestInit = {}): Promise<T> {
-//   const token = getToken();
-//   const res = await fetch(`${API_URL}/api/admin${path}`, {
-//     ...options,
-//     headers: {
-//       "Content-Type": "application/json",
-//       ...(token ? { Authorization: `Bearer ${token}` } : {}),
-//       ...(options.headers ?? {}),
-//     },
-//   });
-//   const data = await res.json().catch(() => ({}));
-//   if (res.status === 401 && token) {
-//     clearToken();
-//     window.dispatchEvent(new Event("admin-unauthorized"));
-//   }
-//   if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
-//   return data;
-// }
-
 export async function api<T = any>(
   path: string,
   options: RequestInit = {}
@@ -54,13 +34,13 @@ export async function api<T = any>(
     headers.set("Authorization", `Bearer ${token}`);
   }
 
+  console.log(path)
   const res = await fetch(`${API_URL}/api/admin${path}`, {
     ...options,
     headers,
   });
 
   const data = await res.json().catch(() => ({}));
-
   if (res.status === 401 && token) {
     clearToken();
     window.dispatchEvent(new Event("admin-unauthorized"));

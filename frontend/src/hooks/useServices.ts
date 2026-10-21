@@ -1,42 +1,36 @@
 import { useEffect, useState } from "react";
-import {
-  fetchServices,
-  fetchServiceBySlug,
-  type IService,
-  type IServiceListItem,
-} from "../api/services";
+import { API_URL } from "../config";
 
-// For the services list (cards, menus)
+/** The address of a service page on your website is `${SERVICE_PATH}/<slug>`. Change it here if your route is different. */
+export const SERVICE_PATH = "/services";
+
+export type ServiceListItem = {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  order: number;
+};
+
+/** Loads the services you created in the admin panel, ordered by their Order number. */
 export function useServices() {
-  const [services, setServices] = useState<IServiceListItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [services, setServices] = useState<ServiceListItem[]>([]);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
-    fetchServices()
-      .then(setServices)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+    let ignore = false;
+
+    fetch(`${API_URL}/api/services`)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((list: ServiceListItem[]) => {
+        if (ignore) return;
+        setServices(list);
+        setStatus("ready");
+      })
+      .catch(() => { if (!ignore) setStatus("error"); });
+
+    return () => { ignore = true; };
   }, []);
 
-  return { services, loading, error };
-}
-
-// For a single service detail page
-export function useService(slug?: string) {
-  const [service, setService] = useState<IService | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!slug) return;
-    setLoading(true);
-    setError(null);
-    fetchServiceBySlug(slug)
-      .then(setService)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
-  }, [slug]);
-
-  return { service, loading, error };
+  return { services, status };
 }
