@@ -65,7 +65,6 @@ const NAV: NavItem[] = [
   { id: "blogs", label: "Blogs", icon: <BlogIcon />, page: BlogsPage }, // <-- 3. the menu entry
   { id: "faqs", label: "FAQs", icon: <FaqIcon />, page: FaqsPage },
   { id: "users", label: "Users", icon: <UsersIcon />, page: UsersPage, superOnly: true },
-  // { id: "blog", label: "Blog", icon: <ServicesIcon />, page: BlogPage },
 ];
 
 /* ---------- helpers ---------- */

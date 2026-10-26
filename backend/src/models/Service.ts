@@ -31,6 +31,13 @@ const serviceSchema = new Schema(
     order: { type: Number, required: true },
     hero: { type: sub({ title: req, description: req, image: req }), required: true },
 
+    // category listing
+    category: { 
+      type: String,
+      enum: ["web-development", "online-marketing", "brand-identity"],
+      required: true,
+    },
+
     // ---- IService: optional sections ----
     mainImage: { type: String, trim: true },
     heading: { type: sub({ title: req, description: opt }), default: undefined },

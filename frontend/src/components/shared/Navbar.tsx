@@ -1,5 +1,6 @@
 import './Navbar.css';
-
+import { SERVICE_PATH, useServices } from "../../hooks/useServices";
+import { SERVICE_CATEGORIES } from "../../utils/serviceCategories";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -8,6 +9,7 @@ import logo from "/images/logo.avif";
 
 function Navbar() {
 
+  const { services } = useServices();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -54,34 +56,22 @@ function Navbar() {
             {/* Services Section */}
             <div className="nav-dropdown">
               <Link to="/services" className='navbar-brand'>SERVICES</Link>
-               
                <div className="my-dropdown-menu-3col">
-                  <div className="dropdown-column">
-                    <h4>WEB DEVELOPMENT</h4>
-                    <h6>Innovative Solutions, Cutting-Edge Tech</h6>
-                    <a href="#web-design"><i className="bi bi-globe2"></i> Web Design</a>
-                    <a href="#e-commerce"><i className="bi bi-cart-fill"></i> E-Commerce</a>
+                {SERVICE_CATEGORIES.map((cat) => (
+                  <div className="dropdown-column" key={cat.key}>
+                    <h4>{cat.title}</h4>
+                    <h6>{cat.tagline}</h6>
+                    {services
+                      .filter((s) => s.category === cat.key)
+                      .map((s) => (
+                        <Link key={s.slug} to={`${SERVICE_PATH}/${s.slug}`}>
+                          <i className={`bi ${cat.icon}`}></i> {s.title}
+                        </Link>
+                      ))}
                   </div>
-                  <div className="dropdown-column">
-                    <h4>ONLINE MARKETING</h4>
-                    <h6>Strategies That Drive Results</h6>
-                    <a href="#digital-marketing"><i className="bi bi-megaphone-fill"></i> Digital Marketing</a>
-                    <Link to="/"><i className="bi bi-bullseye"></i> Performance Marketing</Link>
-                    <a href="#seo"><i className="bi bi-graph-up-arrow"></i> Search Engine Optimization</a>
-                    <a href="#emaill-marketing"><i className="bi bi-chat-right-text-fill"></i> Email Marketing</a>
-                    <a href="#social-media-marketing"><i className="bi bi-envelope-paper-fill"></i> Social Media Marketing</a>
-                    <a href="#visual-production"><i className="bi bi-youtube"></i> Visual Production</a>
-                  </div>
-                  <div className="dropdown-column">
-                    <h4>BRAND IDENTITY</h4>
-                    <h6>Crafting Unique, Memorable Brands</h6>
-                    <a href="#logo"><i className="bi bi-laptop"></i> Logo & Identity</a>
-                    <a href="#creative-design"><i className="bi bi-lightbulb-fill"></i> Creative Design</a>
-                    <a href="#art"><i className="bi bi-brush"></i> Art & Illustration</a>
-                    <a href="#business"><i className="bi bi-briefcase"></i> Business Advertising</a>
-                  </div>
-                </div>
-             </div>
+                ))}
+              </div>
+            </div>
 
             {/* Works section */}
             <div className="nav-dropdown">

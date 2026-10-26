@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { isValidObjectId } from "mongoose";
 import { Service } from "../models/Service.js";
 
-const CORE = ["slug", "title", "image", "order", "hero"] as const;
+const CORE = ["slug", "title","image", "order", "hero"] as const;
 const OPTIONAL = [
   "mainImage", "heading", "intro", "article", "lists", "iconCards", "titleCards",
   "titleItem", "imageItem", "paraItem", "features", "sections", "brands", "faqs",
@@ -12,6 +12,7 @@ const OPTIONAL = [
 function pick(b: any) {
   const data: Record<string, unknown> = {};
   for (const k of CORE) data[k] = b?.[k];
+  
   // a section that is missing (or blank) is removed from the service
   for (const k of OPTIONAL) data[k] = b?.[k] === "" || b?.[k] == null ? undefined : b[k];
   data.hiddenSections = Array.isArray(b?.hiddenSections)
@@ -37,7 +38,9 @@ function fail(e: any, res: Response) {
 // GET /api/services -> the cards for the home page Expertise section
 export async function listPublic(_req: Request, res: Response) {
   res.json(
-    await Service.find().sort({ order: 1, createdAt: 1 }).select("slug title description image order -_id")
+    await Service.find()
+      .sort({ order: 1, createdAt: 1 })
+      .select("slug title description image order category -_id")
   );
 }
 
@@ -64,7 +67,6 @@ export async function createService(req: Request, res: Response) {
 
 export async function updateService(req: Request, res: Response) {
   try {
-        console.log("kjfnjksnf",req.params.id)
         if (!isValidObjectId(req.params.id)) return res.status(404).json({ error: "Service not found" });
         const service = await Service.findById(req.params.id);
         if (!service) return res.status(404).json({ error: "Service not found" });

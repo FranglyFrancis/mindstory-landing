@@ -3,13 +3,13 @@ import { api } from "./api";
 import ImageUpload from "./ImageUpload";
 import ServiceField from "./ServiceField";
 import { imgSrc } from "../utils/imgSrc";
-import { usePageCrumb } from "./adminPage";
-import type { PageProps } from "./adminPage";
+import { usePageCrumb, PageProps } from "./adminPage";
 import {
   CUSTOM_LAYOUT_SLUGS, HERO, SECTIONS, SECTION_BY_KEY,
   asObj, cleanValue, emptyValue, hasContent, summarize, validateValue,
 } from "./serviceSections";
 import "./ServicesAdmin.css";
+import { SERVICE_CATEGORIES } from "../utils/serviceCategories";
 
 type Obj = Record<string, unknown>;
 type Note = { ok: boolean; text: string } | null;
@@ -17,17 +17,14 @@ type Note = { ok: boolean; text: string } | null;
 /** One row of the listing (the full document is loaded when you open Edit). */
 type Row = {
   _id: string; slug: string; title: string; description: string; image: string;
-  order: number; sectionCount: number; updatedAt?: string;
+  order: number; sectionCount: number; updatedAt?: string; category?: string;
 };
 type Doc = {
   _id: string; slug: string; title: string; description: string; image: string; order: number;
   hero: Obj; sectionOrder?: string[]; hiddenSections?: string[];
-  [section: string]: unknown;
+  [section: string]: unknown; category?: string;
 };
 
-/* Admin API path (your api() helper adds /api/admin in front).
-   It is deliberately NOT "/services": an older admin route at /api/admin/services/:slug would answer
-   an edit request first, treating the id as a slug. Change this one line if you remove those old routes. */
 const BASE = "/service-pages";
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -36,10 +33,9 @@ const slugify = (s: string) =>
 const fmtDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "-";
 
+
 /* =========================== page =========================== */
-/* #services            -> listing
-   #services/new        -> add
-   #services/edit/<id>  -> edit              */
+
 
 export default function ServicesPage({ path }: PageProps) {
   const [rows, setRows] = useState<Row[] | null>(null);
@@ -178,6 +174,7 @@ function ServiceEditor({
   const [slug, setSlug] = useState("");
   const [slugTouched, setSlugTouched] = useState(false);
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [image, setImage] = useState("");
   const [order, setOrder] = useState(String(nextOrder));
 
@@ -277,9 +274,10 @@ function ServiceEditor({
     const heroClean = cleanValue(HERO, hero);
     const heroProblem = validateValue(HERO, heroClean, "Hero banner");
     if (heroProblem) return fail(heroProblem);
+    if (!category) return fail("Choose the navbar category.");
 
     const body: Obj = {
-      title: t, slug: sl, description: description.trim(), image, order: Number(order),
+      title: t, slug: sl, category, description: description.trim(), image, order: Number(order),
       hero: heroClean, sectionOrder: keys, hiddenSections: hidden.filter((k) => keys.includes(k)),
     };
     for (const k of keys) {
@@ -329,8 +327,7 @@ function ServiceEditor({
 
       {custom && (
         <p className="sv-info">
-          This service has a hand-built page layout. Changes to text and images here appear on the page,
-          but the section order and "Show on website" don't change that layout.
+          Edits appear in homepage
         </p>
       )}
 
@@ -367,6 +364,16 @@ function ServiceEditor({
                 <input id="sv-order" className="ad-input" type="number" value={order} onChange={(e) => setOrder(e.target.value)} />
                 <small className="sv-hint">Lower numbers show first in the Expertise section.</small>
               </div>
+            </div>
+            <div className="ad-field">
+              <label htmlFor="sv-cat">Category<span aria-hidden="true">*</span></label>
+              <select id="sv-cat" className="ad-input" value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option value="">Select a category</option>
+                {SERVICE_CATEGORIES.map((c) => (
+                  <option key={c.key} value={c.key}>{c.title}</option>
+                ))}
+              </select>
+              <small className="sv-hint">Decides which column the service appears in under Services in the navbar.</small>
             </div>
           </section>
 

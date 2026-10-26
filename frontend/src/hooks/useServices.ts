@@ -10,6 +10,7 @@ export type ServiceListItem = {
   description: string;
   image: string;
   order: number;
+  category?: string;
 };
 
 /** Loads the services you created in the admin panel, ordered by their Order number. */

@@ -26,6 +26,7 @@ function fill(doc: Settable, body: Record<string, unknown>) {
     title: text(body.title, 150),
     slug: text(body.slug, 80).toLowerCase(),
     description: text(body.description, 1000),
+    category: text(body.category, 100),
     image: text(body.image, 500),
     order: Number.isFinite(Number(body.order)) ? Number(body.order) : 0,
     hero: body.hero,
@@ -60,7 +61,7 @@ export async function listServices(_req: Request, res: Response) {
     const list = (await Service.find().sort({ order: 1, createdAt: 1 }).lean()) as unknown as Record<string, unknown>[];
     res.json(
       list.map((s) => ({
-        _id: s._id, slug: s.slug, title: s.title, description: s.description, image: s.image, order: s.order,
+        _id: s._id, slug: s.slug, title: s.title, category: s.category, description: s.description, image: s.image, order: s.order,
         updatedAt: s.updatedAt,
         sectionCount: 1 + SECTION_KEYS.filter((k) => hasContent(s[k])).length,   // hero + sections with content
       }))
