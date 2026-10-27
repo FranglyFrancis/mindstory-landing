@@ -1,4 +1,4 @@
-import { Blog } from "../../types";
+import { Blog } from "../../../types";
 
 type BlogCardProps = {
     blog: Blog

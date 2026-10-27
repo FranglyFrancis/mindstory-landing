@@ -1,6 +1,6 @@
 import './Navbar.css';
-import { SERVICE_PATH, useServices } from "../../hooks/useServices";
-import { SERVICE_CATEGORIES } from "../../utils/serviceCategories";
+import { SERVICE_PATH, useServices } from "../../../hooks/useServices";
+import { SERVICE_CATEGORIES } from "../../../utils/serviceCategories";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

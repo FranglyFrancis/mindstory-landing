@@ -11,7 +11,10 @@ export type ServiceListItem = {
   image: string;
   order: number;
   category?: string;
+  cardTitle?: string; 
+  cardImage?: string;
 };
+
 
 /** Loads the services you created in the admin panel, ordered by their Order number. */
 export function useServices() {

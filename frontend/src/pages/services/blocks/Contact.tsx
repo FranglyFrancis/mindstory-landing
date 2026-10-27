@@ -1,4 +1,4 @@
-import TestimonialCard from '../../../components/shared/TestimonialCard';
+import TestimonialCard from '../../../components/shared/Testimonials/TestimonialCard';
 import './Contact.css'
 export default function Contact(){
 

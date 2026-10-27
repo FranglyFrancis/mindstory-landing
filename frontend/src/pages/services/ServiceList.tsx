@@ -1,5 +1,5 @@
-import { services } from "../../data/services/ServiceList";
-import ServiceItem from "../../components/shared/ServiceItem";
+import { services } from "../../data/ServiceList";
+import ServiceItem from "../../components/shared/ServiceItem/ServiceItem";
 import './ServiceList.css';
 
 export default function ServiceList(){

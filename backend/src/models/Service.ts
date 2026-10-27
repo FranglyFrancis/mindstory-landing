@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 /*
   Matches your IService interface.
   Required: slug, title, description, image (card), order, hero (title, description, image).
@@ -20,23 +19,30 @@ const serviceSchema = new Schema(
       type: String, required: true, unique: true, trim: true, lowercase: true,
       match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug can only use lowercase letters, numbers and hyphens"],
     },
-    title: req,
-    description: {
-      type: String,
-      required: false
-    },
-    image: req,
+    title: { type: String, trim: true, required: true },
+    image: { type: String, trim: true, required: true },
 
     // ---- IService: required ----
     order: { type: Number, required: true },
-    hero: { type: sub({ title: req, description: req, image: req }), required: true },
 
-    // category listing
+    // ----category listing -----
     category: { 
       type: String,
       enum: ["web-development", "online-marketing", "brand-identity"],
       required: true,
     },
+
+    // ----- Service card details -------
+    cardTitle: { type: String, trim: true, required: true },
+    description: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    cardImage: { type: String, trim: true, required: true },
+
+    hero: { type: sub({ title: req, description: req, image: req }), required: true },
+
 
     // ---- IService: optional sections ----
     mainImage: { type: String, trim: true },

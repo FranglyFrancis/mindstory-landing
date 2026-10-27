@@ -1,5 +1,5 @@
 import servicesHero from "/images/hero/services-hero.webp"
-import { ServiceHero } from "../../../types"
+import { ServiceHero } from "../types"
 
 export const serviceHero: ServiceHero =  {
         title: "Our Services",

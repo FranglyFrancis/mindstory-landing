@@ -3,8 +3,8 @@ import type { CSSProperties } from 'react';
 import BrandCard from './BrandCard';
 import './Brands.css'
 import './BrandsMarquee.css';  
-import { imgSrc } from '../../utils/imgSrc';
-import { useBrands } from '../../hooks/useBrands';
+import { imgSrc } from '../../../utils/imgSrc';
+import { useBrands } from '../../../hooks/useBrands';
 
 type BrandProps = {
     title: string;

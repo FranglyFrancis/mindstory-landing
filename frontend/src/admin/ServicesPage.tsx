@@ -16,27 +16,29 @@ type Note = { ok: boolean; text: string } | null;
 
 /** One row of the listing (the full document is loaded when you open Edit). */
 type Row = {
-  _id: string; slug: string; title: string; description: string; image: string;
-  order: number; sectionCount: number; updatedAt?: string; category?: string;
+  _id: string; slug: string; title: string;  image: string; order: number;
+  category?: string; cardTitle?: string; description: string; cardImage: string;
+  sectionCount: number; updatedAt?: string; 
 };
 type Doc = {
-  _id: string; slug: string; title: string; description: string; image: string; order: number;
+  _id: string; slug: string; title: string; image: string; order: number;
+  category?: string; cardTitle?: string; cardImage: string; description: string;
   hero: Obj; sectionOrder?: string[]; hiddenSections?: string[];
-  [section: string]: unknown; category?: string;
+  [section: string]: unknown; 
 };
 
 const BASE = "/service-pages";
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 const slugify = (s: string) =>
   s.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
 const fmtDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "-";
 
 
 /* =========================== page =========================== */
-
-
 export default function ServicesPage({ path }: PageProps) {
   const [rows, setRows] = useState<Row[] | null>(null);
   const [note, setNote] = useState<Note>(null);
@@ -173,10 +175,14 @@ function ServiceEditor({
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [slugTouched, setSlugTouched] = useState(false);
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+ 
   const [image, setImage] = useState("");
   const [order, setOrder] = useState(String(nextOrder));
+  const [cardTitle, setCardTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [cardImage, setCardImage] = useState("");
+
 
   // page content
   const [hero, setHero] = useState<Obj>(() => emptyValue(HERO) as Obj);
@@ -202,8 +208,11 @@ function ServiceEditor({
         setTitle(d.title ?? "");
         setSlug(d.slug ?? "");
         setSlugTouched(true);
-        setDescription(d.description ?? "");
         setImage(d.image ?? "");
+        setCategory(d.category ?? "");
+        setCardTitle(d.cardTitle ?? "");
+        setDescription(d.description ?? "");
+        setCardImage(d.cardImage ?? "");
         setOrder(String(d.order ?? 0));
         setHero({ ...(emptyValue(HERO) as Obj), ...asObj(d.hero) });
 
@@ -267,17 +276,22 @@ function ServiceEditor({
     const sl = slug.trim();
     if (!t) return fail("Enter the service name.");
     if (!SLUG_RE.test(sl)) return fail("The page address can only use lowercase letters, numbers and hyphens.");
-    if (!description.trim()) return fail("Enter the short description shown on the service card.");
     if (!image) return fail("Upload the card image.");
     if (!Number.isFinite(Number(order))) return fail("Order must be a number.");
+    
+    if (!category) return fail("Choose the navbar category.");
+    if (!description.trim()) return fail("Enter the short description shown on the service card.");
+    if (!cardTitle.trim()) return fail("Enter the Service Card title.");
+    if (!cardImage.trim()) return fail("Upload the card image.");
 
     const heroClean = cleanValue(HERO, hero);
     const heroProblem = validateValue(HERO, heroClean, "Hero banner");
     if (heroProblem) return fail(heroProblem);
-    if (!category) return fail("Choose the navbar category.");
+    
 
     const body: Obj = {
-      title: t, slug: sl, category, description: description.trim(), image, order: Number(order),
+      title: t, slug: sl,  image, order: Number(order),
+      category, cardTitle: cardTitle.trim(), description: description.trim(), cardImage,
       hero: heroClean, sectionOrder: keys, hiddenSections: hidden.filter((k) => keys.includes(k)),
     };
     for (const k of keys) {
@@ -335,11 +349,11 @@ function ServiceEditor({
         <div className="sv-main">
           {/* ---- service details ---- */}
           <section className="sv-panel">
-            <h3>Service details</h3>
+            <h3>Expertise Card details</h3>
             <p className="sv-hint">Shown on the Expertise cards and used for the page address.</p>
             <div className="sv-two">
               <div className="ad-field">
-                <label htmlFor="sv-title">Service name<span aria-hidden="true">*</span></label>
+                <label htmlFor="sv-title">Title<span aria-hidden="true">*</span></label>
                 <input id="sv-title" className="ad-input" maxLength={150} value={title}
                        onChange={(e) => { setTitle(e.target.value); if (!slugTouched) setSlug(slugify(e.target.value)); }} />
               </div>
@@ -353,31 +367,48 @@ function ServiceEditor({
                 {custom && <small className="sv-hint">Locked: the hand-built page is tied to this address.</small>}
               </div>
             </div>
-            <div className="ad-field">
-              <label htmlFor="sv-desc">Short description<span aria-hidden="true">*</span></label>
-              <textarea id="sv-desc" className="ad-input sv-area" rows={2} value={description} onChange={(e) => setDescription(e.target.value)} />
-            </div>
+           
             <div className="sv-two">
-              <ImageUpload label="Card image" required value={image} onChange={(url: string) => setImage(url)} />
               <div className="ad-field sv-order">
                 <label htmlFor="sv-order">Order</label>
                 <input id="sv-order" className="ad-input" type="number" value={order} onChange={(e) => setOrder(e.target.value)} />
                 <small className="sv-hint">Lower numbers show first in the Expertise section.</small>
               </div>
+              <ImageUpload label="Card image" required value={image} onChange={(url: string) => setImage(url)} />
             </div>
-            <div className="ad-field">
-              <label htmlFor="sv-cat">Category<span aria-hidden="true">*</span></label>
-              <select id="sv-cat" className="ad-input" value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Select a category</option>
-                {SERVICE_CATEGORIES.map((c) => (
-                  <option key={c.key} value={c.key}>{c.title}</option>
-                ))}
-              </select>
-              <small className="sv-hint">Decides which column the service appears in under Services in the navbar.</small>
-            </div>
+            
           </section>
-
+          
+          <section className="sv-panel">
+            <h3>Service Card details</h3>
+            <p className="sv-hint">Shown on the Service Cards in Service page.</p>
+            <div className="sv-two">
+                <div className="ad-field">
+                  <label htmlFor="sv-card-title">Title<span aria-hidden="true">*</span></label>
+                  <input id="sv-card-title" className="ad-input" maxLength={150} value={cardTitle}
+                        onChange={(e) => { setCardTitle(e.target.value); if (!slugTouched) setSlug(slugify(e.target.value)); }} />
+                </div>
+                <div className="ad-field">
+                  <label htmlFor="sv-cat">Category<span aria-hidden="true">*</span></label>
+                  <select id="sv-cat" className="ad-input" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="">Select a category</option>
+                    {SERVICE_CATEGORIES.map((c) => (
+                      <option key={c.key} value={c.key}>{c.title}</option>
+                    ))}
+                  </select>
+                  <small className="sv-hint">Decides which column the service appears in under Services in the navbar.</small>
+              </div>
+            </div>
+            
+            <div className="ad-field">
+              <label htmlFor="sv-desc">Short description (Service Card)<span aria-hidden="true">*</span></label>
+              <textarea id="sv-desc" className="ad-input sv-area" rows={2} value={description} onChange={(e) => setDescription(e.target.value)} />
+            </div>
+            <ImageUpload label="Service Card image" required value={cardImage} onChange={(url: string) => setCardImage(url)} />
+          </section>
+           
           {/* ---- hero (always) ---- */}
+          <h3>Sections</h3>
           <section className="sv-sec is-open is-hero">
             <div className="sv-sec-head">
               <div className="sv-sec-title"><b>Hero banner</b><span>Always shown at the top of the page.</span></div>

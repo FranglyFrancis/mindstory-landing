@@ -175,7 +175,7 @@ export default function ServicePageView({ service }: { service: ServiceData }) {
   const hero = {
     title: service.hero?.title || service.title,
     description: service.hero?.description || service.description,
-    image: service.hero?.image || service.image,
+    image: service.hero?.image || "",
   };
 
   return (

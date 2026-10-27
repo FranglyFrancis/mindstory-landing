@@ -1,4 +1,4 @@
-import Testimonials from '../../components/shared/Testimonials';
+import Testimonials from '../../components/shared/Testimonials/Testimonials';
 import './Services.css';
 
 export default function ServiceTestimonials(){

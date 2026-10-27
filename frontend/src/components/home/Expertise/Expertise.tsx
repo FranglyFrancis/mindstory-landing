@@ -1,9 +1,9 @@
 import './Expertise.css';
-import './Card.css';
+import '../Card.css';
 import './ExpertiseCarousel.css';   
-import { useServices, SERVICE_PATH } from '../../hooks/useServices';
-import type { ServiceListItem } from '../../hooks/useServices';
-import { imgSrc } from '../../utils/imgSrc';
+import { useServices } from '../../../hooks/useServices';
+import type { ServiceListItem } from '../../../hooks/useServices';
+import { imgSrc } from '../../../utils/imgSrc';
 
 import { Children, useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentProps, ReactNode } from "react";

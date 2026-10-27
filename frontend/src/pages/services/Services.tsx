@@ -4,7 +4,7 @@ import ServiceCards from './ServiceCards';
 import ServiceTestimonials from './Testimonials';
 import ServiceFooter from './ServiceFooter';
 import ServiceList from './ServiceList';
-import '../../components/shared/ServiceItem.css'
+import '../../components/shared/ServiceItem/ServiceItem.css'
 function Services(){
     
     return(

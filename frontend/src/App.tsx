@@ -1,17 +1,15 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
 
-import Navbar from "./components/shared/Navbar";
-import Footer from "./components/shared/Footer";
-import ContactBar from "./components/shared/ContactBar";
-
+import Navbar from "./components/shared/Navbar/Navbar";
+import Footer from "./components/shared/Footer/Footer";
+import ContactBar from "./components/shared/Contact/ContactBar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/services/Services";
 import ServiceDetail from "./pages/services/ServiceDetail";
 import { NotFound } from "./pages/NotFound";
-import ProjectView from "./components/home/ProjectView";
-
+import ProjectView from "./components/home/Works/ProjectView";
 
 import AdminApp from "./admin/AdminApp";
 

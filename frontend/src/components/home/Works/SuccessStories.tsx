@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import './SuccessStories.css';
-import './Card.css';
-// import { storyArray } from '../../data/home/SuccessStories';
-import { API_URL } from '../../config';
-import { imgSrc } from '../../utils/imgSrc';
-import { Blog } from '../../types';
+import '../Card.css';
+import { API_URL } from '../../../config';
+import { imgSrc } from '../../../utils/imgSrc';
+import { Blog } from '../../../types';
 import SuccessCard from './SuccessCard';
 
 type ApiStory = { slug: string; projectName: string; projectDescription: string; projectImage: string };

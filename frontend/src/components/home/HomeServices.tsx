@@ -1,6 +1,6 @@
-import '../shared/ServiceItem.css';
+import '../shared/ServiceItem/ServiceItem.css';
 import { servicesList } from '../../data/home/HomeServiceList';
-import ServiceItem from '../shared/ServiceItem';
+import ServiceItem from '../shared/ServiceItem/ServiceItem';
 
 function Services(){
 

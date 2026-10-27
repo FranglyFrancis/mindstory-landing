@@ -1,4 +1,4 @@
-import { serviceHero } from '../../data/services/hero/ServiceHero';
+import { serviceHero } from '../../data/ServiceHero';
 import './ServicesHero.css';
 
 export default function ServicesHero (){

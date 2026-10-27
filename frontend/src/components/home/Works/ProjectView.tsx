@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { API_URL } from "../../config";
-import { imgSrc } from "../../utils/imgSrc";
+import { API_URL } from "../../../config";
+import { imgSrc } from "../../../utils/imgSrc";
 import "./ProjectView.css";
 
 type Story = {

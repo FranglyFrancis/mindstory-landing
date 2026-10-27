@@ -4,7 +4,7 @@ import coin from '/images/service/coin.webp'
 import cogs from '/images/service/cogs.webp'
 import mail from '/images/service/mail.webp'
 import notebook from '/images/service/notebook.webp'
-import { HomeList } from '../../types'
+import { HomeList } from '../types'
 
 export const services: HomeList[] = [
     {

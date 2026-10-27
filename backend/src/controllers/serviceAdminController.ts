@@ -23,17 +23,20 @@ type Settable = { set: (path: string | Record<string, unknown>, value?: unknown)
 function fill(doc: Settable, body: Record<string, unknown>) {
   const present = SECTION_KEYS.filter((k) => body[k] !== undefined && body[k] !== null);
   doc.set({
-    title: text(body.title, 150),
+    title: text(body.title, 150).toUpperCase(),
     slug: text(body.slug, 80).toLowerCase(),
-    description: text(body.description, 1000),
-    category: text(body.category, 100),
     image: text(body.image, 500),
+    category: text(body.category, 100),
+    cardTitle: text(body.cardTitle, 150),
+    description: text(body.description, 1000),
+    cardImage: text(body.cardImage, 500),
     order: Number.isFinite(Number(body.order)) ? Number(body.order) : 0,
     hero: body.hero,
     sectionOrder: keysOf(body.sectionOrder).filter((k) => present.includes(k)),
     hiddenSections: keysOf(body.hiddenSections).filter((k) => present.includes(k)),
   });
   for (const k of SECTION_KEYS) doc.set(k, present.includes(k) ? body[k] : undefined);
+  console.log("hidden in:", body.hiddenSections, "present:", present);
 }
 
 function hasContent(v: unknown): boolean {
@@ -61,7 +64,8 @@ export async function listServices(_req: Request, res: Response) {
     const list = (await Service.find().sort({ order: 1, createdAt: 1 }).lean()) as unknown as Record<string, unknown>[];
     res.json(
       list.map((s) => ({
-        _id: s._id, slug: s.slug, title: s.title, category: s.category, description: s.description, image: s.image, order: s.order,
+        _id: s._id, slug: s.slug, title: s.title,  image: s.image, category: s.category, 
+        cardTitle: s.cardTitle, description: s.description, cardImage: s.cardImage, order: s.order,
         updatedAt: s.updatedAt,
         sectionCount: 1 + SECTION_KEYS.filter((k) => hasContent(s[k])).length,   // hero + sections with content
       }))

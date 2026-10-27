@@ -1,7 +1,7 @@
 import './Blogs.css'
-import './Card.css';
+import '../Card.css';
 import BlogCard from './BlogCard'
-import { useBlogs } from '../../hooks/useBlogs';
+import { useBlogs } from '../../../hooks/useBlogs';
 
 function FeaturedBlogs(){
     const { blogs, status } = useBlogs({ featuredOnly: true });

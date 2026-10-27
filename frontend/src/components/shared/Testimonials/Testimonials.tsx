@@ -1,8 +1,8 @@
 import './Testimonials.css';
 import { useEffect, useMemo, useRef, useState } from "react";
 import google from "/images/googleR.svg";
-import { API_URL } from "../../config";
-import { testimonials as fallback } from '../../data/home/TestimonialsList';
+import { API_URL } from "../../../config";
+import { testimonials as fallback } from '../../../data/home/TestimonialsList';
 import TestimonialCard from './TestimonialCard';
 
 type Review = {

@@ -56,6 +56,9 @@ export type Service = {
     title: string;
     description: string;
     image: string;
+    category: string;
+    cardTitle: string;
+    cardImage: string;
 }
 
 export type ServiceHero = {

@@ -1,6 +1,6 @@
 import './FAQ.css';
 import './FAQNumbers.css';   // keep this after FAQ.css
-import { Faq } from '../../types';
+import { Faq } from '../../../types';
 
 type FaqProps = {
     faqs: Faq[]

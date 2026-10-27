@@ -1,4 +1,4 @@
-import { HomeList } from "../../types"
+import { HomeList } from "../../../types"
 
 type ServiceItemProps = {
     item: HomeList

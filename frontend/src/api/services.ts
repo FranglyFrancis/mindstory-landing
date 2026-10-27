@@ -4,8 +4,10 @@ export interface IServiceListItem {
   _id: string;
   slug: string;
   title: string;
+  category: string;
+  cardTitle: string;
   description: string;
-  image: string;
+  cardImage: string;
 }
 
 export interface IService extends IServiceListItem {

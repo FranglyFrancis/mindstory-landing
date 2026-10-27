@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { isValidObjectId } from "mongoose";
 import { Service } from "../models/Service.js";
 
-const CORE = ["slug", "title","image", "order", "hero"] as const;
+const CORE = ["slug", "title","image", "category", "cardTitle", "description", "cardImage",  "order", "hero"] as const;
 const OPTIONAL = [
   "mainImage", "heading", "intro", "article", "lists", "iconCards", "titleCards",
   "titleItem", "imageItem", "paraItem", "features", "sections", "brands", "faqs",
