@@ -5,8 +5,8 @@ import type { PageProps } from "./adminPage";
 import FaqForm from "./FaqForm";
 import FaqList from "./FaqList";
 import { buildPageOptions, nextNumberFor } from "./faqHelpers";
-import { LIST_HASH, draftFromFaq } from "./FaqTypes";
-import type { Draft, Faq, Note, PageOption } from "./FaqTypes";
+import { LIST_HASH, draftFromFaq } from "./faqTypes";
+import type { Draft, Faq, Note, PageOption } from "./faqTypes";
 import "./FaqsPage.css";
 import "./FaqsNumbering.css"; // keep this after FaqsPage.css
 

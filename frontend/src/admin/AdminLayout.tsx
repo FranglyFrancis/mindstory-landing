@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { AdminUser } from "./api";
 import { PageCrumbContext } from "./adminPage";
-import { MenuIcon } from "./adminIcons";
-import { NAV_ITEMS } from "./adminNav";
-import type { NavItem } from "./adminNav";
+import { MenuIcon } from "./AdminIcons";
+import { NAV_ITEMS } from "./AdminNav";
+import type { NavItem } from "./AdminNav";
 import { defaultSidebarOpen, useHashRoute, useNarrow, writeSidebarPref } from "./adminHooks";
 
 type AdminLayoutProps = {
