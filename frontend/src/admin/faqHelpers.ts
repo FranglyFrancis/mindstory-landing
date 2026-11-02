@@ -1,5 +1,5 @@
-import { SITE_PAGES } from "./FaqTypes";
-import type { Faq, PageOption } from "./FaqTypes";
+import { SITE_PAGES } from "./faqTypes";
+import type { Faq, PageOption } from "./faqTypes";
 
 export const uniquePages = (faqs: Faq[]): string[] =>
   Array.from(new Set(faqs.map((faq) => faq.page))).sort();

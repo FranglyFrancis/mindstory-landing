@@ -2,8 +2,8 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { errorMessage } from "./api";
 import { faqsOnPage, labelForPage, nextNumberFor } from "./faqHelpers";
-import { GROUPS, LIST_HASH } from "./FaqTypes";
-import type { Draft, Faq, PageOption } from "./FaqTypes";
+import { GROUPS, LIST_HASH } from "./faqTypes";
+import type { Draft, Faq, PageOption } from "./faqTypes";
 
 const REQUIRED_MESSAGE = "Page, question and answer are all required.";
 const NO_PAGE_HINT = "Choose a page and the next question number for it is filled in for you.";

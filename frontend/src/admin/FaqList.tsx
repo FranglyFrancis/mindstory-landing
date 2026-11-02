@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { countLabel, groupByPage, labelForPage, uniquePages } from "./faqHelpers";
-import { LIST_HASH } from "./FaqTypes";
-import type { Faq, Note, PageOption } from "./FaqTypes";
+import { LIST_HASH } from "./faqTypes";
+import type { Faq, Note, PageOption } from "./faqTypes";
 
 type FaqListProps = {
   faqs: Faq[];
