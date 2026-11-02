@@ -17,6 +17,7 @@ type Story = {
   strategies?: { icon: string; title: string; description: string }[];
   resultsOverview: string;
   keyOutcomes?: { title: string }[];
+  conclusion: string;
   galleryEnabled?: boolean;
   gallery?: string[];
 };
@@ -29,6 +30,7 @@ type State =
 
 /** Textareas in the admin keep line breaks, so each line becomes its own paragraph. */
 function Paragraphs({ text }: { text: string }) {
+  if (!text) return null;
   return (
     <>
       {text.split(/\n+/).map((p) => p.trim()).filter(Boolean).map((p, i) => <p key={i}>{p}</p>)}
@@ -155,6 +157,7 @@ export default function ProjectView() {
       </section>
 
       {/* impact | challenges */}
+       {story.conclusion?.trim() && (
       <section className="pv-wrap pv-section pv-two">
         <article className="pv-card">
           <h2>Impact of Mindstory</h2>
@@ -165,7 +168,8 @@ export default function ProjectView() {
           <Paragraphs text={story.challenges} />
         </article>
       </section>
-
+       )}
+       
       {/* strategy */}
       <section className="pv-wrap pv-section">
         <h2 className="pv-h2">Strategy and Implementation</h2>
@@ -190,14 +194,20 @@ export default function ProjectView() {
         <article className="pv-card">
           <h2>Results and Impact</h2>
           <Paragraphs text={story.resultsOverview} />
-        </article>
         {outcomes.length > 0 && (
-          <article className="pv-card">
-            <h2>Key Outcomes</h2>
+          <div>
+            <h3>Key Outcomes</h3>
             <ul className="pv-outcomes">
               {outcomes.map((o, i) => <li key={i}>{o.title}</li>)}
             </ul>
-          </article>
+          </div>
+           )}
+        </article>
+          {story.conclusion?.trim() && (
+            <article className="pv-card">
+              <h2>Conclusion</h2>
+              <Paragraphs text={story.conclusion} />
+            </article>
         )}
       </section>
 

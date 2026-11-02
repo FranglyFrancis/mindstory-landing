@@ -1,5 +1,8 @@
-import { useState, FormEvent } from "react";
-import { api, setToken, AdminUser } from "./api";
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { api, errorMessage, setToken } from "./api";
+import type { AdminUser } from "./api";
+import PasswordInput from "./PasswordInput";
 
 /* ---- edit this: the text shown on the left side of the login page ---- */
 const COMPANY = {
@@ -9,52 +12,34 @@ const COMPANY = {
     "Update services, pages and content for your website from one place. Sign in with the email address your administrator set up for you.",
 };
 
+const MIN_PASSWORD_LENGTH = 8; // same rule as the server
+
 type View = "login" | "forgot" | "reset";
 type Note = { ok: boolean; text: string } | null;
 
-function EyeIcon({ off }: { off: boolean }) {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
-      <circle cx="12" cy="12" r="3" />
-      {off && <path d="M3 3l18 18" />}
-    </svg>
-  );
+const TITLES: Record<View, string> = {
+  login: "Log in",
+  forgot: "Reset your password",
+  reset: "Choose a new password",
+};
+
+const SUBMIT_LABELS: Record<View, string> = {
+  login: "Log in",
+  forgot: "Send reset link",
+  reset: "Save new password",
+};
+
+function post<T>(path: string, payload: unknown): Promise<T> {
+  return api<T>(path, { method: "POST", body: JSON.stringify(payload) });
 }
 
-function PasswordInput({
-  id, label, value, onChange, autoComplete,
-}: { id: string; label: string; value: string; onChange: (v: string) => void; autoComplete: string }) {
-  const [visible, setVisible] = useState(false);
-  return (
-    <div className="ad-field">
-      <label htmlFor={id}>{label}</label>
-      <div className="ad-pw">
-        <input
-          id={id}
-          className="ad-input"
-          type={visible ? "text" : "password"}
-          value={value}
-          autoComplete={autoComplete}
-          onChange={(e) => onChange(e.target.value)}
-          required
-        />
-        <button
-          type="button"
-          className="ad-pw-toggle"
-          onClick={() => setVisible(!visible)}
-          aria-label={visible ? "Hide password" : "Show password"}
-        >
-          <EyeIcon off={visible} />
-        </button>
-      </div>
-    </div>
-  );
-}
+type LoginPageProps = {
+  onLogin: (user: AdminUser) => void;
+  resetToken: string;
+  onResetDone: () => void;
+};
 
-export default function LoginPage({
-  onLogin, resetToken, onResetDone,
-}: { onLogin: (u: AdminUser) => void; resetToken: string; onResetDone: () => void }) {
+export default function LoginPage({ onLogin, resetToken, onResetDone }: LoginPageProps) {
   const [view, setView] = useState<View>(resetToken ? "reset" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,56 +47,60 @@ export default function LoginPage({
   const [note, setNote] = useState<Note>(null);
   const [busy, setBusy] = useState(false);
 
-  function go(next: View) {
+  function switchView(next: View) {
     setView(next);
     setNote(null);
     setPassword("");
     setConfirm("");
   }
 
-  async function submit(e: FormEvent) {
-    e.preventDefault();
+  async function logIn() {
+    const data = await post<{ token: string; user: AdminUser }>("/login", { email, password });
+    setToken(data.token);
+    onLogin(data.user);
+  }
+
+  async function sendResetLink() {
+    const data = await post<{ message: string }>("/forgot-password", { email });
+    setNote({ ok: true, text: data.message });
+  }
+
+  async function saveNewPassword() {
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      setNote({ ok: false, text: `Password must be at least ${MIN_PASSWORD_LENGTH} characters.` });
+      return;
+    }
+    if (password !== confirm) {
+      setNote({ ok: false, text: "The two passwords don't match." });
+      return;
+    }
+
+    await post("/reset-password", { token: resetToken, password });
+    onResetDone();
+    switchView("login");
+    setNote({ ok: true, text: "Password updated. Log in with your new password." });
+  }
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
     setNote(null);
     setBusy(true);
+
     try {
-      if (view === "login") {
-        const data = await api<{ token: string; user: AdminUser }>("/login", {
-          method: "POST",
-          body: JSON.stringify({ email, password }),
-        });
-        setToken(data.token);
-        onLogin(data.user);
-        return;
-      }
-
-      if (view === "forgot") {
-        const data = await api<{ message: string }>("/forgot-password", {
-          method: "POST",
-          body: JSON.stringify({ email }),
-        });
-        setNote({ ok: true, text: data.message });
-        return;
-      }
-
-      // reset
-      if (password.length < 8) return setNote({ ok: false, text: "Password must be at least 8 characters." });
-      if (password !== confirm) return setNote({ ok: false, text: "The two passwords don't match." });
-      await api("/reset-password", { method: "POST", body: JSON.stringify({ token: resetToken, password }) });
-      onResetDone();
-      go("login");
-      setNote({ ok: true, text: "Password updated. Log in with your new password." });
-    } catch (err: any) {
-      setNote({ ok: false, text: err.message });
+      if (view === "login") await logIn();
+      else if (view === "forgot") await sendResetLink();
+      else await saveNewPassword();
+    } catch (e) {
+      setNote({ ok: false, text: errorMessage(e) });
     } finally {
       setBusy(false);
     }
   }
 
-  const titles: Record<View, string> = {
-    login: "Log in",
-    forgot: "Reset your password",
-    reset: "Choose a new password",
-  };
+  function handleBackToLogin() {
+    if (view === "reset") onResetDone();
+    switchView("login");
+  }
 
   return (
     <div className="auth">
@@ -121,13 +110,17 @@ export default function LoginPage({
           <h1>{COMPANY.tagline}</h1>
           <p>{COMPANY.description}</p>
         </div>
-        <small>© {new Date().getFullYear()} {COMPANY.name}</small>
+        <small>
+          © {new Date().getFullYear()} {COMPANY.name}
+        </small>
       </section>
 
       <section className="auth-form">
-        <form onSubmit={submit} noValidate={false}>
-          <h2>{titles[view]}</h2>
-          {view === "forgot" && <p className="ad-sub">Enter your email and we'll send you a link to set a new password.</p>}
+        <form onSubmit={handleSubmit}>
+          <h2>{TITLES[view]}</h2>
+          {view === "forgot" && (
+            <p className="ad-sub">Enter your email and we'll send you a link to set a new password.</p>
+          )}
 
           {view !== "reset" && (
             <div className="ad-field">
@@ -145,13 +138,31 @@ export default function LoginPage({
           )}
 
           {view === "login" && (
-            <PasswordInput id="password" label="Password" value={password} onChange={setPassword} autoComplete="current-password" />
+            <PasswordInput
+              id="password"
+              label="Password"
+              value={password}
+              onChange={setPassword}
+              autoComplete="current-password"
+            />
           )}
 
           {view === "reset" && (
             <>
-              <PasswordInput id="new-password" label="New password" value={password} onChange={setPassword} autoComplete="new-password" />
-              <PasswordInput id="confirm-password" label="Confirm new password" value={confirm} onChange={setConfirm} autoComplete="new-password" />
+              <PasswordInput
+                id="new-password"
+                label="New password"
+                value={password}
+                onChange={setPassword}
+                autoComplete="new-password"
+              />
+              <PasswordInput
+                id="confirm-password"
+                label="Confirm new password"
+                value={confirm}
+                onChange={setConfirm}
+                autoComplete="new-password"
+              />
             </>
           )}
 
@@ -161,21 +172,17 @@ export default function LoginPage({
             </p>
           )}
 
-          <button className="ad-btn solid ad-wide" disabled={busy}>
-            {busy
-              ? "Please wait…"
-              : view === "login" ? "Log in" : view === "forgot" ? "Send reset link" : "Save new password"}
+          <button type="submit" className="ad-btn solid ad-wide" disabled={busy}>
+            {busy ? "Please wait…" : SUBMIT_LABELS[view]}
           </button>
 
           {view === "login" && (
-            <button type="button" className="ad-link" onClick={() => go("forgot")}>Forgot password?</button>
+            <button type="button" className="ad-link" onClick={() => switchView("forgot")}>
+              Forgot password?
+            </button>
           )}
           {view !== "login" && (
-            <button
-              type="button"
-              className="ad-link"
-              onClick={() => { if (view === "reset") onResetDone(); go("login"); }}
-            >
+            <button type="button" className="ad-link" onClick={handleBackToLogin}>
               Back to log in
             </button>
           )}

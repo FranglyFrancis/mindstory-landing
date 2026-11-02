@@ -1,102 +1,158 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { isValidObjectId } from "mongoose";
 import { SuccessStory } from "../models/SuccessStory.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-const REQUIRED = [
-  "projectName", "projectDescription", "projectHistory", "projectImage", "projectLogo",
-  "impact", "challenges", "strategyOverview", "resultsOverview",
+const REQUIRED_FIELDS = [
+  "projectName",
+  "projectDescription",
+  "projectHistory",
+  "projectImage",
+  "projectLogo",
+  "strategyOverview",
+  "resultsOverview",
+  "conclusion",
 ] as const;
 
-const str = (v: unknown) => String(v ?? "").trim();
-const arr = (v: unknown): any[] => (Array.isArray(v) ? v : []);
+const CARD_FIELDS = "slug projectName projectDescription projectImage -_id";
+const FALLBACK_SLUG = "story";
 
-// only whitelisted fields get through (no slug/_id/etc. from the client)
-function clean(body: any) {
-  const out: Record<string, any> = {};
-  for (const k of REQUIRED) out[k] = str(body?.[k]);
-  out.strategies = arr(body?.strategies)
-    .map((s) => ({ icon: str(s?.icon), title: str(s?.title), description: str(s?.description) }))
-    .filter((s) => s.title);
-  out.keyOutcomes = arr(body?.keyOutcomes).map((o) => ({ title: str(o?.title), description: str(o?.description) })).filter((o) => o.title);
-  out.galleryEnabled = Boolean(body?.galleryEnabled);
-  out.gallery = arr(body?.gallery).map(str).filter(Boolean);
-  return out;
+type RequiredField = (typeof REQUIRED_FIELDS)[number];
+
+type Strategy = { icon: string; title: string; description: string };
+type KeyOutcome = { title: string; description: string };
+
+type StoryData = Record<RequiredField, string> & {
+  strategies: Strategy[];
+  keyOutcomes: KeyOutcome[];
+  galleryEnabled: boolean;
+  gallery: string[];
+};
+
+type ParseResult = { data: StoryData } | { error: string };
+
+const toText = (value: unknown): string => String(value ?? "").trim();
+const toList = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
+const toRecord = (value: unknown): Record<string, unknown> =>
+  value && typeof value === "object" ? (value as Record<string, unknown>) : {};
+
+const sendError = (res: Response, status: number, message: string): void => {
+  res.status(status).json({ error: message });
+};
+
+const sendNotFound = (res: Response): void => sendError(res, 404, "Story not found");
+
+// Only whitelisted fields get through (no slug, _id or anything else from the client).
+function parseStoryBody(body: unknown): ParseResult {
+  const input = toRecord(body);
+
+  const requiredValues = Object.fromEntries(
+    REQUIRED_FIELDS.map((field) => [field, toText(input[field])])
+  ) as Record<RequiredField, string>;
+
+  const missing = REQUIRED_FIELDS.filter((field) => !requiredValues[field]);
+  if (missing.length > 0) {
+    return { error: `Missing required fields: ${missing.join(", ")}` };
+  }
+
+  const strategies = toList(input.strategies)
+    .map((item) => {
+      const s = toRecord(item);
+      return { icon: toText(s.icon), title: toText(s.title), description: toText(s.description) };
+    })
+    .filter((strategy) => strategy.title);
+
+  const keyOutcomes = toList(input.keyOutcomes)
+    .map((item) => {
+      const o = toRecord(item);
+      return { title: toText(o.title), description: toText(o.description) };
+    })
+    .filter((outcome) => outcome.title);
+
+  const gallery = toList(input.gallery).map(toText).filter(Boolean);
+
+  return {
+    data: {
+      ...requiredValues,
+      strategies,
+      keyOutcomes,
+      galleryEnabled: Boolean(input.galleryEnabled),
+      gallery,
+    },
+  };
 }
 
-const slugify = (s: string) =>
-  s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "story";
+const slugify = (value: string): string =>
+  value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || FALLBACK_SLUG;
 
-async function uniqueSlug(name: string) {
+async function uniqueSlug(name: string): Promise<string> {
   const base = slugify(name);
   let slug = base;
-  let i = 2;
-  while (await SuccessStory.exists({ slug })) slug = `${base}-${i++}`;
+  let suffix = 2;
+
+  while (await SuccessStory.exists({ slug })) {
+    slug = `${base}-${suffix++}`;
+  }
   return slug;
 }
 
 /* ---------- public (website) ---------- */
 
-// everything the carousel needs, nothing more
-export async function listPublic(_req: Request, res: Response) {
-  const stories = await SuccessStory.find()
-    .sort({ createdAt: -1 })
-    .select("slug projectName projectDescription projectImage -_id");
+// Everything the carousel needs, nothing more.
+export const listPublic = asyncHandler(async (_req: Request, res: Response) => {
+  const stories = await SuccessStory.find().sort({ createdAt: -1 }).select(CARD_FIELDS);
   res.json(stories);
-}
+});
 
-export async function getPublic(req: Request, res: Response) {
-  const story = await SuccessStory.findOne({ slug: req.params.slug });
-  if (!story) return res.status(404).json({ error: "Story not found" });
+export const getPublic = asyncHandler(async (req: Request, res: Response) => {
+  const story = await SuccessStory.findOne({ slug: String(req.params.slug) });
+  if (!story) return sendNotFound(res);
+
   res.json(story);
-}
+});
 
 /* ---------- admin (behind requireAuth) ---------- */
 
-export async function listAdmin(_req: Request, res: Response) {
+export const listAdmin = asyncHandler(async (_req: Request, res: Response) => {
   res.json(await SuccessStory.find().sort({ createdAt: -1 }));
-}
+});
 
-export async function createStory(req: Request, res: Response) {
-  try {
-    const data = clean(req.body);
-    const missing = REQUIRED.filter((k) => !data[k]);
-    if (missing.length) return res.status(400).json({ error: `Missing required fields: ${missing.join(", ")}` });
+export const createStory = asyncHandler(async (req: Request, res: Response) => {
+  const result = parseStoryBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
 
-    const story = await SuccessStory.create({ ...data, slug: await uniqueSlug(data.projectName) });
-    res.status(201).json(story);
-  } catch (e: any) {
-    if (e.code === 11000) return res.status(409).json({ error: "A story with this name already exists, try again" });
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+  const slug = await uniqueSlug(result.data.projectName);
+  const story = await SuccessStory.create({ ...result.data, slug });
+  res.status(201).json(story);
+});
 
-export async function updateStory(req: Request, res: Response) {
-  try {
-    if (!isValidObjectId(req.params.id)) return res.status(404).json({ error: "Story not found" });
+export const updateStory = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) return sendNotFound(res);
 
-    const data = clean(req.body);
-    const missing = REQUIRED.filter((k) => !data[k]);
-    if (missing.length) return res.status(400).json({ error: `Missing required fields: ${missing.join(", ")}` });
+  const result = parseStoryBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
 
-    // slug is left alone on purpose, so links already shared keep working
-    const story = await SuccessStory.findByIdAndUpdate(req.params.id, data, { runValidators: true, returnDocument: "after" });
-    if (!story) return res.status(404).json({ error: "Story not found" });
-    res.json(story);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+  // The slug is left alone on purpose, so links already shared keep working.
+  const story = await SuccessStory.findByIdAndUpdate(id, result.data, {
+    runValidators: true,
+    returnDocument: "after",
+  });
 
-export async function deleteStory(req: Request, res: Response) {
-  try {
-    if (!isValidObjectId(req.params.id)) return res.status(404).json({ error: "Story not found" });
-    const story = await SuccessStory.findByIdAndDelete(req.params.id);
-    if (!story) return res.status(404).json({ error: "Story not found" });
-    res.json({ ok: true });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+  if (!story) return sendNotFound(res);
+  res.json(story);
+});
+
+export const deleteStory = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) return sendNotFound(res);
+
+  const story = await SuccessStory.findByIdAndDelete(id);
+  if (!story) return sendNotFound(res);
+  res.json({ ok: true });
+});

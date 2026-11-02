@@ -1,71 +1,91 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { isValidObjectId } from "mongoose";
 import { Faq } from "../models/Faqs.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-const str = (v: unknown) => String(v ?? "").trim();
+const REQUIRED_FIELDS = ["page", "question", "answer"] as const;
 
-// only whitelisted fields get through
-function clean(body: any) {
-  return {
-    page: str(body?.page),
-    question: str(body?.question),
-    answer: str(body?.answer),
-    order: Math.trunc(Number(body?.order)) || 0,
+type FaqData = {
+  page: string;
+  question: string;
+  answer: string;
+  order: number;
+};
+
+type ParseResult = { data: FaqData } | { error: string };
+
+const toText = (value: unknown): string => String(value ?? "").trim();
+
+const sendError = (res: Response, status: number, message: string): void => {
+  res.status(status).json({ error: message });
+};
+
+const sendNotFound = (res: Response): void => sendError(res, 404, "FAQ not found");
+
+// Only whitelisted fields get through.
+function parseFaqBody(body: unknown): ParseResult {
+  const input = (body ?? {}) as Record<string, unknown>;
+
+  const data: FaqData = {
+    page: toText(input.page),
+    question: toText(input.question),
+    answer: toText(input.answer),
+    order: Math.trunc(Number(input.order)) || 0,
   };
-}
 
-const missing = (d: ReturnType<typeof clean>) =>
-  (["page", "question", "answer"] as const).filter((k) => !d[k]);
+  const missing = REQUIRED_FIELDS.filter((field) => !data[field]);
+  if (missing.length > 0) {
+    return { error: `Missing required fields: ${missing.join(", ")}` };
+  }
+  return { data };
+}
 
 /* ---------- public (website): GET /api/faqs?page=home ---------- */
-export async function listPublic(req: Request, res: Response) {
-  // a string check also blocks query-operator tricks like ?page[$ne]=x
-  const filter = typeof req.query.page === "string" && req.query.page ? { page: req.query.page } : {};
-  const faqs = await Faq.find(filter).sort({ order: 1, createdAt: 1 }).select("question answer -_id");
+export const listPublic = asyncHandler(async (req: Request, res: Response) => {
+  // A string check also blocks query-operator tricks like ?page[$ne]=x
+  const { page } = req.query;
+  const filter = typeof page === "string" && page ? { page } : {};
+
+  const faqs = await Faq.find(filter)
+    .sort({ order: 1, createdAt: 1 })
+    .select("page question answer order -_id");
+
   res.json(faqs);
-}
+});
 
 /* ---------- admin (behind requireAuth) ---------- */
-export async function listAdmin(_req: Request, res: Response) {
+export const listAdmin = asyncHandler(async (_req: Request, res: Response) => {
   res.json(await Faq.find().sort({ page: 1, order: 1, createdAt: 1 }));
-}
+});
 
-export async function createFaq(req: Request, res: Response) {
-  try {
-    const data = clean(req.body);
-    const gaps = missing(data);
-    if (gaps.length) return res.status(400).json({ error: `Missing required fields: ${gaps.join(", ")}` });
-    res.status(201).json(await Faq.create(data));
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+export const createFaq = asyncHandler(async (req: Request, res: Response) => {
+  const result = parseFaqBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
 
-export async function updateFaq(req: Request, res: Response) {
-  try {
-    if (!isValidObjectId(req.params.id)) return res.status(404).json({ error: "FAQ not found" });
-    const data = clean(req.body);
-    const gaps = missing(data);
-    if (gaps.length) return res.status(400).json({ error: `Missing required fields: ${gaps.join(", ")}` });
+  res.status(201).json(await Faq.create(result.data));
+});
 
-    const faq = await Faq.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after', runValidators: true });
-    if (!faq) return res.status(404).json({ error: "FAQ not found" });
-    res.json(faq);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+export const updateFaq = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) return sendNotFound(res);
 
-export async function deleteFaq(req: Request, res: Response) {
-  try {
-    if (!isValidObjectId(req.params.id)) return res.status(404).json({ error: "FAQ not found" });
-    const faq = await Faq.findByIdAndDelete(req.params.id);
-    if (!faq) return res.status(404).json({ error: "FAQ not found" });
-    res.json({ ok: true });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+  const result = parseFaqBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
+
+  const faq = await Faq.findByIdAndUpdate(id, result.data, {
+    returnDocument: "after",
+    runValidators: true,
+  });
+
+  if (!faq) return sendNotFound(res);
+  res.json(faq);
+});
+
+export const deleteFaq = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) return sendNotFound(res);
+
+  const faq = await Faq.findByIdAndDelete(id);
+  if (!faq) return sendNotFound(res);
+  res.json({ ok: true });
+});

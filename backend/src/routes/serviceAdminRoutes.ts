@@ -1,7 +1,14 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth.js";
-import { listServices, getService, createService, updateService, deleteService } from "../controllers/serviceAdminController.js";
+import {
+  listServices,
+  getService,
+  createService,
+  updateService,
+  deleteService,
+} from "../controllers/serviceAdminController.js";
 
+/* ---------- admin: mounted at /api/admin, everything needs a logged-in user ---------- */
 export const adminServiceRouter = Router();
 
 adminServiceRouter.use("/service-pages", requireAuth);

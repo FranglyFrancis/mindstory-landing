@@ -46,7 +46,7 @@
 }
 
 /* wave */
-.custom-shape-divider-top-1790845741 {
+.hero-wave {
     position: relative;
     top: 0;
     left: 0;
@@ -56,13 +56,13 @@
     transform: rotate(180deg);
 }
 
-.custom-shape-divider-top-1790845741 svg {
+.hero-wave svg {
     position: relative;
     display: block;
     width: calc(300% + 1.3px);
     height: 90px;
 }
 
-.custom-shape-divider-top-1790845741 .shape-fill {
+.hero-wave .shape-fill {
     fill: #F29F05;
 }

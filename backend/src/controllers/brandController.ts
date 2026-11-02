@@ -1,79 +1,83 @@
 import type { Request, Response } from "express";
-import mongoose from "mongoose";
+import { isValidObjectId } from "mongoose";
 import { Brand } from "../models/Brand.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 /* A brand is a name and a logo. The image itself is uploaded through your existing
    POST /api/admin/upload endpoint; this controller stores the URL it returns. */
 
-class BadRequest extends Error {}
+const MAX_NAME_LENGTH = 100;
+const MAX_LOGO_LENGTH = 500;
 
 // Reject URL schemes that could run code if the value is ever rendered as a link.
 const UNSAFE_URL = /^\s*(javascript|data|vbscript):/i;
 
-function readBrand(body: unknown): { name: string; logo: string } {
-  const b = (body ?? {}) as { name?: unknown; logo?: unknown };
-  const name = typeof b.name === "string" ? b.name.trim() : "";
-  const logo = typeof b.logo === "string" ? b.logo.trim() : "";
+type BrandData = { name: string; logo: string };
+type ParseResult = { data: BrandData } | { error: string };
 
-  if (!name) throw new BadRequest("Enter the brand name.");
-  if (name.length > 100) throw new BadRequest("The brand name is too long (100 characters max).");
-  if (!logo) throw new BadRequest("Upload a logo image.");
-  if (logo.length > 500 || UNSAFE_URL.test(logo)) throw new BadRequest("That logo link is not valid.");
-  return { name, logo };
-}
+const toText = (value: unknown): string => (typeof value === "string" ? value.trim() : "");
+
+const sendError = (res: Response, status: number, message: string): void => {
+  res.status(status).json({ error: message });
+};
+
+const sendNotFound = (res: Response): void => sendError(res, 404, "Brand not found.");
 
 // Express can type a route param as string | string[], so always read it through this.
 const idOf = (req: Request): string => String(req.params.id);
 
-function fail(res: Response, e: unknown) {
-  if (e instanceof BadRequest) return res.status(400).json({ error: e.message });
-  console.error(e);
-  return res.status(500).json({ error: "Something went wrong. Please try again." });
-}
+function parseBrandBody(body: unknown): ParseResult {
+  const input = (body ?? {}) as Record<string, unknown>;
+  const name = toText(input.name);
+  const logo = toText(input.logo);
 
-/** GET /api/brands  (public: the website uses this too). Oldest first, so the admin shows the same order as the site. */
-export async function getBrands(_req: Request, res: Response) {
-  try {
-    res.json(await Brand.find().sort({ createdAt: 1 }));
-  } catch (e) {
-    fail(res, e);
+  if (!name) return { error: "Enter the brand name." };
+  if (name.length > MAX_NAME_LENGTH) {
+    return { error: `The brand name is too long (${MAX_NAME_LENGTH} characters max).` };
   }
-}
-
-/** POST /api/brands   body: { name, logo } */
-export async function createBrand(req: Request, res: Response) {
-  try {
-    const brand = await Brand.create(readBrand(req.body));
-    res.status(201).json(brand);
-  } catch (e) {
-    fail(res, e);
+  if (!logo) return { error: "Upload a logo image." };
+  if (logo.length > MAX_LOGO_LENGTH || UNSAFE_URL.test(logo)) {
+    return { error: "That logo link is not valid." };
   }
+  return { data: { name, logo } };
 }
 
-/** PUT /api/brands/:id   body: { name, logo } */
-export async function updateBrand(req: Request, res: Response) {
-  try {
-    const id = idOf(req);
-    if (!mongoose.isValidObjectId(id)) return res.status(404).json({ error: "Brand not found." });
+/** GET /api/brands (public: the website uses this too). Oldest first, so the admin shows the same order as the site. */
+export const getBrands = asyncHandler(async (_req: Request, res: Response) => {
+  res.json(await Brand.find().sort({ createdAt: 1 }));
+});
 
-    const brand = await Brand.findByIdAndUpdate(id, readBrand(req.body), { returnDocument: "after" });
-    if (!brand) return res.status(404).json({ error: "Brand not found." });
-    res.json(brand);
-  } catch (e) {
-    fail(res, e);
-  }
-}
+/** POST /api/admin/brands   body: { name, logo } */
+export const createBrand = asyncHandler(async (req: Request, res: Response) => {
+  const result = parseBrandBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
 
-/** DELETE /api/brands/:id */
-export async function deleteBrand(req: Request, res: Response) {
-  try {
-    const id = idOf(req);
-    if (!mongoose.isValidObjectId(id)) return res.status(404).json({ error: "Brand not found." });
+  res.status(201).json(await Brand.create(result.data));
+});
 
-    const brand = await Brand.findByIdAndDelete(id);
-    if (!brand) return res.status(404).json({ error: "Brand not found." });
-    res.json({ ok: true });
-  } catch (e) {
-    fail(res, e);
-  }
-}
+/** PUT /api/admin/brands/:id   body: { name, logo } */
+export const updateBrand = asyncHandler(async (req: Request, res: Response) => {
+  const id = idOf(req);
+  if (!isValidObjectId(id)) return sendNotFound(res);
+
+  const result = parseBrandBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
+
+  const brand = await Brand.findByIdAndUpdate(id, result.data, {
+    returnDocument: "after",
+    runValidators: true,
+  });
+
+  if (!brand) return sendNotFound(res);
+  res.json(brand);
+});
+
+/** DELETE /api/admin/brands/:id */
+export const deleteBrand = asyncHandler(async (req: Request, res: Response) => {
+  const id = idOf(req);
+  if (!isValidObjectId(id)) return sendNotFound(res);
+
+  const brand = await Brand.findByIdAndDelete(id);
+  if (!brand) return sendNotFound(res);
+  res.json({ ok: true });
+});

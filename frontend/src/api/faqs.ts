@@ -1,12 +1,9 @@
-import { API_URL } from "../config";
+import { request } from "./request";
 
 export interface IFaqItem {
   question: string;
   answer: string;
 }
 
-export async function fetchFaqs(page: string): Promise<IFaqItem[]> {
-  const res = await fetch(`${API_URL}/api/faqs?page=${encodeURIComponent(page)}`);
-  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-  return res.json();
-}
+export const fetchFaqs = (page: string, signal?: AbortSignal) =>
+  request<IFaqItem[]>(`/api/faqs?page=${encodeURIComponent(page)}`, signal);

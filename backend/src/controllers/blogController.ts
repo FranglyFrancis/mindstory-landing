@@ -1,83 +1,107 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { isValidObjectId } from "mongoose";
 import { Blog } from "../models/Blog.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-const str = (v: unknown) => String(v ?? "").trim();
+const MAX_PUBLIC_LIMIT = 50;
+const REQUIRED_FIELDS = ["title", "description", "image", "url"] as const;
+
+type BlogData = {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
+  featured: boolean;
+  order: number;
+};
+
+type ParseResult = { data: BlogData } | { error: string };
+
+const toText = (value: unknown): string => String(value ?? "").trim();
 
 // A link or image must be a full web address or a site path like "/blog/my-post".
 // Anything else (javascript:, data:, ...) is refused, because the link ends up in an <a href>.
-const isLink = (v: string) => /^https?:\/\/\S+$/i.test(v) || /^\/(?!\/)\S*$/.test(v);
+const isLink = (value: string): boolean =>
+  /^https?:\/\/\S+$/i.test(value) || /^\/(?!\/)\S*$/.test(value);
 
-type Data = { title: string; description: string; image: string; url: string; featured: boolean; order: number };
+const sendError = (res: Response, status: number, message: string): void => {
+  res.status(status).json({ error: message });
+};
 
-function parse(body: any): { data: Data } | { error: string } {
-  const data: Data = {
-    title: str(body?.title),
-    description: str(body?.description),
-    image: str(body?.image),
-    url: str(body?.url),
-    featured: body?.featured !== false, // featured unless explicitly switched off
-    order: Math.trunc(Number(body?.order)) || 0,
+const sendNotFound = (res: Response): void => sendError(res, 404, "Blog not found");
+
+function parseBlogBody(body: unknown): ParseResult {
+  const input = (body ?? {}) as Record<string, unknown>;
+
+  const data: BlogData = {
+    title: toText(input.title),
+    description: toText(input.description),
+    image: toText(input.image),
+    url: toText(input.url),
+    featured: input.featured !== false, // featured unless explicitly switched off
+    order: Math.trunc(Number(input.order)) || 0,
   };
 
-  const gaps = (["title", "description", "image", "url"] as const).filter((k) => !data[k]);
-  if (gaps.length) return { error: `Missing required fields: ${gaps.join(", ")}` };
-  if (!isLink(data.url)) return { error: "Link must be a full web address (https://...) or a site path starting with /" };
-  if (!isLink(data.image)) return { error: "Image must be an uploaded image or a full web address" };
+  const missing = REQUIRED_FIELDS.filter((field) => !data[field]);
+  if (missing.length > 0) {
+    return { error: `Missing required fields: ${missing.join(", ")}` };
+  }
+  if (!isLink(data.url)) {
+    return { error: "Link must be a full web address (https://...) or a site path starting with /" };
+  }
+  if (!isLink(data.image)) {
+    return { error: "Image must be an uploaded image or a full web address" };
+  }
   return { data };
 }
 
 /* ---------- public (website): GET /api/blogs?featured=true&limit=3 ---------- */
-export async function listPublic(req: Request, res: Response) {
-  const filter: Record<string, unknown> = {};
-  if (req.query.featured === "true") filter.featured = true;
+export const listPublic = asyncHandler(async (req: Request, res: Response) => {
+  const filter = req.query.featured === "true" ? { featured: true } : {};
 
-  const limit = Math.min(Math.max(parseInt(String(req.query.limit), 10) || 0, 0), 50);
+  const requestedLimit = parseInt(String(req.query.limit), 10) || 0;
+  const limit = Math.min(Math.max(requestedLimit, 0), MAX_PUBLIC_LIMIT);
 
-  let query = Blog.find(filter).sort({ order: 1, createdAt: -1 }).select("title description image url");
-  if (limit) query = query.limit(limit);
-  res.json(await query);
-}
+  const query = Blog.find(filter)
+    .sort({ order: 1, createdAt: -1 })
+    .select("title description image url");
+
+  res.json(await (limit ? query.limit(limit) : query));
+});
 
 /* ---------- admin (behind requireAuth) ---------- */
-export async function listAdmin(_req: Request, res: Response) {
+export const listAdmin = asyncHandler(async (_req: Request, res: Response) => {
   res.json(await Blog.find().sort({ order: 1, createdAt: -1 }));
-}
+});
 
-export async function createBlog(req: Request, res: Response) {
-  try {
-    const result = parse(req.body);
-    if ("error" in result) return res.status(400).json({ error: result.error });
-    res.status(201).json(await Blog.create(result.data));
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+export const createBlog = asyncHandler(async (req: Request, res: Response) => {
+  const result = parseBlogBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
 
-export async function updateBlog(req: Request, res: Response) {
-  try {
-    if (!isValidObjectId(req.params.id)) return res.status(404).json({ error: "Blog not found" });
-    const result = parse(req.body);
-    if ("error" in result) return res.status(400).json({ error: result.error });
+  res.status(201).json(await Blog.create(result.data));
+});
 
-    const blog = await Blog.findByIdAndUpdate(req.params.id, result.data, { returnDocument: 'after', runValidators: true });
-    if (!blog) return res.status(404).json({ error: "Blog not found" });
-    res.json(blog);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+export const updateBlog = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) return sendNotFound(res);
 
-export async function deleteBlog(req: Request, res: Response) {
-  try {
-    if (!isValidObjectId(req.params.id)) return res.status(404).json({ error: "Blog not found" });
-    const blog = await Blog.findByIdAndDelete(req.params.id);
-    if (!blog) return res.status(404).json({ error: "Blog not found" });
-    res.json({ ok: true });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
-  }
-}
+  const result = parseBlogBody(req.body);
+  if ("error" in result) return sendError(res, 400, result.error);
+
+  const blog = await Blog.findByIdAndUpdate(id, result.data, {
+    returnDocument: "after",
+    runValidators: true,
+  });
+
+  if (!blog) return sendNotFound(res);
+  res.json(blog);
+});
+
+export const deleteBlog = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) return sendNotFound(res);
+
+  const blog = await Blog.findByIdAndDelete(id);
+  if (!blog) return sendNotFound(res);
+  res.json({ ok: true });
+});

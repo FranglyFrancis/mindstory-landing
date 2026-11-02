@@ -377,8 +377,7 @@
     color: #555;
 }
 
-/* 1st Divider */
-.custom-shape-divider-top-1789556561 {
+.about-wave1 {
     position: relative;
     top: 0;
     left: 0;
@@ -387,19 +386,18 @@
     line-height: 0;
 }
 
-.custom-shape-divider-top-1789556561 svg {
+.about-wave1 svg {
     position: relative;
     display: block;
     width: calc(216% + 1.3px);
     height: 150px;
 }
 
-.custom-shape-divider-top-1789556561 .shape-fill {
+.about-wave1 .shape-fill {
     fill: #EF9D05;
 }
 
-/*2nd Divider  */
-.custom-shape-divider-bottom-1789558199 {
+.about-wave2 {
     position: relative;
     bottom: 0;
     left: 0;
@@ -409,19 +407,18 @@
     transform: rotate(180deg);
 }
 
-.custom-shape-divider-bottom-1789558199 svg {
+.about-wave2 svg {
     position: relative;
     display: block;
     width: calc(134% + 1.3px);
     height: 150px;
 }
 
-.custom-shape-divider-bottom-1789558199 .shape-fill {
+.about-wave2 .shape-fill {
     fill: #DBE7EE;
 }
 
-/* mindified-top-divider */
-.custom-shape-divider-bottom-1789626360 {
+.about-mindified-top-wave {
     position: relative;
     bottom: 0;
     left: 0;
@@ -431,19 +428,18 @@
     background: #DBE7EE;
 }
 
-.custom-shape-divider-bottom-1789626360 svg {
+.about-mindified-top-wave svg {
     position: relative;
     display: block;
     width: calc(300% + 1.3px);
     height: 183px;
 }
 
-.custom-shape-divider-bottom-1789626360 .shape-fill {
+.about-mindified-top-wave .shape-fill {
     fill: #4C9FDB;
 }
 
-/* mindified divider */
-.custom-shape-divider-top-1789626613 {
+.about-mindified-wave {
     position: relative;
     top: 0;
     left: 0;
@@ -455,7 +451,7 @@
 
 }
 
-.custom-shape-divider-top-1789626613 svg {
+.about-mindified-wave svg {
     position: relative;
     display: block;
     width: calc(300% + 1.3px);
@@ -463,7 +459,7 @@
     
 }
 
-.custom-shape-divider-top-1789626613 .shape-fill {
+.about-mindified-wave .shape-fill {
     fill: #59ACE7;
 }
 
@@ -714,12 +710,12 @@
        WAVES
     ============================== */
 
-    .custom-shape-divider-top-1789556561 svg {
+    .about-wave1 svg {
         width: 220%;
         height: 90px;
     }
 
-    .custom-shape-divider-bottom-1789558199 svg {
+    .about-wave2 svg {
         width: 180%;
         height: 90px;
     }

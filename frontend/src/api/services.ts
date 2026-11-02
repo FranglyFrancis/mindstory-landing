@@ -1,17 +1,20 @@
-import { API_URL } from "../config";
+import { request } from "./request";
 
+// What GET /api/services returns for each card. The server leaves out _id here.
 export interface IServiceListItem {
-  _id: string;
   slug: string;
   title: string;
+  image: string;
   category: string;
   cardTitle: string;
-  description: string;
   cardImage: string;
+  description: string;
+  order: number;
 }
 
+// What GET /api/services/:slug returns: the whole service.
 export interface IService extends IServiceListItem {
-  order: number;
+  _id: string;
   hero: { title: string; description: string; image: string };
   heading?: { title: string; description?: string };
   intro?: { title: string; left: string; right: string };
@@ -36,16 +39,11 @@ export interface IService extends IServiceListItem {
   }[];
   brands?: { image: string; brand: string }[];
   faqs?: { question: string; answer: string }[];
+  sectionOrder?: string[]; // the order the admin arranged the sections in
+  hiddenSections?: string[]; // sections switched off for the website
 }
 
-async function request<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`);
-  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-  return res.json() as Promise<T>;
-}
+export const fetchServices = (signal?: AbortSignal) => request<IServiceListItem[]>("/api/services", signal);
 
-export const fetchServices = () =>
-  request<IServiceListItem[]>("/api/services");
-
-export const fetchServiceBySlug = (slug: string) =>
-  request<IService>(`/api/services/${slug}`);
+export const fetchServiceBySlug = (slug: string, signal?: AbortSignal) =>
+  request<IService>(`/api/services/${encodeURIComponent(slug)}`, signal);

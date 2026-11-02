@@ -1,15 +1,17 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, type InferSchemaType } from "mongoose";
 
 const blogSchema = new Schema(
   {
     title: { type: String, required: true, trim: true },
-    description: { type: String, required: true, trim: true }, // short summary shown on the card
-    image: { type: String, required: true, trim: true },       // Cloudinary address
-    url: { type: String, required: true, trim: true },         // where the card links to
-    featured: { type: Boolean, default: true },                // show in the home page "Featured Blogs" section
-    order: { type: Number, default: 0 },                       // lower numbers show first
+    description: { type: String, required: true, trim: true },
+    image: { type: String, required: true, trim: true }, // uploaded image URL or full web address
+    url: { type: String, required: true, trim: true }, // full web address or site path like "/blog/my-post"
+    featured: { type: Boolean, default: true }, // shown on the homepage when true
+    order: { type: Number, default: 0 }, // lower numbers come first
   },
   { timestamps: true }
 );
+
+export type BlogDoc = InferSchemaType<typeof blogSchema>;
 
 export const Blog = model("Blog", blogSchema);

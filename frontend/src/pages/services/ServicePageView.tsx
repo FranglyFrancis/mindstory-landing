@@ -6,6 +6,8 @@ import IconList from "./blocks/IconList";
 import TransparentCard from "./blocks/TransparentCard";
 import { imgSrc } from "../../utils/imgSrc";
 import "./ServicePageView.css";
+import serviceFaqs from "./ServiceFaqs"
+import ServiceFaqs from "./ServiceFaqs";
 
 /** IService plus the two fields the admin panel saves for the page layout. Add them to IService when you like. */
 export type ServiceData = IService & { sectionOrder?: string[]; hiddenSections?: string[] };
@@ -144,20 +146,8 @@ const BLOCKS: Record<string, (s: ServiceData) => ReactNode> = {
         ))}
       </ul>
     </section>
-  ),
-
-  faqs: (s) => (
-    <section className="sb-block sb-faqs">
-      <h2 className="sb-title">Frequently Asked Questions</h2>
-      {(s.faqs ?? []).map((q, i) => (
-        <details key={i}>
-          <summary>{q.question}</summary>
-          <p>{q.answer}</p>
-        </details>
-      ))}
-    </section>
-  ),
-};
+  )
+}
 
 const KEYS = Object.keys(BLOCKS);
 
@@ -181,11 +171,12 @@ export default function ServicePageView({ service }: { service: ServiceData }) {
   return (
     <>
       <CommonHero image={hero.image} title={hero.title} description={hero.description} />
-      <div className="sb-page">
-        {visibleKeys(service).map((k) => (
-          <Fragment key={k}>{BLOCKS[k](service)}</Fragment>
-        ))}
-      </div>
+        <div className="sb-page">
+          {visibleKeys(service).map((k) => (
+            <Fragment key={k}>{BLOCKS[k](service)}</Fragment>
+          ))}
+          <ServiceFaqs page={service.slug} />
+        </div>
     </>
   );
 }

@@ -1,100 +1,122 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import bcrypt from "bcryptjs";
+import { isValidObjectId } from "mongoose";
 import { AdminUser } from "../models/AdminUser.js";
-import { AuthRequest } from "../middleware/auth.js";
+import type { AuthRequest } from "../middleware/auth.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { toPublicUser } from "../utils/publicUser.js";
 
-const ROLES = ["superadmin", "admin"];
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ROLES = ["superadmin", "admin"] as const;
+type Role = (typeof ROLES)[number];
 
-const me = (req: Request) => (req as AuthRequest).user!;
+const DEFAULT_ROLE: Role = "admin";
+const BCRYPT_ROUNDS = 12;
+const MIN_PASSWORD_LENGTH = 8;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// true if at least one OTHER active super admin exists
-async function anotherSuperAdminExists(excludeId: string) {
-  const n = await AdminUser.countDocuments({ _id: { $ne: excludeId }, role: "superadmin", active: true });
-  return n > 0;
+const PASSWORD_TOO_SHORT = `Password must be at least ${MIN_PASSWORD_LENGTH} characters`;
+const LAST_SUPER_ADMIN = "There must be at least one active super admin";
+
+const isRole = (value: unknown): value is Role => ROLES.includes(value as Role);
+
+const toText = (value: unknown): string => String(value ?? "").trim();
+
+const sendError = (res: Response, status: number, message: string): void => {
+  res.status(status).json({ error: message });
+};
+
+const sendNotFound = (res: Response): void => sendError(res, 404, "User not found");
+
+const getCurrentUserId = (req: Request): string | undefined => (req as AuthRequest).user?.id;
+
+// True if at least one OTHER active super admin exists.
+async function anotherSuperAdminExists(excludeId: string): Promise<boolean> {
+  const count = await AdminUser.countDocuments({
+    _id: { $ne: excludeId },
+    role: "superadmin",
+    active: true,
+  });
+  return count > 0;
 }
 
-export async function listUsers(_req: Request, res: Response) {
-  res.json(await AdminUser.find().sort({ createdAt: 1 }));
-}
+export const listUsers = asyncHandler(async (_req: Request, res: Response) => {
+  const users = await AdminUser.find().sort({ createdAt: 1 });
+  res.json(users.map(toPublicUser));
+});
 
-export async function createUser(req: Request, res: Response) {
-  try {
-    const name = String(req.body.name ?? "").trim();
-    const email = String(req.body.email ?? "").trim().toLowerCase();
-    const password = String(req.body.password ?? "");
-    const role = ROLES.includes(req.body.role) ? req.body.role : "admin";
+export const createUser = asyncHandler(async (req: Request, res: Response) => {
+  const name = toText(req.body?.name);
+  const email = toText(req.body?.email).toLowerCase();
+  const password = String(req.body?.password ?? "");
+  const role = isRole(req.body?.role) ? req.body.role : DEFAULT_ROLE;
 
-    if (!EMAIL_RE.test(email)) return res.status(400).json({ error: "Enter a valid email address" });
-    if (password.length < 8) return res.status(400).json({ error: "Password must be at least 8 characters" });
+  if (!EMAIL_PATTERN.test(email)) return sendError(res, 400, "Enter a valid email address");
+  if (password.length < MIN_PASSWORD_LENGTH) return sendError(res, 400, PASSWORD_TOO_SHORT);
 
-    const user = await AdminUser.create({
-      name,
-      email,
-      role,
-      passwordHash: await bcrypt.hash(password, 12),
-    });
-    res.status(201).json(user);
-  } catch (e: any) {
-    if (e.code === 11000) return res.status(409).json({ error: "A user with this email already exists" });
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
+  const user = await AdminUser.create({
+    name,
+    email,
+    role,
+    passwordHash: await bcrypt.hash(password, BCRYPT_ROUNDS),
+  });
+
+  res.status(201).json(toPublicUser(user));
+});
+
+export const updateUser = asyncHandler(async (req: Request, res: Response) => {
+  const id = String(req.params.id);
+  if (!isValidObjectId(id)) return sendNotFound(res);
+
+  const user = await AdminUser.findById(id);
+  if (!user) return sendNotFound(res);
+
+  const { name, role, active, password } = req.body ?? {};
+  const isSelf = getCurrentUserId(req) === user.id;
+
+  const losingSuperAdmin =
+    user.role === "superadmin" &&
+    ((role !== undefined && role !== "superadmin") || active === false);
+
+  if (losingSuperAdmin) {
+    if (isSelf) return sendError(res, 400, "You can't demote or deactivate your own account");
+    if (!(await anotherSuperAdminExists(user.id))) return sendError(res, 400, LAST_SUPER_ADMIN);
   }
-}
 
-export async function updateUser(req: Request, res: Response) {
-  try {
-    const user = await AdminUser.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
-
-    const self = me(req).id === user.id;
-    const { name, role, active, password } = req.body;
-
-    const losingSuperAdmin =
-      user.role === "superadmin" &&
-      ((role !== undefined && role !== "superadmin") || active === false);
-
-    if (losingSuperAdmin) {
-      if (self) return res.status(400).json({ error: "You can't demote or deactivate your own account" });
-      if (!(await anotherSuperAdminExists(user.id))) {
-        return res.status(400).json({ error: "There must be at least one active super admin" });
-      }
-    }
-
-    if (name !== undefined) user.name = String(name).trim();
-    if (role !== undefined && ROLES.includes(role)) user.role = role;
-    if (active !== undefined) {
-      user.active = Boolean(active);
-      if (!user.active) user.tokenVersion += 1;
-    }
-    if (password !== undefined) {
-      if (String(password).length < 8) return res.status(400).json({ error: "Password must be at least 8 characters" });
-      user.passwordHash = await bcrypt.hash(String(password), 12);
-      user.tokenVersion += 1;
-    }
-
-    await user.save();
-    res.json(user);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
+  if (password !== undefined && String(password).length < MIN_PASSWORD_LENGTH) {
+    return sendError(res, 400, PASSWORD_TOO_SHORT);
   }
-}
 
-export async function deleteUser(req: Request, res: Response) {
-  try {
-    const user = await AdminUser.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
+  if (name !== undefined) user.name = toText(name);
+  if (isRole(role)) user.role = role;
 
-    if (me(req).id === user.id) return res.status(400).json({ error: "You can't delete your own account" });
-    if (user.role === "superadmin" && !(await anotherSuperAdminExists(user.id))) {
-      return res.status(400).json({ error: "There must be at least one active super admin" });
-    }
-
-    await user.deleteOne();
-    res.json({ ok: true });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Something went wrong" });
+  if (active !== undefined) {
+    user.active = Boolean(active);
+    if (!user.active) user.tokenVersion += 1; // logs them out everywhere
   }
-}
+
+  if (password !== undefined) {
+    user.passwordHash = await bcrypt.hash(String(password), BCRYPT_ROUNDS);
+    user.tokenVersion += 1; // logs them out everywhere
+  }
+
+  await user.save();
+  res.json(toPublicUser(user));
+});
+
+export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
+  const id = String(req.params.id);
+  if (!isValidObjectId(id)) return sendNotFound(res);
+
+  const user = await AdminUser.findById(id);
+  if (!user) return sendNotFound(res);
+
+  if (getCurrentUserId(req) === user.id) {
+    return sendError(res, 400, "You can't delete your own account");
+  }
+  if (user.role === "superadmin" && !(await anotherSuperAdminExists(user.id))) {
+    return sendError(res, 400, LAST_SUPER_ADMIN);
+  }
+
+  await user.deleteOne();
+  res.json({ ok: true });
+});

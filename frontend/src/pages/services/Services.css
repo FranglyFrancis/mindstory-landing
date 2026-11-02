@@ -3,7 +3,7 @@
 }
 
 /* wave separator */
-.custom-shape-divider-bottom-1790077022 {
+.service-wave {
     position: relative;
     bottom: 0;
     left: 0;
@@ -13,19 +13,19 @@
     transform: rotate(180deg);
 }
 
-.custom-shape-divider-bottom-1790077022 svg {
+.service-wave svg {
     position: relative;
     display: block;
     width: calc(300% + 1.3px);
     height: 107px;
 }
 
-.custom-shape-divider-bottom-1790077022 .shape-fill {
+.service-wave .shape-fill {
     fill: #D9E6ED;
 }
 
 /* 2nd wave */
-.custom-shape-divider-bottom-1790590724 {
+.testimonial-wave1 {
     position: relative;
     bottom: 0;
     left: 0;
@@ -34,19 +34,19 @@
     line-height: 0;
 }
 
-.custom-shape-divider-bottom-1790590724 svg {
+.testimonial-wave1 svg {
     position: relative;
     display: block;
     width: calc(277% + 1.3px);
     height: 150px;
 }
 
-.custom-shape-divider-bottom-1790590724 .shape-fill {
+.testimonial-wave1 .shape-fill {
     fill: #59ACE7;
 }
 
 /* 3rd wave */
-.custom-shape-divider-top-1790590927 {
+.testmonial-wave2 {
     position: relative;
     top: 0;
     left: 0;
@@ -56,13 +56,13 @@
     transform: rotate(180deg);
 }
 
-.custom-shape-divider-top-1790590927 svg {
+.testmonial-wave2 svg {
     position: relative;
     display: block;
     width: calc(270% + 1.3px);
     height: 150px;
 }
 
-.custom-shape-divider-top-1790590927 .shape-fill {
+.testmonial-wave2 .shape-fill {
     fill: #59ACE7;
 }

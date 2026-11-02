@@ -3,24 +3,103 @@ import ImageUpload from "./ImageUpload";
 import { asObj, asString, emptyValue } from "./serviceSections";
 import type { FieldBody } from "./serviceSections";
 
-interface Props {
-  def: FieldBody;
-  value: unknown;
-  onChange: (v: unknown) => void;
-  hideLabel?: boolean; // the section card already shows the title
+const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
+
+/* ---------- label text: "Title *" or "Title (optional)" ---------- */
+function FieldLabel({ def }: { def: FieldBody }) {
+  return (
+    <>
+      {def.label}
+      {def.optional ? " (optional)" : <span aria-hidden="true">*</span>}
+    </>
+  );
 }
 
+/* ---------- repeating lists (arrays of objects, or arrays of strings) ---------- */
+type ListFieldProps = {
+  def: FieldBody;
+  value: unknown;
+  onChange: (value: unknown) => void;
+};
+
+function ListField({ def, value, onChange }: ListFieldProps) {
+  const items: unknown[] = Array.isArray(value) ? value : [];
+  const noun = def.itemLabel ?? "Item";
+  const isStrings = def.type === "strings";
+
+  const updateItem = (index: number, next: unknown) =>
+    onChange(items.map((item, i) => (i === index ? next : item)));
+
+  const removeItem = (index: number) => onChange(items.filter((_, i) => i !== index));
+
+  const addItem = () =>
+    onChange([...items, isStrings ? "" : emptyValue({ label: noun, type: "object", fields: def.fields })]);
+
+  return (
+    <div>
+      {items.map((item, index) => (
+        <div className="sv-item" key={index}>
+          <div className="sv-item-head">
+            <span>
+              {noun} {index + 1}
+            </span>
+            <button
+              type="button"
+              className="sv-link danger"
+              aria-label={`Remove ${noun.toLowerCase()} ${index + 1}`}
+              onClick={() => removeItem(index)}
+            >
+              Remove
+            </button>
+          </div>
+
+          {isStrings ? (
+            <textarea
+              className="ad-input sv-area"
+              rows={3}
+              aria-label={`${noun} ${index + 1}`}
+              value={asString(item)}
+              onChange={(e) => updateItem(index, e.target.value)}
+            />
+          ) : (
+            (def.fields ?? []).map((field) => (
+              <ServiceField
+                key={field.name}
+                def={field}
+                value={asObj(item)[field.name]}
+                onChange={(next) => updateItem(index, { ...asObj(item), [field.name]: next })}
+              />
+            ))
+          )}
+        </div>
+      ))}
+
+      <button type="button" className="ad-btn small" onClick={addItem}>
+        + Add {noun.toLowerCase()}
+      </button>
+    </div>
+  );
+}
+
+/* ---------- any field ---------- */
+type ServiceFieldProps = {
+  def: FieldBody;
+  value: unknown;
+  onChange: (value: unknown) => void;
+  hideLabel?: boolean; // the section card already shows the title
+};
+
 /** Draws any field described in serviceSections.ts, including nested lists. State lives in the parent. */
-export default function ServiceField({ def, value, onChange, hideLabel }: Props) {
+export default function ServiceField({ def, value, onChange, hideLabel }: ServiceFieldProps) {
   const id = useId();
-  const star = !def.optional && <span aria-hidden="true">*</span>;
-  const label = <>{def.label}{def.optional ? " (optional)" : star}</>;
 
   switch (def.type) {
     case "text":
       return (
         <div className="ad-field">
-          <label htmlFor={id}>{label}</label>
+          <label htmlFor={id}>
+            <FieldLabel def={def} />
+          </label>
           <input id={id} className="ad-input" value={asString(value)} onChange={(e) => onChange(e.target.value)} />
         </div>
       );
@@ -28,17 +107,31 @@ export default function ServiceField({ def, value, onChange, hideLabel }: Props)
     case "textarea":
       return (
         <div className="ad-field">
-          <label htmlFor={id}>{label}</label>
-          <textarea id={id} className="ad-input sv-area" rows={3} value={asString(value)} onChange={(e) => onChange(e.target.value)} />
+          <label htmlFor={id}>
+            <FieldLabel def={def} />
+          </label>
+          <textarea
+            id={id}
+            className="ad-input sv-area"
+            rows={3}
+            value={asString(value)}
+            onChange={(e) => onChange(e.target.value)}
+          />
         </div>
       );
 
     case "select":
       return (
         <div className="ad-field">
-          <label htmlFor={id}>{label}</label>
+          <label htmlFor={id}>
+            <FieldLabel def={def} />
+          </label>
           <select id={id} className="ad-input" value={asString(value)} onChange={(e) => onChange(e.target.value)}>
-            {(def.options ?? []).map((o) => <option key={o} value={o}>{o.charAt(0).toUpperCase() + o.slice(1)}</option>)}
+            {(def.options ?? []).map((option) => (
+              <option key={option} value={option}>
+                {capitalize(option)}
+              </option>
+            ))}
           </select>
         </div>
       );
@@ -46,19 +139,28 @@ export default function ServiceField({ def, value, onChange, hideLabel }: Props)
     case "image":
       return (
         <div className="ad-field">
-          <ImageUpload label={def.label} required={!def.optional} value={asString(value)} onChange={(url: string) => onChange(url)} />
+          <ImageUpload label={def.label} required={!def.optional} value={asString(value)} onChange={onChange} />
         </div>
       );
 
     case "object": {
-      const obj = asObj(value);
-      const fields = (def.fields ?? []).map((f) => (
-        <ServiceField key={f.name} def={f} value={obj[f.name]} onChange={(v) => onChange({ ...obj, [f.name]: v })} />
+      const object = asObj(value);
+      const fields = (def.fields ?? []).map((field) => (
+        <ServiceField
+          key={field.name}
+          def={field}
+          value={object[field.name]}
+          onChange={(next) => onChange({ ...object, [field.name]: next })}
+        />
       ));
+
       if (hideLabel) return <div>{fields}</div>;
+
       return (
         <div className="ad-field">
-          <span className="sv-label">{label}</span>
+          <span className="sv-label">
+            <FieldLabel def={def} />
+          </span>
           <div className="sv-group">{fields}</div>
         </div>
       );
@@ -68,42 +170,13 @@ export default function ServiceField({ def, value, onChange, hideLabel }: Props)
     case "strings":
       return (
         <div className="ad-field">
-          {!hideLabel && <span className="sv-label">{label}</span>}
+          {!hideLabel && (
+            <span className="sv-label">
+              <FieldLabel def={def} />
+            </span>
+          )}
           <ListField def={def} value={value} onChange={onChange} />
         </div>
       );
   }
-}
-
-function ListField({ def, value, onChange }: { def: FieldBody; value: unknown; onChange: (v: unknown) => void }) {
-  const items: unknown[] = Array.isArray(value) ? value : [];
-  const noun = def.itemLabel ?? "Item";
-  const isStrings = def.type === "strings";
-
-  const setItem = (i: number, v: unknown) => onChange(items.map((x, j) => (j === i ? v : x)));
-  const remove = (i: number) => onChange(items.filter((_, j) => j !== i));
-  const add = () => onChange([...items, isStrings ? "" : emptyValue({ label: noun, type: "object", fields: def.fields })]);
-
-  return (
-    <div>
-      {items.map((item, i) => (
-        <div className="sv-item" key={i}>
-          <div className="sv-item-head">
-            <span>{noun} {i + 1}</span>
-            <button type="button" className="sv-link danger" aria-label={`Remove ${noun.toLowerCase()} ${i + 1}`} onClick={() => remove(i)}>Remove</button>
-          </div>
-          {isStrings ? (
-            <textarea className="ad-input sv-area" rows={3} aria-label={`${noun} ${i + 1}`}
-                      value={asString(item)} onChange={(e) => setItem(i, e.target.value)} />
-          ) : (
-            (def.fields ?? []).map((f) => (
-              <ServiceField key={f.name} def={f} value={asObj(item)[f.name]}
-                            onChange={(v) => setItem(i, { ...asObj(item), [f.name]: v })} />
-            ))
-          )}
-        </div>
-      ))}
-      <button type="button" className="ad-btn small" onClick={add}>+ Add {noun.toLowerCase()}</button>
-    </div>
-  );
 }

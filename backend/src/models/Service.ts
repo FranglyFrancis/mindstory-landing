@@ -1,93 +1,105 @@
 import { Schema, model } from "mongoose";
-/*
-  Matches your IService interface.
-  Required: slug, title, description, image (card), order, hero (title, description, image).
-  Everything else is an optional section. A section is either absent, or present with its required fields filled.
-*/
 
-const req = { type: String, required: true, trim: true };
-const opt = { type: String, trim: true, default: "" };
-const sub = (def: Record<string, unknown>) => new Schema(def, { _id: false });
+export const SERVICE_CATEGORIES = ["web-development", "online-marketing", "brand-identity"] as const;
+export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number];
 
-const iconItem = sub({ icon: req, title: req, description: req });
-const titleDesc = sub({ title: req, description: req });
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+// Reusable field definitions
+const requiredText = { type: String, required: true, trim: true };
+const optionalText = { type: String, trim: true, default: "" };
+
+// A nested object without its own _id
+const subSchema = (definition: Record<string, unknown>) => new Schema(definition, { _id: false });
+
+const iconItem = subSchema({ icon: requiredText, title: requiredText, description: requiredText });
+const titleDescription = subSchema({ title: requiredText, description: requiredText });
 
 const serviceSchema = new Schema(
   {
-    // ---- IServiceListItem (also what the home page Expertise cards use) ----
+    // ---- List item (also what the home page Expertise cards use) ----
     slug: {
-      type: String, required: true, unique: true, trim: true, lowercase: true,
-      match: [/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug can only use lowercase letters, numbers and hyphens"],
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      match: [SLUG_PATTERN, "slug can only use lowercase letters, numbers and hyphens"],
     },
     title: { type: String, trim: true, required: true },
     image: { type: String, trim: true, required: true },
-
-    // ---- IService: required ----
     order: { type: Number, required: true },
 
-    // ----category listing -----
-    category: { 
-      type: String,
-      enum: ["web-development", "online-marketing", "brand-identity"],
+    // ---- Category listing ----
+    category: { type: String, enum: SERVICE_CATEGORIES, required: true },
+
+    // ---- Service card details ----
+    cardTitle: { type: String, trim: true, required: true },
+    description: { type: String, trim: true, required: true },
+    cardImage: { type: String, trim: true, required: true },
+
+    // ---- Required hero ----
+    hero: {
+      type: subSchema({ title: requiredText, description: requiredText, image: requiredText }),
       required: true,
     },
 
-    // ----- Service card details -------
-    cardTitle: { type: String, trim: true, required: true },
-    description: {
-      type: String,
-      trim: true,
-      required: true
-    },
-    cardImage: { type: String, trim: true, required: true },
-
-    hero: { type: sub({ title: req, description: req, image: req }), required: true },
-
-
-    // ---- IService: optional sections ----
+    // ---- Optional sections ----
     mainImage: { type: String, trim: true },
-    heading: { type: sub({ title: req, description: opt }), default: undefined },
-    intro: { type: sub({ title: req, left: req, right: req }), default: undefined },
+    heading: { type: subSchema({ title: requiredText, description: optionalText }), default: undefined },
+    intro: {
+      type: subSchema({ title: requiredText, left: requiredText, right: requiredText }),
+      default: undefined,
+    },
     article: {
-      type: sub({
-        title: opt,
+      type: subSchema({
+        title: optionalText,
         descriptions: {
           type: [String],
-          validate: [(v: string[]) => v.length > 0, "article needs at least one paragraph"],
+          validate: [(value: string[]) => value.length > 0, "article needs at least one paragraph"],
         },
       }),
       default: undefined,
     },
     lists: { type: [iconItem], default: undefined },
     iconCards: { type: [iconItem], default: undefined },
-    titleCards: { type: [titleDesc], default: undefined },
-    titleItem: { type: [sub({ title: req, description: req, image: req })], default: undefined },
-    imageItem: { type: sub({ image: req, description: req }), default: undefined },
-    paraItem: { type: [sub({ description: req })], default: undefined },
+    titleCards: { type: [titleDescription], default: undefined },
+    titleItem: {
+      type: [subSchema({ title: requiredText, description: requiredText, image: requiredText })],
+      default: undefined,
+    },
+    imageItem: { type: subSchema({ image: requiredText, description: requiredText }), default: undefined },
+    paraItem: { type: [subSchema({ description: requiredText })], default: undefined },
     features: {
       type: [
-        sub({
-          title: opt,
-          description: req,
-          image: req,
+        subSchema({
+          title: optionalText,
+          description: requiredText,
+          image: requiredText,
           imagePosition: { type: String, enum: ["left", "right"], required: true },
         }),
       ],
       default: undefined,
     },
     sections: {
-      type: [sub({ title: req, image: req, content: { type: [titleDesc], default: [] } })],
+      type: [
+        subSchema({
+          title: requiredText,
+          image: requiredText,
+          content: { type: [titleDescription], default: [] },
+        }),
+      ],
       default: undefined,
     },
-    brands: { type: [sub({ image: req, brand: req })], default: undefined },
-    faqs: { type: [sub({ question: req, answer: req })], default: undefined },
+    brands: { type: [subSchema({ image: requiredText, brand: requiredText })], default: undefined },
+    faqs: { type: [subSchema({ question: requiredText, answer: requiredText })], default: undefined },
 
-    // sections the admin switched off for the website without deleting their content
+    // ---- Admin layout ----
+    // Sections the admin switched off for the website without deleting their content
     hiddenSections: { type: [String], default: [] },
-      // the order the admin arranged the sections in
+    // The order the admin arranged the sections in
     sectionOrder: { type: [String], default: [] },
   },
-
   { timestamps: true }
 );
 

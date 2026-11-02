@@ -1,34 +1,44 @@
-import { API_URL } from "../../config";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Contact from "./blocks/Contact";
 import { NotFound } from "../NotFound";
 import ServicePageView from "./ServicePageView";
-import type { ServiceData } from "./ServicePageView";
+import { fetchServiceBySlug } from "../../api/services";
+import { RequestError } from "../../api/request";
+import type { IService } from "../../api/services";
+
+type Status = "loading" | "ready" | "notfound" | "error";
 
 export default function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const [service, setService] = useState<ServiceData | null>(null);
-  const [status, setStatus] = useState<"loading" | "ok" | "notfound">("loading");
+  const [service, setService] = useState<IService | null>(null);
+  const [status, setStatus] = useState<Status>("loading");
 
   useEffect(() => {
-    let ignore = false;
+    if (!slug) {
+      setStatus("notfound");
+      return;
+    }
+
+    const controller = new AbortController();
     setStatus("loading");
-    fetch(`${API_URL}/api/services/${slug}`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((data: ServiceData) => {
-        if (ignore) return;
+
+    fetchServiceBySlug(slug, controller.signal)
+      .then((data) => {
         setService(data);
-        setStatus("ok");
+        setStatus("ready");
       })
-      .catch(() => { if (!ignore) setStatus("notfound"); });
-    return () => { ignore = true; };
+      .catch((error) => {
+        if (controller.signal.aborted) return; // the page changed or closed, nothing to show
+        const missing = error instanceof RequestError && error.status === 404;
+        setStatus(missing ? "notfound" : "error");
+      });
+
+    return () => controller.abort();
   }, [slug]);
 
-  if (status === "loading") return <p>Loading…</p>;
+  if (status === "loading") return <p role="status">Loading…</p>;
+  if (status === "error") return <p role="alert">Unable to load this service right now. Please try again.</p>;
   if (status === "notfound" || !service) return <NotFound />;
 
   return (
